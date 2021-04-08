@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{layouts/admin/main-layout::main-fragment(  
+                ~{::title},
+                ~{:: #products-static-resources},
+                ~{:: #home-nav},
+                ~{:: #products-main-content},  
+               )}">
+
+<head>
+<title>Admin home page</title>
+<th:block id="products-static-resources"></th:block>
+</head>
+<body>
+	<nav id="home-nav">
+		<div class="nav-wrapper indigo darken-2">
+			<a style="margin-left: 20px;" class="breadcrumb" href="#!">Admin</a>
+			<a class="breadcrumb" href="#!">Home</a>
+			<div style="margin-right: 20px;" id="timestamp" class="right"></div>
+		</div>
+	</nav>
+	<div id="products-main-content">
+		home nè
+	</div>
+</body>
+</html>

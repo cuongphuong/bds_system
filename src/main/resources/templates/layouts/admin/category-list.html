@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{layouts/admin/main-layout::main-fragment(  
+                ~{::title},
+                ~{:: #products-static-resources},
+                ~{:: #home-nav},
+                ~{:: #products-main-content},  
+                ~{:: #resources-footer},
+               )}">
+
+<head>
+<title>Danh mục bất động sản</title>
+<th:block id="products-static-resources"></th:block>
+</head>
+<body>
+	<nav id="home-nav">
+		<div class="nav-wrapper indigo darken-2">
+			<a style="margin-left: 20px;" class="breadcrumb" href="#!">Admin</a>
+			<a class="breadcrumb" href="#!">Danh mục bất động sản</a>
+			<div style="margin-right: 20px;" id="timestamp" class="right"></div>
+		</div>
+	</nav>
+	<div id="products-main-content">
+		<div class="ad-container">
+			<!-- Open modal -->
+			<a class="waves-effect waves-light btn modal-trigger" href="#modal1"><i
+				class="material-icons right">add</i>Thêm mới</a>
+			<table class="striped">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Price</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+
+				<tbody id="content_data">
+				</tbody>
+			</table>
+		</div>
+
+		<!-- Form add new category -->
+		<div id="modal1" class="modal">
+			<div class="modal-content">
+
+				<div class="row">
+					<form class="col s12">
+						<div class="row">
+							<h3>Thêm mới</h3>
+							<div class="row">
+								<div class="input-field col s12">
+									<input id="password" type="password" class="validate">
+									<label for="password">Password</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12">
+									<input id="email" type="email" class="validate"> <label
+										for="email">Email</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									This is an inline input field:
+									<div class="input-field inline">
+										<input id="email_inline" type="email" class="validate">
+										<label for="email_inline">Email</label> <span
+											class="helper-text" data-error="wrong" data-success="right">Helper
+											text</span>
+									</div>
+								</div>
+							</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+			</div>
+		</div>
+
+	</div>
+
+	<th:block id="resources-footer">
+		<script id="my-template" type="x-tmpl-mustache">
+			<tr>
+				<td>{{categoryId}}</td>
+				<td>{{categoryName}}</td>
+				<td>{{price}}</td>
+				<td><a href="#" onclick="onDelete('{{categoryId}}', '{{categoryName}}');">Xóa</a></td>
+			</tr>
+		</script>
+		<script>
+			let tmpl = $('#my-template').html();
+			Mustache.parse(tmpl);
+		
+			$(document).ready(function() {
+				$('#modal1').modal();
+				// load data
+				ajaxRequest("./category/get/0", "GET", function(data) {
+				    data.forEach((item) => {
+				        let rendered = Mustache.render(tmpl, item);
+				        $("#content_data").append(rendered);
+				    });  
+				});
+			});
+			
+			function onDelete(key, name) {
+				var r = confirm("Xác nhận xóa [" + name + "]");
+				if (r == true) {
+					ajaxRequest("./category/delete/" + key, "POST", function(data) {
+						$("#content_data").empty();
+						data.forEach((item) => {
+					        let rendered = Mustache.render(tmpl, item);
+					        $("#content_data").append(rendered);
+					    });  
+					});
+				}
+			}
+			
+			function ajaxRequest(url, method, calBackFuntion) {
+				$.ajax({
+					method : method,
+					url : url,
+					context : document.body
+				}).done(function(data) {
+					calBackFuntion(data);
+				});
+			}
+		</script>
+	</th:block>
+</body>
+</html>
