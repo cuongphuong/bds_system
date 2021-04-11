@@ -16,69 +16,75 @@
 	<nav id="home-nav">
 		<div class="nav-wrapper indigo darken-2">
 			<a style="margin-left: 20px;" class="breadcrumb" href="#!">Admin</a>
-			<a class="breadcrumb" href="#!">Danh mục bất động sản</a>
+			<a class="breadcrumb" href="#">Danh mục</a>
 			<div style="margin-right: 20px;" id="timestamp" class="right"></div>
 		</div>
 	</nav>
 	<div id="products-main-content">
 		<div class="ad-container">
 			<!-- Open modal -->
-			<a class="waves-effect waves-light btn modal-trigger" href="#modal1"><i
-				class="material-icons right">add</i>Thêm mới</a>
+			<a id="add_new" class="waves-effect waves-light btn modal-trigger"
+				href="#modal1"><i class="material-icons right">add</i>Thêm mới</a>
 			<table class="striped">
 				<thead>
 					<tr>
 						<th>ID</th>
-						<th>Name</th>
-						<th>Price</th>
+						<th>Tên danh mục</th>
+						<th>Đơn giá</th>
 						<th>Action</th>
 					</tr>
 				</thead>
-
-				<tbody id="content_data">
+				<tbody id="content_data" style="transition: all 0.5s ease-in-out; ">
 				</tbody>
 			</table>
+
+			<div style="text-align: center; margin-top: 5px;">
+				<hr style="color: #ddd"/>
+				<button class="btn waves-effect orange" type="submit" name="action" onclick="loadData(null)">Tải thêm</button>
+			</div>
 		</div>
 
 		<!-- Form add new category -->
 		<div id="modal1" class="modal">
 			<div class="modal-content">
-
 				<div class="row">
 					<form class="col s12">
 						<div class="row">
 							<h3>Thêm mới</h3>
 							<div class="row">
 								<div class="input-field col s12">
-									<input id="password" type="password" class="validate">
-									<label for="password">Password</label>
+									<input id="name" type="text" /><label for="password">Tên</label>
+									<small class="validate" style="color: red;" id="validate_name"></small>
 								</div>
 							</div>
 							<div class="row">
 								<div class="input-field col s12">
-									<input id="email" type="email" class="validate"> <label
-										for="email">Email</label>
+									<input id="price" type="number" /><label for="price">Đơn
+										giá/giờ</label> <small class="validate" style="color: red;"
+										id="validate_price"></small>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col s12">
-									This is an inline input field:
-									<div class="input-field inline">
-										<input id="email_inline" type="email" class="validate">
-										<label for="email_inline">Email</label> <span
-											class="helper-text" data-error="wrong" data-success="right">Helper
-											text</span>
-									</div>
+								<div class="input-field col s12">
+									<select id="content_select">
+										<option value="0" selected disabled>Chọn danh mục cha</option>
+									</select> <small class="validate" style="color: red;"
+										id="validate_categoryIdParent"></small>
 								</div>
 							</div>
+						</div>
 					</form>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+				<a id="confirm_save" href="#"
+					class="waves-effect waves-green btn-flat">Đồng ý</a> <a href="#"
+					class="modal-close waves-effect waves-green btn-flat">Đóng</a>
 			</div>
 		</div>
 
+		<!-- keep page number for load more item -->
+		<input id="page" type="hidden" value="1" />
 	</div>
 
 	<th:block id="resources-footer">
@@ -87,7 +93,7 @@
 				<td>{{categoryId}}</td>
 				<td>{{categoryName}}</td>
 				<td>{{price}}</td>
-				<td><a href="#" onclick="onDelete('{{categoryId}}', '{{categoryName}}');">Xóa</a></td>
+				<td><a href="#" onclick="onDelete($(this), '{{categoryId}}', '{{categoryName}}');">Xóa</a></td>
 			</tr>
 		</script>
 		<script>
@@ -95,35 +101,93 @@
 			Mustache.parse(tmpl);
 		
 			$(document).ready(function() {
-				$('#modal1').modal();
-				// load data
-				ajaxRequest("./category/get/0", "GET", function(data) {
-				    data.forEach((item) => {
-				        let rendered = Mustache.render(tmpl, item);
-				        $("#content_data").append(rendered);
-				    });  
+				var modal = $('#modal1').modal();
+				$('select').material_select();
+				loadData(0);
+
+				// open modal
+				$("#add_new").click(function() {
+					$("input").val("");
+					
+					ajaxRequest("./category/parent", "GET", null, function(data) {
+						$("#content_select").empty();
+						var htmlText = "<option value=\"\" selected disabled>Chọn danh mục cha</option>";
+					    data.forEach((item) => {
+					    	htmlText = htmlText + "<option value=\"" + item.categoryId + "\">" + item.categoryName +"</option>";
+					    });
+					    $("#content_select").append(htmlText);
+					    $('select').material_select();
+					});
+				});
+
+				// Add item
+				$("#confirm_save").click(function(){
+					var data = {
+						categoryName: $("#name").val(),
+						price: $("#price").val(),
+						categoryIdParent: $("select").val()
+					}
+
+					$(".validate").empty();
+					ajaxRequest("./category/save", "POST", JSON.stringify(data), function(response) {
+						if (response.status == true) {
+							var item = response.data;
+					    	item.price = item.price.toLocaleString('en-US', {style : 'currency', currency : 'VND'});
+					        let rendered = Mustache.render(tmpl, item);
+
+					        $("#content_data").prepend(rendered);
+							$('#modal1').modal('close');
+							return;
+						}
+
+						for (const key in response.data) {
+							$("#" + key).append(response.data[key]);
+						}
+					});
 				});
 			});
 			
-			function onDelete(key, name) {
+			function loadData(page) {
+				// load data
+				if (page == null) {
+					page = $("#page").val();
+				}
+				
+				ajaxRequest("./category/get/" + page, "GET", null, function(data) {
+				    data.forEach((item) => {
+				    	item.price = item.price.toLocaleString('en-US', {style : 'currency', currency : 'VND'});
+				        let rendered = Mustache.render(tmpl, item);
+				        $("#content_data").append(rendered);
+				    });
+
+				    $("#page").val(parseInt(page) + 1);
+				});	
+			}
+
+			function onDelete(obj, key, name) {
 				var r = confirm("Xác nhận xóa [" + name + "]");
+				console.log(obj.parents());
+
 				if (r == true) {
-					ajaxRequest("./category/delete/" + key, "POST", function(data) {
-						$("#content_data").empty();
-						data.forEach((item) => {
-					        let rendered = Mustache.render(tmpl, item);
-					        $("#content_data").append(rendered);
-					    });  
+					ajaxRequest("./category/delete/" + key, "POST", null, function(data) {
+						obj.parents("tr").remove();
 					});
 				}
 			}
-			
-			function ajaxRequest(url, method, calBackFuntion) {
-				$.ajax({
+
+			function ajaxRequest(url, method, data, calBackFuntion) {
+				var config = {
 					method : method,
 					url : url,
-					context : document.body
-				}).done(function(data) {
+					context : document.body,
+				};
+
+				if (data) {
+					config.data = data;
+					config.contentType = "application/json; charset=utf-8";
+				}
+
+				$.ajax(config).done(function(data) {
 					calBackFuntion(data);
 				});
 			}

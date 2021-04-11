@@ -20,7 +20,7 @@ public class CategoryService {
 	
  	
 	public List<Category> findByPageNumber(int pageNumber) {
-		Sort sortable = Sort.by("categoryId").ascending();
+		Sort sortable = Sort.by("categoryId").descending();
 	    PageRequest pageable = PageRequest.of(pageNumber, Names.DEFAULT_PAGE_NUMBER, sortable);
 	    Page<Category> page = categoryRes.findAll(pageable);
 		return page.toList();
@@ -36,5 +36,13 @@ public class CategoryService {
 	
 	public List<Category> findByParentCategory(){
 		return categoryRes.findByParentCategory();
+	}
+	
+	public Category save(Category entity){
+		return categoryRes.save(entity);
+	}
+	
+	public Category findById(Integer id) {
+		return categoryRes.getOne(id);
 	}
 }

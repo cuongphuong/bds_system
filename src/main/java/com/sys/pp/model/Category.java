@@ -4,25 +4,25 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-
 /**
  * The persistent class for the categorys database table.
  * 
  */
 @Entity
-@Table(name="categorys")
-@NamedQuery(name="Category.findAll", query="SELECT c FROM Category c")
+@Table(name = "categorys")
+@NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c")
 public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="category_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "category_id")
 	private int categoryId;
 
-	@Column(name="category_id_parent")
+	@Column(name = "category_id_parent")
 	private int categoryIdParent;
 
-	@Column(name="category_name")
+	@Column(name = "category_name")
 	private String categoryName;
 
 	private BigDecimal price;

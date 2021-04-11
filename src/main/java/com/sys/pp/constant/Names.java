@@ -6,5 +6,5 @@ public class Names {
 		ROLE_USER
 	}
 	
-	public static Integer DEFAULT_PAGE_NUMBER = 10;
+	public static Integer DEFAULT_PAGE_NUMBER = 5;
 }
