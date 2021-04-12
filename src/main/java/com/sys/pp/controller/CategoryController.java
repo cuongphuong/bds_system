@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,6 +45,12 @@ public class CategoryController {
 		}
 		return categoryService.findByPageNumber(page);
 	}
+	
+	@ResponseBody
+	@RequestMapping(path = "/get/one/{id}", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+	public Optional<Category> getById(@PathVariable Integer id) {
+		return categoryService.findById(id);
+	}
 
 	@ResponseBody
 	@RequestMapping(path = "/delete/{id}", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
@@ -68,16 +75,23 @@ public class CategoryController {
 		if (!errors.isEmpty()) {
 			result.put("status", false);
 			result.put("data", errors);
-		} else {
-			Category category = this.save(paramater);
-			result.put("data", category);
+			return result;
 		}
-		return result;
+
+		try {
+			Category category = this.createObject(paramater);
+
+			categoryService.save(category);
+			result.put("data", category);
+			return result;
+		} catch (Exception ex) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "OBJECT_EXISTS");
+		}
 	}
-	
+
 	@ResponseBody
-	@PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json; charset=UTF-8")
-	public Object updateCategory(@RequestBody Map<String, String> paramater) {
+	@PostMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json; charset=UTF-8")
+	public Object updateCategory(@RequestBody Map<String, String> paramater, @PathVariable Integer id) {
 		// validate data
 		Map<String, String> errors = this.validate(paramater);
 		Map<String, Object> result = new HashMap<>();
@@ -86,31 +100,34 @@ public class CategoryController {
 		if (!errors.isEmpty()) {
 			result.put("status", false);
 			result.put("data", errors);
-		} else {
-			Category category = this.save(paramater);
-			result.put("data", category);
+			return result;
 		}
-		
-		return result;
+
+		try {
+			Category category = this.createObject(paramater);
+			category.setCategoryId(id);
+
+			categoryService.save(category);
+			result.put("data", category);
+			return result;
+		} catch (Exception ex) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "OBJECT_EXISTS");
+		}
 	}
 
-	private Category save(Map<String, String> paramater) {
+	private Category createObject(Map<String, String> paramater) {
 		// convert to object
 		Category category = new Category();
 		category.setCategoryName(paramater.get("categoryName"));
 		category.setPrice(new BigDecimal(paramater.get("price")));
-		
-		if(paramater.get("categoryIdParent") != null) {
+
+		if (paramater.get("categoryIdParent") != null) {
 			category.setCategoryIdParent(Integer.valueOf(paramater.get("categoryIdParent")));
 		} else {
 			category.setCategoryIdParent(DEFAULT_PARENT_VALUE);
 		}
 
-		try {
-			return categoryService.save(category);
-		} catch (Exception ex) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "OBJECT_EXISTS");
-		}
+		return category;
 	}
 
 	private Map<String, String> validate(Map<String, String> paramater) {
@@ -131,8 +148,7 @@ public class CategoryController {
 			errors.put("validate_price", "Đơn giá đăng tin trong danh mục phải là số");
 		}
 
-		if (null != paramater.get("categoryIdParent") 
-				&& !NumberUtils.isNumeric(paramater.get("categoryIdParent"))
+		if (null != paramater.get("categoryIdParent") && !NumberUtils.isNumeric(paramater.get("categoryIdParent"))
 				&& categoryService.findById(Integer.valueOf(paramater.get("categoryIdParent"))) == null) {
 			errors.put("validate_categoryIdParent", "Danh mục chứa không hợp lệ");
 		}

@@ -1,6 +1,7 @@
 package com.sys.pp.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,7 +43,7 @@ public class CategoryService {
 		return categoryRes.save(entity);
 	}
 	
-	public Category findById(Integer id) {
-		return categoryRes.getOne(id);
+	public Optional<Category> findById(Integer id) {
+		return categoryRes.findById(id);
 	}
 }

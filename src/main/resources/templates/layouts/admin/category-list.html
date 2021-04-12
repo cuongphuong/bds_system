@@ -34,32 +34,34 @@
 						<th>Action</th>
 					</tr>
 				</thead>
-				<tbody id="content_data" style="transition: all 0.5s ease-in-out; ">
+				<tbody id="content_data" style="transition: all 0.5s ease-in-out;">
 				</tbody>
 			</table>
 
 			<div style="text-align: center; margin-top: 5px;">
-				<hr style="color: #ddd"/>
-				<button class="btn waves-effect orange" type="submit" name="action" onclick="loadData(null)">Tải thêm</button>
+				<hr style="color: #ddd" />
+				<button id="loadmoreitem" class="btn waves-effect orange"
+					type="submit" name="action" onclick="loadData(null)">Tải thêm</button>
 			</div>
 		</div>
 
 		<!-- Form add new category -->
 		<div id="modal1" class="modal">
-			<div class="modal-content">
-				<div class="row">
+			<div class="modal-content" style="padding-bottom: 0px">
+				<div class="row" style="margin-bottom: 0px">
 					<form class="col s12">
 						<div class="row">
-							<h3>Thêm mới</h3>
+							<h3 id="title_modal">Thêm mới</h3>
+							<input id="indexUpdate" type="hidden" />
 							<div class="row">
 								<div class="input-field col s12">
-									<input id="name" type="text" /><label for="password">Tên</label>
+									<input id="name" type="text" autofocus /><label for="password">Tên</label>
 									<small class="validate" style="color: red;" id="validate_name"></small>
 								</div>
 							</div>
 							<div class="row">
 								<div class="input-field col s12">
-									<input id="price" type="number" /><label for="price">Đơn
+									<input id="price" type="number" autofocus /><label for="price">Đơn
 										giá/giờ</label> <small class="validate" style="color: red;"
 										id="validate_price"></small>
 								</div>
@@ -78,7 +80,7 @@
 			</div>
 			<div class="modal-footer">
 				<a id="confirm_save" href="#"
-					class="waves-effect waves-green btn-flat">Đồng ý</a> <a href="#"
+					class="waves-effect waves-green btn-flat">Đồng ý</a> <a href="#" onclick="onCloseModal()"
 					class="modal-close waves-effect waves-green btn-flat">Đóng</a>
 			</div>
 		</div>
@@ -89,11 +91,14 @@
 
 	<th:block id="resources-footer">
 		<script id="my-template" type="x-tmpl-mustache">
-			<tr>
+			<tr id="content_id_{{categoryId}}">
 				<td>{{categoryId}}</td>
 				<td>{{categoryName}}</td>
 				<td>{{price}}</td>
-				<td><a href="#" onclick="onDelete($(this), '{{categoryId}}', '{{categoryName}}');">Xóa</a></td>
+				<td>
+					<a href="#" onclick="onClickUpdate($(this));">Chỉnh sửa</a> | 
+					<a href="#" onclick="onDelete($(this), '{{categoryId}}', '{{categoryName}}');">Xóa</a>
+				</td>
 			</tr>
 		</script>
 		<script>
@@ -107,17 +112,8 @@
 
 				// open modal
 				$("#add_new").click(function() {
-					$("input").val("");
-					
-					ajaxRequest("./category/parent", "GET", null, function(data) {
-						$("#content_select").empty();
-						var htmlText = "<option value=\"\" selected disabled>Chọn danh mục cha</option>";
-					    data.forEach((item) => {
-					    	htmlText = htmlText + "<option value=\"" + item.categoryId + "\">" + item.categoryName +"</option>";
-					    });
-					    $("#content_select").append(htmlText);
-					    $('select').material_select();
-					});
+					$("#title_modal").html("Thêm mới");
+					loadParentCategory(function(){});
 				});
 
 				// Add item
@@ -129,30 +125,36 @@
 					}
 
 					$(".validate").empty();
-					ajaxRequest("./category/save", "POST", JSON.stringify(data), function(response) {
-						if (response.status == true) {
-							var item = response.data;
-					    	item.price = item.price.toLocaleString('en-US', {style : 'currency', currency : 'VND'});
-					        let rendered = Mustache.render(tmpl, item);
-
-					        $("#content_data").prepend(rendered);
-							$('#modal1').modal('close');
-							return;
-						}
-
-						for (const key in response.data) {
-							$("#" + key).append(response.data[key]);
-						}
-					});
+					var updateId = $("#indexUpdate").val();
+					
+					if (updateId && updateId.length > 0) {
+						update(data, updateId);
+					} else {
+						save(data);
+					}
 				});
 			});
+			
+			function loadParentCategory(onLoadSuccess) {
+				ajaxRequest("./category/parent", "GET", null, function(data) {
+					$("#content_select").empty();
+					var htmlText = "<option value=\"\" selected disabled>Chọn danh mục cha</option>";
+				    data.forEach((item) => {
+				    	htmlText = htmlText + "<option value=\"" + item.categoryId + "\">" + item.categoryName +"</option>";
+				    });
+				    $("#content_select").append(htmlText);
+				    $('select').material_select();
+
+				    onLoadSuccess();
+				});
+			}
 			
 			function loadData(page) {
 				// load data
 				if (page == null) {
 					page = $("#page").val();
 				}
-				
+
 				ajaxRequest("./category/get/" + page, "GET", null, function(data) {
 				    data.forEach((item) => {
 				    	item.price = item.price.toLocaleString('en-US', {style : 'currency', currency : 'VND'});
@@ -166,13 +168,71 @@
 
 			function onDelete(obj, key, name) {
 				var r = confirm("Xác nhận xóa [" + name + "]");
-				console.log(obj.parents());
 
 				if (r == true) {
 					ajaxRequest("./category/delete/" + key, "POST", null, function(data) {
 						obj.parents("tr").remove();
 					});
 				}
+			}
+			
+			function onUpdate(obj){
+				var id = obj.parents("tr").find("td")[0].textContent;
+				$("#title_modal").html("Cập nhật");
+				
+				ajaxRequest("./category/get/one/" + id, "GET", null, function(data) {
+					// set value into form
+					$("#indexUpdate").val(id);
+					$("#name").val(data.categoryName);
+					$("#price").val(data.price);
+			        $('#content_select').val(data.categoryIdParent);
+
+			        $('#content_select').material_select();
+					$('#modal1').modal('open');
+				});
+			}
+			
+			function save(data) {
+				ajaxRequest("./category/save", "POST", JSON.stringify(data), function(response) {
+					if (response.status == true) {
+						onCloseModal();
+
+						var item = response.data;
+				    	item.price = item.price.toLocaleString('en-US', {style : 'currency', currency : 'VND'});
+				        let rendered = Mustache.render(tmpl, item);
+
+				        $("#content_data").prepend(rendered);
+						$('#modal1').modal('close');
+
+						return;
+					}
+
+					// display error
+					for (const key in response.data) {
+						$("#" + key).append(response.data[key]);
+					}
+				});
+			}
+
+			function update(data, id) {
+				ajaxRequest("./category/update/" + id, "POST", JSON.stringify(data), function(response) {
+					if (response.status == true) {
+						var item = response.data;
+				    	item.price = item.price.toLocaleString('en-US', {style : 'currency', currency : 'VND'});
+				    	
+				    	var row = $("#content_id_" + item.categoryId);
+				    	row.find("td").eq(1).html(item.categoryName);
+				    	row.find("td").eq(2).html(item.price);
+				    	
+						$('#modal1').modal('close');
+						return;
+					}
+
+					// display error
+					for (const key in response.data) {
+						$("#" + key).append(response.data[key]);
+					}
+				});
 			}
 
 			function ajaxRequest(url, method, data, calBackFuntion) {
@@ -190,6 +250,16 @@
 				$.ajax(config).done(function(data) {
 					calBackFuntion(data);
 				});
+			}
+
+			function onClickUpdate(obj) {
+				loadParentCategory(function (){
+					onUpdate(obj);
+				});
+			}
+			
+			function onCloseModal() {
+				$("input").val("");
 			}
 		</script>
 	</th:block>
