@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{layouts/admin/main-layout::main-fragment(  
+                ~{::title},
+                ~{:: #products-static-resources},
+                ~{:: #home-nav},
+                ~{:: #products-main-content},  
+                ~{:: #resources-footer},
+               )}">
+
+<head>
+<title>Danh sách người dùng hệ thống</title>
+<th:block id="products-static-resources"></th:block>
+</head>
+<body>
+	<nav id="home-nav">
+		<div class="nav-wrapper indigo darken-2">
+			<a style="margin-left: 20px;" class="breadcrumb" href="#!">Admin</a>
+			<a class="breadcrumb" href="#">Người dùng</a>
+			<div style="margin-right: 20px;" id="timestamp" class="right"></div>
+		</div>
+	</nav>
+	<div id="products-main-content">
+		<div class="ad-container">
+			<!-- Open modal -->
+			<a id="add_new" class="waves-effect waves-light btn modal-trigger"
+				href="#modal1"><i class="material-icons right">add</i>Thêm mới</a>
+			<table class="striped">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Tên người dùng</th>
+						<th>Ngày sinh</th>
+						<th>Số điện thoại</th>
+						<th>Địa chỉ thư</th>
+						<th>Số dư</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody id="content_data" style="transition: all 0.5s ease-in-out;">
+				</tbody>
+			</table>
+
+			<div style="text-align: center; margin-top: 5px;">
+				<hr style="color: #ddd" />
+				<button id="loadmoreitem" class="btn waves-effect orange"
+					type="submit" name="action" onclick="loadData(null)">Tải
+					thêm</button>
+			</div>
+		</div>
+
+		<!-- Form add new category -->
+		<div id="modal1" class="modal">
+			<div class="modal-content" style="padding-bottom: 0px">
+				<div class="row" style="margin-bottom: 0px">
+					<form class="col s12">
+						<div class="row">
+							<h3 id="title_modal">Thêm mới</h3>
+							<input id="indexUpdate" type="hidden" />
+							<div class="row">
+								<div class="input-field col s12">
+									<input id="userName" type="text" /><label for="userName">Tên
+										người dùng</label> <small class="validate" style="color: red;"
+										id="validate_userName"></small>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12">
+									<input id="birthday" type="text" class="datepicker"><label
+										for="birthday">Ngày sinh</label> <small class="validate"
+										style="color: red;" id="validate_birthday"></small>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12">
+									<input id="phone" type="text" /><label for="phone">Số
+										điện thoại</label> <small class="validate" style="color: red;"
+										id="validate_phone"></small>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12">
+									<input id="email" type="text" /><label for="email">Địa
+										chỉ thư</label> <small class="validate" style="color: red;"
+										id="validate_email"></small>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12">
+									<input id="pass" type="password" /><label for="pass">Mât
+										khẩu (sử dụng cho đăng nhập)</label> <small class="validate"
+										style="color: red;" id="validate_pass"></small>
+								</div>
+							</div>
+							<div class="row" style="margin-left: 10px">
+								<input type="checkbox" class="filled-in" id="role_admin" /> <label
+									for="role_admin">Admin</label> <input type="checkbox"
+									class="filled-in" id="role_user" checked="checked" /> <label
+									for="role_user">User</label> <br> <small class="validate"
+									style="color: red;" id="validate_role"></small>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a id="confirm_save" href="#"
+					class="waves-effect waves-green btn-flat">Đồng ý</a> <a href="#"
+					onclick="onCloseModal()"
+					class="modal-close waves-effect waves-green btn-flat">Đóng</a>
+			</div>
+		</div>
+
+		<!-- keep page number for load more item -->
+		<input id="page" type="hidden" value="1" />
+	</div>
+
+	<th:block id="resources-footer">
+		<script id="my-template" type="x-tmpl-mustache">
+			<tr id="content_id_{{userId}}">
+				<td>{{userId}}</td>
+				<td>{{userName}}</td>
+				<td>{{birthday}}</td>
+				<td>{{phone}}</td>
+				<td>{{email}}</td>
+				<td>{{credit}}</td>
+				<td>
+					<a href="#" onclick="onClickUpdate($(this));">Chỉnh sửa</a> | 
+					<a href="#" onclick="onDelete($(this), '{{userId}}', '{{userName}}');">Xóa</a>
+				</td>
+			</tr>
+		</script>
+		<script>
+			let tmpl = $('#my-template').html();
+			Mustache.parse(tmpl);
+		
+			$(document).ready(function() {
+				var modal = $('#modal1').modal();
+				$('select').material_select();
+				loadData(0);
+
+				$('.datepicker').pickadate({
+				    selectMonths: true,
+				    selectYears: 15,
+				    today: 'Today',
+				    clear: 'Clear',
+				    closeOnSelect: true,
+				    format: 'yyyy/mm/dd'
+				});
+				  
+				// open modal
+				$("#add_new").click(function() {
+					$("#title_modal").html("Thêm mới");
+				});
+
+				// Add item
+				$("#confirm_save").click(function(){
+					var data = {
+						userName: $("#userName").val(),
+						birthday: $("#birthday").val(),
+						email: $("#email").val(),
+						phone: $("#phone").val(),
+						pass: $("#pass").val(),
+						role_admin: $("#role_admin").prop('checked'),
+						role_user: $("#role_user").prop('checked')
+					}
+
+					$(".validate").empty();
+					var updateId = $("#indexUpdate").val();
+					
+					if (updateId && updateId.length > 0) {
+						update(data, updateId);
+					} else {
+						save(data);
+					}
+				});
+			});
+			
+			function loadData(page) {
+				// load data
+				if (page == null) {
+					page = $("#page").val();
+				}
+
+				ajaxRequest("./customer/get/" + page, "GET", null, function(data) {
+				    data.forEach((item) => {
+				    	item.credit = parseInt(item.credit).toLocaleString('en-US', {style : 'currency', currency : 'VND'});
+				    	item.birthday = formatDate(item.birthday);
+				    	
+				        let rendered = Mustache.render(tmpl, item);
+				        $("#content_data").append(rendered);
+				    });
+
+				    $("#page").val(parseInt(page) + 1);
+				});	
+			}
+
+			function onDelete(obj, key, name) {
+				var r = confirm("Xác nhận xóa [" + name + "]");
+
+				if (r == true) {
+					ajaxRequest("./customer/delete/" + key, "POST", null, function(data) {
+						obj.parents("tr").remove();
+					});
+				}
+			}
+			
+			function onUpdate(obj){
+				var id = obj.parents("tr").find("td")[0].textContent;
+				$("#title_modal").html("Cập nhật");
+
+				ajaxRequest("./customer/get/one/" + id, "GET", null, function(data) {
+					// set value into form
+					$("#indexUpdate").val(id);
+					$("#userName").val(data.userName);
+					$("#birthday").val(formatDate(data.birthday));
+			        $('#email').val(data.email);
+			        $('#phone').val(data.phone);
+			        $('#pass').val("");
+			        
+					$('#modal1').modal('open');
+				});
+			}
+
+			function save(data) {
+				ajaxRequest("./customer/save", "POST", JSON.stringify(data), function(response) {
+					if (response.status == true) {
+						onCloseModal();
+						
+						var item = response.data;
+				    	item.credit = parseInt(item.credit).toLocaleString('en-US', {style : 'currency', currency : 'VND'});
+				    	item.birthday = formatDate(item.birthday);
+				        let rendered = Mustache.render(tmpl, item);
+				        $("#content_data").prepend(rendered);
+
+				        
+				        
+						$('#modal1').modal('close');
+
+						return;
+					}
+
+					// display error
+					for (const key in response.data) {
+						$("#" + key).append(response.data[key]);
+					}
+				});
+			}
+
+			function update(data, id) {
+				ajaxRequest("./customer/update/" + id, "POST", JSON.stringify(data), function(response) {
+					if (response.status == true) {
+						var item = response.data;
+						item.credit = parseInt(item.credit).toLocaleString('en-US', {style : 'currency', currency : 'VND'});
+				    	
+				    	var row = $("#content_id_" + item.userId);
+				    	row.find("td").eq(1).html(item.userName);
+				    	row.find("td").eq(2).html(formatDate(item.birthday));
+				    	row.find("td").eq(3).html(item.phone);
+				    	row.find("td").eq(4).html(item.email);
+				    	row.find("td").eq(5).html(item.credit);
+				    	
+						$('#modal1').modal('close');
+						return;
+					}
+
+					// display error
+					for (const key in response.data) {
+						$("#" + key).append(response.data[key]);
+					}
+				});
+			}
+
+			function ajaxRequest(url, method, data, calBackFuntion) {
+				var config = {
+					method : method,
+					url : url,
+					context : document.body,
+				};
+
+				if (data) {
+					config.data = data;
+					config.contentType = "application/json; charset=utf-8";
+				}
+
+				$.ajax(config).done(function(data) {
+					calBackFuntion(data);
+				});
+			}
+			
+			function formatDate(date) {
+			    var d = new Date(date),
+			        month = '' + (d.getMonth() + 1),
+			        day = '' + d.getDate(),
+			        year = d.getFullYear();
+
+			    if (month.length < 2) 
+			        month = '0' + month;
+			    if (day.length < 2) 
+			        day = '0' + day;
+
+			    return [year, month, day].join('/');
+			}
+
+			function onClickUpdate(obj) {
+				onUpdate(obj);
+			}
+			
+			function onCloseModal() {
+				$("input").val("");
+			}
+		</script>
+	</th:block>
+</body>
+</html>

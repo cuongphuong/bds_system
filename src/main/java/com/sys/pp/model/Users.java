@@ -1,8 +1,16 @@
 package com.sys.pp.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * The persistent class for the users database table.
@@ -16,12 +24,12 @@ public class Users implements Serializable {
 
 	@Id
 	@Column(name="user_id")
-	private int userId;
+	private String userId;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date birthday;
 
-	private String credit;
+	private BigDecimal credit;
 
 	private String email;
 
@@ -35,11 +43,11 @@ public class Users implements Serializable {
 	public Users() {
 	}
 
-	public int getUserId() {
+	public String getUserId() {
 		return this.userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
@@ -51,11 +59,11 @@ public class Users implements Serializable {
 		this.birthday = birthday;
 	}
 
-	public String getCredit() {
+	public BigDecimal getCredit() {
 		return this.credit;
 	}
 
-	public void setCredit(String credit) {
+	public void setCredit(BigDecimal credit) {
 		this.credit = credit;
 	}
 

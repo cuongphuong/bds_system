@@ -2,6 +2,7 @@ package com.sys.pp.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.regex.Pattern;
 
 public class StringUtils {
 	public static String getMD5(String input) {
@@ -13,10 +14,43 @@ public class StringUtils {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public static String nullToEmpty(String str) {
-		if (null == str) return "";
+		if (null == str)
+			return "";
 		return str;
+	}
+
+	public static String getNumberOfString(final CharSequence input) {
+		final StringBuilder sb = new StringBuilder(input.length());
+		for (int i = 0; i < input.length(); i++) {
+			final char c = input.charAt(i);
+			if (c > 47 && c < 58) {
+				sb.append(c);
+			}
+		}
+		return sb.toString();
+	}
+
+	public static boolean isNullOrEmpty(String str) {
+		if (str == null || str.length() == 0) {
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean isValidEmail(String email) {
+		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
+		Pattern pat = Pattern.compile(emailRegex);
+		if (email == null)
+			return false;
+		return pat.matcher(email).matches();
+	}
+	
+	public static boolean isValidPhone(String phone) {
+		Pattern pattern = Pattern.compile("[0-9]{10}");
+		return pattern.matcher(phone).matches();
 	}
 
 	private static String convertByteToHex(byte[] data) {
