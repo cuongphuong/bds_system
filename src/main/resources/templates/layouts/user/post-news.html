@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{layouts/user/main-layout::main-fragment(  
+                ~{::title},
+                ~{:: #products-static-resources},
+                ~{:: #products-main-content},  
+                ~{:: #resources-footer},
+               )}">
+<head>
+<title>Đăng tin</title>
+<th:block id="products-static-resources">
+	<link href="upload/style.css" rel="stylesheet" type="text/css">
+	<link href="upload/dropzone.css" rel="stylesheet" type="text/css">
+	<script src="upload/dropzone.js" type="text/javascript"></script>
+	<script src="assets/convertnumber.js" type="text/javascript"></script>
+
+	<!-- Add Google API Key -->
+	<script
+		src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAdyQ9iItZxYKPC78kk9-f-nt5dQJMTZH4&sensor=false">
+		
+	</script>
+	<script>
+		//Khoi tao Map
+		function initialize() {
+			//Khai bao cac thuoc tinh
+			var mapProp = {
+				//Tam ban do, quy dinh boi kinh do va vi do
+				center : new google.maps.LatLng(14.058324, 108.277199),
+				//set default zoom cua ban do khi duoc load
+				zoom : 6,
+				//Dinh nghia type
+				mapTypeId : google.maps.MapTypeId.ROADMAP
+			};
+			//Truyen tham so cho cac thuoc tinh Map cho the div chua Map
+			var map = new google.maps.Map(document.getElementById("googleMap"),
+					mapProp);
+		}
+		google.maps.event.addDomListener(window, 'load', initialize);
+	</script>
+</th:block>
+</head>
+
+<body>
+	<th:block id="products-main-content">
+		<section class="wrapper">
+			<div class="container-fostrap">
+				<div class="content">
+					<div class="container">
+
+						<div class="post-bg-Title">
+							<h1 class="bluecolor">Thêm tin bất động sản của bạn</h1>
+							<div class="graycolor">(Quý vị nhập thông tin vào các mục
+								dưới đây)</div>
+						</div>
+
+
+						<div class="row">
+							<div class="col-md-8">
+
+								<div id="content1" class="card" style="text-align: left;">
+									<div class="card-header">THÔNG TIN CƠ BẢN</div>
+									<div class="card-body">
+										<!-- Tiều đề -->
+										<div class="mb-3">
+											<label class="form-label">Tiêu đề(<font color="red">*</font>):
+											</label> <input type="text" class="form-control" id="title"
+												placeholder="Vui lòng nhập tiêu đề tin đăng của bạn. Tối thiểu là 30 ký tự và tối đa là 99 ký tự.">
+											<small id="validate_title" style="color: red;">Vui
+												lòng nhập tiêu đề của bài viết</small>
+										</div>
+
+										<div class="mb-3">
+											<div class="row">
+												<div class="col-md-6">
+
+
+													<div class="mb-3">
+														<label class="form-label">Hình thức(<font
+															color="red">*</font>):
+														</label> <select id="formality" class="form-select">
+															<option th:each="dropDownItem : ${formalitys}"
+																th:value="${dropDownItem.getKey()}"
+																th:text="${dropDownItem.getValue()}" />
+														</select>
+													</div>
+
+
+													<div class="mb-3">
+														<label class="form-label">Tỉnh/Thành phố: </label> <input
+															onchange="provinceChange()" type="text"
+															class="form-select" id="province_id"
+															list="province_id_list">
+														<datalist id="province_id_list">
+															<option th:each="row : ${province_id_list}"
+																th:value="${row.getName()}"
+																th:attr="key-data=${row.getId()}">
+														</datalist>
+													</div>
+
+
+													<div class="mb-3">
+														<label class="form-label">Phường/Xã: </label> <input
+															type="text" class="form-select" id="ward_id"
+															list="ward_id_list">
+														<datalist id="ward_id_list">
+															<option th:each="row : ${ward_id_list}"
+																th:value="${row.getName()}"
+																th:attr="key-data=${row.getId()}">
+														</datalist>
+													</div>
+
+													<div class="mb-3">
+														<label class="form-label">Dự án: </label> <input
+															type="text" class="form-select" id="project_id"
+															list="project_id_list">
+														<datalist id="project_id_list">
+														</datalist>
+													</div>
+
+													<div class="mb-3">
+														<label class="form-label">Giá bán: </label> <input
+															onkeyup="changePriceInput()" type="text"
+															class="form-control" id="price"
+															placeholder="Để trống nếu giá thỏa thuận"> <small
+															id="validate_price" style="color: red;"></small>
+													</div>
+
+												</div>
+												<div class="col-md-6">
+													<div class="mb-3">
+														<label class="form-label">Danh mục: </label> <input
+															onchange="dateTargetChange()" type="text"
+															class="form-select" id="category_id"
+															list="category_id_list">
+
+														<datalist id="category_id_list">
+															<option th:each="row : ${category_list}"
+																th:value="${row.getCategoryName()}"
+																th:attr="key-data=${row.getCategoryId()}">
+														</datalist>
+													</div>
+
+													<div class="mb-3">
+														<label class="form-label">Quận/Huyện: </label> <input
+															onchange="districtChange()" type="text"
+															class="form-select" id="district_id"
+															list="district_id_list">
+														<datalist id="district_id_list">
+														</datalist>
+
+													</div>
+
+													<div class="mb-3">
+														<label class="form-label">Đường/Phố: </label> <input
+															type="text" class="form-select" id="street_id"
+															list="street_id_list">
+														<datalist id="street_id_list">
+														</datalist>
+													</div>
+
+													<div class=" mb-3">
+														<label class="form-label">Diện tích: </label>
+														<div class="input-group">
+															<input type="number" class="form-control"> <span
+																class="input-group-text" id="acreage">m²</span>
+														</div>
+														<small id="validate_acreage" style="color: red;"></small>
+													</div>
+
+													<div class="mb-3">
+														<label class="form-label">Đơn vị tính: </label> <select
+															onchange="changePriceInput()" id="unit"
+															class="form-select">
+															<option th:each="item : ${unit_listxx}"
+																th:value="${item.getKey()}" th:text="${item.getValue()}" />
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="mb-3">
+												<label class="form-label">Thành chữ: </label> <input
+													class="form-control" id="thanhchu" type="text"
+													placeholder="Vui lòng nhập giá tiền." readonly>
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+								<div class="card" style="text-align: left;">
+									<div class="card-header">THÔNG TIN MÔ TẢ</div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-md-7">
+												<div class="mb-3">
+													<textarea class="form-control" id="description" rows="4"></textarea>
+													<small id="validate_description" style="color: red;"></small>
+												</div>
+											</div>
+											<div class="col-md-5">
+												<p>Giới thiệu chung về bất động sản của bạn. Ví dụ: Khu
+													nhà có vị trí thuận lợi: Gần công viên, gần trường học ...
+													Tổng diện tích 52m2, đường đi ô tô vào tận cửa.</p>
+												<p>
+													<font color="red">Lưu ý: tin rao chỉ để mệnh giá
+														tiền Việt Nam Đồng.</font>
+												</p>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+
+
+								<div class="card" style="text-align: left;">
+									<div class="card-header">THÔNG TIN KHÁC</div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-md-6">
+
+												<div class="mb-3">
+													<label class="form-label">Mặt tiền: </label>
+													<div class="input-group">
+														<input type="number" class="form-control"
+															placeholder="Chiều rộng mặt trước"> <span
+															class="input-group-text" id="front_width">m</span>
+													</div>
+													<small id="validate_title" style="color: red;"></small>
+												</div>
+
+												<div class="mb-3">
+													<label class="form-label">Hướng nhà: </label> <select
+														id="direction" class="form-select">
+														<option th:each="item : ${direction_list}"
+															th:value="${item.getKey()}" th:text="${item.getValue()}" />
+													</select>
+												</div>
+
+												<div class="mb-3">
+													<label class="form-label">Số tầng: </label> <input
+														type="number" class="form-control" id="floors_num">
+													<small id="validate_floors_num" style="color: red;"></small>
+												</div>
+
+												<div class="mb-3">
+													<label class="form-label">Số toilet: </label> <input
+														id="toilet_num" type="number" class="form-control">
+													<small id="validate_toilet_num" style="color: red;"></small>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="mb-3">
+													<label class="form-label">Đường vào: </label>
+													<div class="input-group">
+														<input type="number" class="form-control"
+															placeholder="Chiều rộng đường vào"> <span
+															class="input-group-text" id="entrance_width">m</span> <small
+															id="validate_entrance_width" style="color: red;"></small>
+													</div>
+												</div>
+
+												<div class="mb-3">
+													<label class="form-label">Hướng ban công: </label> <select
+														id="direction" class="form-select">
+														<option th:each="item : ${direction_list}"
+															th:value="${item.getKey()}" th:text="${item.getValue()}" />
+													</select>
+												</div>
+
+												<div class="mb-3">
+													<label class="form-label">Số phòng ngủ: </label> <input
+														id="room_num" type="number" class="form-control">
+													<small id="validate_room_num" style="color: red;"></small>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12">
+												<div class="mb-3">
+													<label class="form-label">Nội thất: </label>
+													<div class="mb-3">
+														<textarea class="form-control" id="furniture" rows="4"></textarea>
+													</div>
+												</div>
+
+												<div class="mb-3">
+													<label class="form-label">Thông tin pháp lý: </label>
+													<div class="mb-3">
+														<textarea
+															placeholder="Ví dụ: Đã có sổ đỏ. Đã có sổ hồng. Đã được phê duyệt quyết định đầu tư..."
+															class="form-control" id="juridical_info" rows="2"></textarea>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="card" style="text-align: left;">
+									<div class="card-header">HÌNH ẢNH VÀ VIDEO</div>
+									<div class="card-body">
+										<p>Vui lòng sử dụng hình ảnh thật, không đăng trùng và
+											không thêm số điện thoại vào hình ảnh.</p>
+										<p>Tin rao có ảnh sẽ được xem nhiều hơn gấp 10 lần và được
+											nhiều người gọi gấp 5 lần so với tin rao không có ảnh. Hãy
+											đăng ảnh để được giao dịch nhanh chóng!</p>
+										<p style="color: red;">Vui lòng nhấp để chọn hoặc kéo thả
+											ảnh vào khung sau để upload.</p>
+
+										<div class="mb-3">
+											<input type="hidden" id="image" th:value="${actionUpload}"
+												class="form-control">
+											<form id="upload_from" th:action="${actionUpload}"
+												class="dropzone" method="post" enctype="multipart/form-data"></form>
+										</div>
+										<div class="mb-3">
+											<label class="form-label">Liên kết video youtube:</label>
+											<div class="mb-3">
+												<textarea id="video-youtube" class="form-control" rows="1"></textarea>
+											</div>
+										</div>
+										<div class="mb-3">
+											<iframe style="display: none" id="youtube_preview"
+												width="100%"></iframe>
+										</div>
+									</div>
+								</div>
+
+								<div class="card" style="text-align: left;">
+									<div class="card-header">THÔNG TIN LIÊN HỆ</div>
+									<div class="card-body">
+										<ul class="nav nav-tabs" id="myTab" role="tablist">
+											<li class="nav-item" role="presentation">
+												<button class="nav-link active existed_contact_id"
+													id="#existed_contact" data-bs-toggle="tab"
+													data-bs-target="#existed_contact" type="button" role="tab"
+													aria-controls="existed_contact" aria-selected="true">Liên
+													hệ có sẵn</button>
+											</li>
+											<li class="nav-item" role="presentation">
+												<button class="nav-link" id="profile-tab"
+													data-bs-toggle="tab" data-bs-target="#profile"
+													type="button" role="tab" aria-controls="profile"
+													aria-selected="false">Nhập liên hệ mới</button>
+											</li>
+										</ul>
+										<div class="tab-content" id="myTabContent">
+											<div class="radio-toolbar tab-pane fade show active"
+												id="existed_contact" role="tabpanel"
+												aria-labelledby="existed_contact">
+												<div class="row" style="margin-top: 10px"
+													id="box-contact-list">
+
+
+													<div class="col-md-4" th:each="item : ${contact_list}">
+														<div style="height: 230px; position: relative;"
+															class="contact-box center-version">
+															<h5 style="text-align: center; padding-top: 10px;"
+																class="m-b-xs">
+																<strong th:utext="${item.getContactName()}"></strong>
+															</h5>
+															<div
+																style="text-align: left; padding-left: 10px; padding-bottom: 10px"
+																class="m-t-md">
+																<div style="padding: 2px">
+																	<img width="20px" src="svg/smartphone.svg" alt="phone">
+																	<span style="padding-left: 10px"
+																		th:utext="${item.getPhone()}"></span>
+																</div>
+
+																<div style="padding: 2px">
+																	<img width="20px" src="svg/mail.svg" alt="mail">
+																	<span style="padding-left: 10px"
+																		th:utext="${item.getEmail()}"></span>
+																</div>
+
+																<div style="padding: 2px">
+																	<img width="20px" src="svg/map-pin.svg" alt="location">
+																	<span style="padding-left: 10px"
+																		th:utext="${item.getDiaChi()}"></span>
+																</div>
+															</div>
+
+															<input type="radio" th:id="'myForm' + ${item.getPhone()}"
+																name="radioFruit"> <label
+																style="height: 50px; position: absolute; bottom: 0px"
+																class="contact-box-footer"
+																th:attr="for='myForm' + ${item.getPhone()}">Chọn</label>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="tab-pane fade" id="profile" role="tabpanel"
+												aria-labelledby="profile-tab" style="margin-top: 10px">
+
+												<div class="mb-3">
+													<label class="form-label">Họ và tên: </label> <input
+														type="text" class="form-control" id="contact_name">
+												</div>
+
+												<div class="mb-3">
+													<label class="form-label">Địa chỉ: </label> <input
+														type="text" class="form-control" id="diachi"
+														placeholder="">
+												</div>
+
+												<div class="mb-3">
+													<label class="form-label">Điện thoại(<font
+														color="red">*</font>):
+													</label> <input type="text" class="form-control" id="phone">
+												</div>
+
+												<div class="mb-3">
+													<label class="form-label">Email: </label> <input
+														type="text" class="form-control" id="email">
+												</div>
+
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="card" style="text-align: left;">
+									<div class="card-header">LỊCH TRÌNH ĐĂNG</div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="mb-3">
+													<label class="form-label">Ngày bắt đầu: </label> <input
+														onchange="dateTargetChange()" id="startDate" type="date"
+														class="form-control">
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="mb-3">
+													<label class="form-label">Ngày kết thúc: </label> <input
+														onchange="dateTargetChange()" id="endDate" type="date"
+														class="form-control">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="card" style="text-align: left;">
+									<div class="card-header">THÀNH TIỀN</div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-md-4">
+												<div id="box_credit" class="card border-success mb-3">
+													<div style="font-weight: bold;" class="card-header">SỐ
+														DƯ</div>
+													<div id="box_credit_text" class="card-body text-success">
+														<input type="hidden" id="credit_user_hidden"
+															th:value="${user_credit}">
+														<h5 id="credit_user" class="card-title"
+															th:text="${user_credit}">₫0</h5>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-8">
+												<div id="napthem" style="display: none;">
+													<div class=" mb-3">
+														<div class="input-group">
+															<input type="number" id="input_nap_them"
+																class="form-control"> <span
+																class="input-group-text" id="acreage">VND</span>
+														</div>
+													</div>
+													<div class=" mb-3">
+														<button onclick="napThemOnClick()" type="button"
+															class="btn btn-outline-primary" role="button">Nạp
+															thêm</button>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-4">
+												<div class="card border-primary mb-3">
+													<div class="card-header">PHÍ ĐĂNG TIN</div>
+													<div class="card-body text-primary">
+														<h5 id="price_result" class="card-title">₫0</h5>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-md-4">
+												<div class="card border-primary mb-3">
+													<div class="card-header">VAT(10%)</div>
+													<div class="card-body text-primary">
+														<h5 id="thue_result" class="card-title">₫0</h5>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-md-4">
+												<div class="card border-warning mb-3">
+													<div class="card-header">TỔNG TIỀN</div>
+													<div class="card-body">
+														<h5 id="tongtien_result" class="card-title">₫0</h5>
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+								<div class="d-grid gap-2 col-6 mx-auto mb-3">
+									<button class="btn btn-light" type="button">Xem trước</button>
+									<button id="submit_form" style="color: #fff"
+										class="btn btn-success" type="button" disabled>Lưu
+										bài đăng</button>
+								</div>
+
+
+								<!-- Form nạp thêm -->
+								<div class="modal fade" id="modal" aria-hidden="true"
+									aria-labelledby="..." tabindex="-1">
+									<div class="modal-dialog modal-lg">
+										<div class="modal-content"
+											style="padding: 20px; text-align: left;">
+
+											<h5 style="padding-bottom: 20px;" class="modal-title">Lựa
+												chọn phương thức thanh toán</h5>
+
+											<nav>
+												<div class="nav nav-tabs" id="nav-tab" role="tablist">
+													<button class="nav-link active" id="nav-home-tab"
+														data-bs-toggle="tab" data-bs-target="#nav-home"
+														type="button" role="tab" aria-controls="nav-home"
+														aria-selected="true">
+														<img width="70px" height="70px" class="icon"
+															src="https://img.alicdn.com/tfs/TB17BAYE7L0gK0jSZFAXXcA9pXa-80-80.png"
+															data-spm-anchor-id="a2o4n.payment_page.0.i9.45a15d0aysY77C">
+													</button>
+													<button class="nav-link" id="nav-profile-tab"
+														data-bs-toggle="tab" data-bs-target="#nav-profile"
+														type="button" role="tab" aria-controls="nav-profile"
+														aria-selected="false">
+														<img width="70px" height="70px" class="icon"
+															src="https://img.alicdn.com/tfs/TB1L1Felmf2gK0jSZFPXXXsopXa-160-160.png"
+															data-spm-anchor-id="a2o4n.payment_page.0.i8.45a15d0aysY77C">
+													</button>
+													<button class="nav-link" id="nav-contact-tab"
+														data-bs-toggle="tab" data-bs-target="#nav-contact"
+														type="button" role="tab" aria-controls="nav-contact"
+														aria-selected="false">
+														<img width="70px" height="70px" class="icon"
+															src="https://laz-img-cdn.alicdn.com/tfs/TB1nOISXQcx_u4jSZFlXXXnUFXa-96-96.png">
+													</button>
+												</div>
+											</nav>
+											<div style="text-align: left; padding: 10px;"
+												class="tab-content" id="nav-tabContent">
+												<div class="tab-pane fade show active" id="nav-home"
+													role="tabpanel" aria-labelledby="nav-home-tab">
+													<p>
+														Ensure you have these ready: <br>1. Password for
+														ZaloPay login. <br>2. Your mobile number registered
+														for ZaloPay is active.
+													</p>
+												</div>
+												<div class="tab-pane fade" id="nav-profile" role="tabpanel"
+													aria-labelledby="nav-profile-tab">
+													<p>
+														Ensure you have these ready: <br>1. Password for Momo
+														login. <br>2. Your mobile number registered for MoMo
+														is active. <br>3. Installed Momo mobile app.
+													</p>
+												</div>
+												<div class="tab-pane fade" id="nav-contact" role="tabpanel"
+													aria-labelledby="nav-contact-tab">
+													<p>
+														Awesome! Please have these ready: <br>1. ATM card <br>2.
+														Registered for ONLINE PAYMENT SERVICE and/or INTERNET
+														BANKING <br>3. Account balance LARGER THAN value of
+														your order <br> <br> Dong A Bank is currently
+														unavailable for payment via ATM Card/Internet Banking due
+														to bank maintenance
+													</p>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button style="background: #ddd;" type="button"
+													class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+												<button onclick="napOnClick()" type="button"
+													class="btn btn-primary">Thanh toán</button>
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+							<div class="col-md-4">
+								<div style="box-shadow: 1px 0px 10px #ddd;" id="googleMap"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</th:block>
+
+	<th:block id="resources-footer">
+		<script>
+			$(document)
+					.ready(
+							function() {
+								$("#youtube_preview").height(
+										$("#youtube_preview").width() - 350);
+								$("#googleMap").height(
+										$("#content1").height() + 2);
+
+								if ($("#box-contact-list").find(".contact-box").length == 0) {
+									$(".existed_contact_id").removeClass(
+											"active");
+									$("#profile-tab").addClass("active");
+									$("#profile").addClass("show active");
+								}
+
+								var credit = parseInt($("#credit_user").text())
+										.toLocaleString('en-US', {
+											style : 'currency',
+											currency : 'VND'
+										});
+								$("#credit_user").text(credit);
+
+							});
+
+			$("#video-youtube")
+					.focusout(
+							function() {
+								var val = $(this).val();
+								var rx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
+								var result = val.match(rx);
+
+								var emberUrl = "https://www.youtube.com/embed/hjhj?autoplay=1";
+								if (val.length == 0 || !result) {
+									$("#youtube_preview").attr("src", emberUrl);
+									$("#youtube_preview").hide(500);
+									return;
+								}
+
+								emberUrl = "https://www.youtube.com/embed/"
+										+ result[1] + "?autoplay=1";
+								$("#youtube_preview").attr("src", emberUrl);
+								$("#youtube_preview").show(500);
+							});
+
+			function dateTargetChange() {
+				var categoryId = $(
+						"#category_id_list option[value='"
+								+ $('#category_id').val() + "']").attr(
+						'key-data');
+				var startDate = $("#startDate").val().replaceAll("-", "/");
+				var endDate = $("#endDate").val().replaceAll("-", "/");
+
+				if (!categoryId || categoryId.length == 0) {
+					alert("Chọn danh mục của bài đăng này trước.");
+					$([ document.documentElement, document.body ]).animate({
+						scrollTop : $("#title").offset().top
+					}, 2000);
+					$("#category_id").css("border", "solid 1px red");
+					return;
+				}
+
+				if (startDate.trim().length == 0 || endDate.trim().length == 0) {
+					return;
+				}
+
+				var data = {
+					startDate : startDate,
+					endDate : endDate
+				}
+
+				ajaxRequest("/calcalator/" + categoryId, "POST", JSON
+						.stringify(data), function(response) {
+
+					if (response.status == true) {
+						var tongTien = 0;
+						tongTien += parseInt(response.data);
+						var price = parseInt(response.data).toLocaleString(
+								'en-US', {
+									style : 'currency',
+									currency : 'VND'
+								});
+						$("#price_result").html(price);
+
+						tongTien += parseInt(response.data * 0.1);
+						var thue = parseInt(response.data * 0.1)
+								.toLocaleString('en-US', {
+									style : 'currency',
+									currency : 'VND'
+								});
+						$("#thue_result").html(thue);
+
+						var tong = tongTien.toLocaleString('en-US', {
+							style : 'currency',
+							currency : 'VND'
+						});
+						$("#tongtien_result").html(tong);
+
+						if (tongTien > $("#credit_user_hidden").val()) {
+							$("#box_credit").removeClass("border-success");
+							$("#box_credit").addClass("border-danger");
+
+							$("#box_credit_text").removeClass("text-success");
+							$("#box_credit_text").addClass("text-danger");
+							$("#napthem").show();
+							$("#submit_form").prop('disabled', true);
+						} else {
+							$("#box_credit").removeClass("border-danger");
+							$("#box_credit").addClass("border-success");
+
+							$("#box_credit_text").removeClass("text-danger");
+							$("#box_credit_text").addClass("text-success");
+							$("#napthem").hide();
+							$("#submit_form").prop('disabled', false);
+						}
+						return;
+					} else {
+						alert("Vui lòng chọn ngày hợp lệ.")
+					}
+
+					// display error
+					for ( const key in response.data) {
+						$("#" + key).append(response.data[key]);
+					}
+				});
+
+			}
+
+			function provinceChange() {
+				var id = $(
+						"#province_id_list option[value='"
+								+ $('#province_id').val() + "']").attr(
+						'key-data');
+
+				ajaxRequest(
+						"/get-district/" + id,
+						"GET",
+						null,
+						function(data) {
+							var html = "";
+							data
+									.forEach(function(item) {
+										html = html
+												+ "<option value=\"";
+		                    html = html + item.name;
+		                    html = html + "\" key-data=\"";
+		                    html = html + item.id;
+		                    html = html + "\"></option>";
+									});
+
+							$("#district_id").val("");
+							$("#ward_id").val("");
+							$("#street_id").val("");
+							$("#project_id").val("");
+							$("#district_id_list").empty();
+							$("#district_id_list").append(html);
+						});
+			}
+
+			function districtChange() {
+				var id = $(
+						"#district_id_list option[value='"
+								+ $('#district_id').val() + "']").attr(
+						'key-data');
+
+				$("#ward_id").val("");
+				$("#street_id").val("");
+				$("#project_id").val("");
+
+				$("#project_id_list").empty();
+				$("#ward_id_list").empty();
+				$("#street_id_list").empty();
+
+				ajaxRequest(
+						"/get-ward/" + id,
+						"GET",
+						null,
+						function(data) {
+							var html = "";
+							data
+									.forEach(function(item) {
+										html = html
+												+ "<option value=\"";
+		                    html = html + item.name;
+		                    html = html + "\" key-data=\"";
+		                    html = html + item.id;
+		                    html = html + "\"></option>";
+									});
+							$("#ward_id_list").append(html);
+						});
+
+				ajaxRequest(
+						"/get-street/" + id,
+						"GET",
+						null,
+						function(data) {
+							var html = "";
+							data
+									.forEach(function(item) {
+										html = html
+												+ "<option value=\"";
+		                    html = html + item.name;
+		                    html = html + "\" key-data=\"";
+		                    html = html + item.id;
+		                    html = html + "\"></option>";
+									});
+
+							$("#street_id_list").append(html);
+						});
+
+				ajaxRequest(
+						"/get-project/" + id,
+						"GET",
+						null,
+						function(data) {
+							var html = "";
+							data
+									.forEach(function(item) {
+										html = html
+												+ "<option value=\"";
+		                    html = html + item.name;
+		                    html = html + "\" key-data=\"";
+		                    html = html + item.id;
+		                    html = html + "\"></option>";
+									});
+							$("#project_id_list").append(html);
+						});
+			}
+
+			function changePriceInput(obj) {
+				var t = docso($("#price").val()) + " "
+						+ $("#unit option:selected").text();
+				t = t.trim().toLowerCase();
+				t = t.charAt(0).toUpperCase() + t.slice(1);
+				$("#thanhchu").val(t);
+			}
+
+			function ajaxRequest(url, method, data, calBackFuntion) {
+				var config = {
+					method : method,
+					url : url,
+					context : document.body,
+				};
+
+				if (data) {
+					config.data = data;
+					config.contentType = "application/json; charset=utf-8";
+				}
+
+				$.ajax(config).done(function(data) {
+					calBackFuntion(data);
+				});
+			}
+
+			function napThemOnClick() {
+				obj = $("#input_nap_them");
+				if (obj.val().length == 0 || parseInt(obj.val()) < 50000) {
+					alert("Số tiền cần nạp không hợp lệ.")
+					return;
+				}
+
+				$("#modal").modal("show");
+			}
+
+			function napOnClick() {
+
+				var txt;
+				var r = confirm("Xác nhận thanh toán.");
+				if (r == false) {
+					return;
+				}
+
+				var creditAdd = $("#input_nap_them").val();
+				var data = {
+					credit : creditAdd
+				}
+				ajaxRequest("/add-credit", "POST", JSON.stringify(data),
+						function(response) {
+							var credit = parseInt(response).toLocaleString(
+									'en-US', {
+										style : 'currency',
+										currency : 'VND'
+									});
+							$("#credit_user").text(credit);
+
+							$("#modal").modal("hide");
+						});
+			}
+		</script>
+	</th:block>
+</body>
+</html>

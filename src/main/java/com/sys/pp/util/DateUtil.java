@@ -2,6 +2,7 @@ package com.sys.pp.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 public class DateUtil {
@@ -18,5 +19,11 @@ public class DateUtil {
 			return null;
 		}
 		return date;
+	}
+
+	public static long getDiffDayByDate(Date d1, Date d2) {
+		long diffInMillies = Math.abs(d2.getTime() - d1.getTime());
+		long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+		return diff;
 	}
 }

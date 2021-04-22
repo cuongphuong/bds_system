@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{layouts/user/main-layout::main-fragment(  
+                ~{::title},
+                ~{:: #products-static-resources},
+                ~{:: #products-main-content},  
+                ~{:: #resources-footer},
+               )}">
+<head>
+<title>Website rao bán bất động sản</title>
+<th:block id="products-static-resources">
+</th:block>
+</head>
+
+<body>
+	<th:block id="products-main-content">
+		<div class="banner-wrapper bg-light" style="position: relative;">
+			<div id="carouselExampleIndicators" class="carousel slide"
+				data-bs-ride="carousel">
+				<ol class="carousel-indicators">
+					<li data-bs-target="#carouselExampleIndicators"
+						data-bs-slide-to="0" class="active"></li>
+					<li data-bs-target="#carouselExampleIndicators"
+						data-bs-slide-to="1"></li>
+					<li data-bs-target="#carouselExampleIndicators"
+						data-bs-slide-to="2"></li>
+				</ol>
+				<div class="carousel-inner">
+					<div class="carousel-item active">
+						<img class="d-block w-100" src="/assets/img/slide2.png"
+							alt="Second slide">
+					</div>
+					<div class="carousel-item">
+						<img class="d-block w-100" src="/assets/img/slide1.png"
+							alt="Third slide">
+					</div>
+				</div>
+				<a class="carousel-control-prev text-decoration-none"
+					href="#carouselExampleIndicators" role="button"
+					data-bs-slide="prev"> <i class='bx bx-chevron-left'></i> <span
+					class="visually-hidden">Previous</span>
+				</a> <a class="carousel-control-next text-decoration-none"
+					href="#carouselExampleIndicators" role="button"
+					data-bs-slide="next"> <i class='bx bx-chevron-right'></i> <span
+					class="visually-hidden">Next</span>
+				</a>
+			</div>
+
+			<div id="search_content_view">
+				<input type="text" class="form-control ser-input" id="ser-input"
+					placeholder="Tìm kiếm bất động sản">
+
+				<div class="search-full-view">
+
+					<div style="margin: 0 auto; width: 60%;">
+
+						<div style="margin-top: 200px;">
+							<div class="row" style="text-align: center;">
+								<div class="mb-3">
+									<h3>Tìm kiếm bất động sản</h3>
+								</div>
+							</div>
+							<div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
+								<div class="input-group">
+									<input type="search" placeholder="Nhập thông tin cần tìm kiếm"
+										aria-describedby="button-addon1"
+										style="border-radius: 25px; height: 50px;"
+										class="form-control border-0">
+
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-3">
+									<div class="mb-3">
+										<input placeholder="Tỉnh thành" onchange="provinceChange()"
+											type="text" class="form-select" id="province_id"
+											list="province_id_list">
+										<datalist id="province_id_list">
+											<option th:each="row : ${province_id_list}"
+												th:value="${row.getName()}"
+												th:attr="key-data=${row.getId()}">
+										</datalist>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="mb-3">
+										<input placeholder="Phường xã" type="text" class="form-select"
+											id="ward_id" list="ward_id_list">
+										<datalist id="ward_id_list">
+											<option th:each="row : ${ward_id_list}"
+												th:value="${row.getName()}"
+												th:attr="key-data=${row.getId()}">
+										</datalist>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="mb-3">
+										<input type="text" placeholder="Dự án" class="form-select"
+											id="project_id" list="project_id_list">
+										<datalist id="project_id_list">
+										</datalist>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="mb-3">
+										<input type="text" class="form-select" id="street_id"
+											placeholder="Diện tích" list="street_id_list">
+										<datalist id="street_id_list">
+										</datalist>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-3">
+									<div class="mb-3">
+										<input onchange="districtChange()" type="text"
+											placeholder="Quận huyện" class="form-select" id="district_id"
+											list="district_id_list">
+										<datalist id="district_id_list">
+										</datalist>
+
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="mb-3">
+										<input type="text" class="form-select" id="street_id"
+											placeholder="Đường" list="street_id_list">
+										<datalist id="street_id_list">
+										</datalist>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="mb-3">
+										<input type="text" class="form-select" id="price_id"
+											placeholder="Giá tiền" list="price_id_list">
+										<datalist id="price_id_list">
+										</datalist>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="mb-3">
+										<input type="text" class="form-select" id="street_id"
+											placeholder="Hướng nhà" list="street_id_list">
+										<datalist id="street_id_list">
+										</datalist>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-3">
+									<div class="mb-3">
+										<input type="text" style="border: solid 1px red;"
+											class="form-select" id="category_id" placeholder="Danh mục"
+											list="category_id_list">
+										<datalist id="category_id_list">
+										</datalist>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="mb-3">
+										<input type="text" placeholder="Số phòng ngủ"
+											class="form-select" id="room_number" list="room_number_list">
+										<datalist id="room_number_list">
+										</datalist>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="mb-3">
+										<button type="button" class="btn btn-outline-warning"
+											style="width: 100%;">Xóa điều kiện</button>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="mb-3">
+										<button type="button" class="btn btn-primary"
+											style="width: 100%;">Tìm kiếm</button>
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+
+					</div>
+
+
+					<button class="btn btn-close" id="search-close">Đóng</button>
+				</div>
+			</div>
+
+		</div>
+
+
+		<section class="wrapper">
+			<div class="container-fostrap">
+				<div class="content">
+					<div class="container">
+						<div class="recent-work-header row text-center pb-5">
+							<h2 style="padding: 20px;" class="col-md-6 m-auto">Bất động
+								sản dành cho bạn</h2>
+						</div>
+						<div class="row">
+
+							<div class="col-xs-12 col-sm-4">
+								<div class="card">
+									<a class="img-card" href="#"> <img
+										src="https://1.bp.blogspot.com/-Bii3S69BdjQ/VtdOpIi4aoI/AAAAAAAABlk/F0z23Yr59f0/s640/cover.jpg" />
+									</a>
+									<div class="card-content">
+										<h4 class="card-title" style="font-size: 1.3rem">
+											<a href="#"> Cơ hội vàng - nhỉnh 1tỷ sở hưu ngay Ô góc LK
+												3 mặt thoáng, hướng biển, giá ngoại giao. </a>
+										</h4>
+
+										<p>Cẩm Phả, Quảng Ninh</p>
+
+										<b>1 tỷ·100 m²</b>
+
+										<div style="position: absolute; bottom: -2px; right: 15px;">
+											<span style="font-size: 40px; color: #999;">♡</span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-xs-12 col-sm-4">
+								<div class="card">
+									<a class="img-card" href="#"> <img
+										src="https://1.bp.blogspot.com/-Bii3S69BdjQ/VtdOpIi4aoI/AAAAAAAABlk/F0z23Yr59f0/s640/cover.jpg" />
+									</a>
+									<div class="card-content">
+										<h4 class="card-title" style="font-size: 1.3rem;">
+											<a href="#" style="color: red"> Cơ hội vàng - nhỉnh 1tỷ
+												sở hưu ngay Ô góc LK 3 mặt thoáng, hướng biển, giá ngoại
+												giao. </a>
+										</h4>
+
+										<p>Cẩm Phả, Quảng Ninh</p>
+
+										<b>1 tỷ·100 m²</b>
+
+										<div style="position: absolute; bottom: -2px; right: 15px;">
+											<span style="font-size: 40px; color: #999;">♡</span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-xs-12 col-sm-4">
+								<div class="card">
+									<a class="img-card" href="#"> <img
+										src="https://1.bp.blogspot.com/-Bii3S69BdjQ/VtdOpIi4aoI/AAAAAAAABlk/F0z23Yr59f0/s640/cover.jpg" />
+									</a>
+									<div class="card-content">
+										<h4 class="card-title" style="font-size: 1.3rem">
+											<a href="#"> Cơ hội vàng - nhỉnh 1tỷ sở hưu ngay Ô góc LK
+												3 mặt thoáng, hướng biển, giá ngoại giao. </a>
+										</h4>
+
+										<p>Cẩm Phả, Quảng Ninh</p>
+
+										<b>1 tỷ·100 m²</b>
+
+										<div style="position: absolute; bottom: -2px; right: 15px;">
+											<span style="font-size: 40px; color: #999;">♡</span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+<div class="col-xs-12 col-sm-4">
+							<div class="card">
+								<a class="img-card" href="#"> <img
+									src="https://1.bp.blogspot.com/-Bii3S69BdjQ/VtdOpIi4aoI/AAAAAAAABlk/F0z23Yr59f0/s640/cover.jpg" />
+								</a>
+								<div class="card-content">
+									<h4 class="card-title" style="font-size: 1.3rem">
+										<a href="#"> Cơ hội vàng - nhỉnh 1tỷ sở hưu ngay Ô góc LK
+											3 mặt thoáng, hướng biển, giá ngoại giao. </a>
+									</h4>
+
+									<p>Cẩm Phả, Quảng Ninh</p>
+
+									<b>1 tỷ·100 m²</b>
+
+									<div style="position: absolute; bottom: -2px; right: 15px;">
+										<span style="font-size: 40px; color: #999;">♡</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xs-12 col-sm-4">
+							<div class="card">
+								<a class="img-card" href="#"> <img
+									src="https://1.bp.blogspot.com/-Bii3S69BdjQ/VtdOpIi4aoI/AAAAAAAABlk/F0z23Yr59f0/s640/cover.jpg" />
+								</a>
+								<div class="card-content">
+									<h4 class="card-title" style="font-size: 1.3rem;">
+										<a href="#" style="color: red"> Cơ hội vàng - nhỉnh 1tỷ sở
+											hưu ngay Ô góc LK 3 mặt thoáng, hướng biển, giá ngoại giao. </a>
+									</h4>
+
+									<p>Cẩm Phả, Quảng Ninh</p>
+
+									<b>1 tỷ·100 m²</b>
+
+									<div style="position: absolute; bottom: -2px; right: 15px;">
+										<span style="font-size: 40px; color: #999;">♡</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xs-12 col-sm-4">
+							<div class="card">
+								<a class="img-card" href="#"> <img
+									src="https://1.bp.blogspot.com/-Bii3S69BdjQ/VtdOpIi4aoI/AAAAAAAABlk/F0z23Yr59f0/s640/cover.jpg" />
+								</a>
+								<div class="card-content">
+									<h4 class="card-title" style="font-size: 1.3rem">
+										<a href="#"> Cơ hội vàng - nhỉnh 1tỷ sở hưu ngay Ô góc LK
+											3 mặt thoáng, hướng biển, giá ngoại giao. </a>
+									</h4>
+
+									<p>Cẩm Phả, Quảng Ninh</p>
+
+									<b>1 tỷ·100 m²</b>
+
+									<div style="position: absolute; bottom: -2px; right: 15px;">
+										<span style="font-size: 40px; color: #999;">♡</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						</div>
+
+
+						<div>
+							<button type="button" class="btn btn-outline-warning">Tải thêm tin</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+
+
+		<!-- Danh sách tin theo danh mục  -->
+		<section class="service-wrapper py-3">
+			<div class="service-tag py-5 bg-secondary">
+				<div class="col-md-12">
+					<ul class="nav d-flex justify-content-center">
+						<li class="nav-item mx-lg-4"><a
+							class="filter-btn nav-link btn-outline-primary active shadow rounded-pill text-light px-4 light-300"
+							href="#" data-filter=".project">Tất cả</a></li>
+						<li class="nav-item mx-lg-4"><a
+							class="filter-btn nav-link btn-outline-primary rounded-pill text-light px-4 light-300"
+							href="#" data-filter=".graphic">Danh mục 1</a></li>
+						<li class="filter-btn nav-item mx-lg-4"><a
+							class="filter-btn nav-link btn-outline-primary rounded-pill text-light px-4 light-300"
+							href="#" data-filter=".ui">Danh mục 2</a></li>
+						<li class="nav-item mx-lg-4"><a
+							class="filter-btn nav-link btn-outline-primary rounded-pill text-light px-4 light-300"
+							href="#" data-filter=".branding">Danh mục 3</a></li>
+					</ul>
+				</div>
+			</div>
+
+		</section>
+
+		<section class="container overflow-hidden py-5">
+			<div class="row gx-5 gx-sm-3 gx-lg-5 gy-lg-5 gy-3 pb-3 projects">
+
+				<!-- Start Recent Work -->
+				<div class="col-xl-3 col-md-4 col-sm-6 project ui branding">
+					<a href="#"
+						class="service-work card border-0 text-white shadow-sm overflow-hidden mx-5 m-sm-0">
+						<img class="service card-img" src="./assets/img/services-01.jpg"
+						alt="Card image">
+						<div
+							class="service-work-vertical card-img-overlay d-flex align-items-end">
+							<div class="service-work-content text-left text-light">
+								<span
+									class="btn btn-outline-light rounded-pill mb-lg-3 px-lg-4 light-300">UI/UX
+									design</span>
+								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
+									adipisicing</p>
+							</div>
+						</div>
+					</a>
+				</div>
+				<!-- End Recent Work -->
+
+				<!-- Start Recent Work -->
+				<div class="col-xl-3 col-md-4 col-sm-6 project ui graphic">
+					<a href="#"
+						class="service-work card border-0 text-white shadow-sm overflow-hidden mx-5 m-sm-0">
+						<img class="card-img" src="./assets/img/services-02.jpg"
+						alt="Card image">
+						<div
+							class="service-work-vertical card-img-overlay d-flex align-items-end">
+							<div class="service-work-content text-left text-light">
+								<span
+									class="btn btn-outline-light rounded-pill mb-lg-3 px-lg-4 light-300">Social
+									Media</span>
+								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
+									adipisicing</p>
+							</div>
+						</div>
+					</a>
+				</div>
+				<!-- End Recent Work -->
+
+				<!-- Start Recent Work -->
+				<div class="col-xl-3 col-md-4 col-sm-6 project branding">
+					<a href="#"
+						class="service-work card border-0 text-white shadow-sm overflow-hidden mx-5 m-sm-0">
+						<img class="card-img" src="./assets/img/services-03.jpg"
+						alt="Card image">
+						<div
+							class="service-work-vertical card-img-overlay d-flex align-items-end">
+							<div class="service-work-content text-left text-light">
+								<span
+									class="btn btn-outline-light rounded-pill mb-lg-3 px-lg-4 light-300">Marketing</span>
+								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
+									adipisicing</p>
+							</div>
+						</div>
+					</a>
+				</div>
+				<!-- End Recent Work -->
+
+				<!-- Start Recent Work -->
+				<div class="col-xl-3 col-md-4 col-sm-6 project ui graphic">
+					<a href="#"
+						class="service-work card border-0 text-white shadow-sm overflow-hidden mx-5 m-sm-0">
+						<img class="card-img" src="./assets/img/services-04.jpg"
+						alt="Card image">
+						<div
+							class="service-work-vertical card-img-overlay d-flex align-items-end">
+							<div class="service-work-content text-left text-light">
+								<span
+									class="btn btn-outline-light rounded-pill mb-lg-3 px-lg-4 light-300">Graphic</span>
+								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
+									adipisicing</p>
+							</div>
+						</div>
+					</a>
+				</div>
+				<!-- End Recent Work -->
+
+				<!-- Start Recent Work -->
+				<div class="col-xl-3 col-md-4 col-sm-6 project ui graphic">
+					<a href="#"
+						class="service-work card border-0 text-white shadow-sm overflow-hidden mx-5 m-sm-0">
+						<img class="card-img" src="./assets/img/services-05.jpg"
+						alt="Card image">
+						<div
+							class="service-work-vertical card-img-overlay d-flex align-items-end">
+							<div class="service-work-content text-left text-light">
+								<span
+									class="btn btn-outline-light rounded-pill mb-lg-3 px-lg-4 light-300">Digtal
+									Marketing</span>
+								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
+									adipisicing</p>
+							</div>
+						</div>
+					</a>
+				</div>
+				<!-- End Recent Work -->
+
+				<!-- Start Recent Work -->
+				<div class="col-xl-3 col-md-4 col-sm-6 project branding">
+					<a href="#"
+						class="service-work card border-0 text-white shadow-sm overflow-hidden mx-5 m-sm-0">
+						<img class="card-img" src="./assets/img/services-06.jpg"
+						alt="Card image">
+						<div
+							class="service-work-vertical card-img-overlay d-flex align-items-end">
+							<div class="service-work-content text-left text-light">
+								<span
+									class="btn btn-outline-light rounded-pill mb-lg-3 px-lg-4 light-300">Market
+									Research</span>
+								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
+									adipisicing</p>
+							</div>
+						</div>
+					</a>
+				</div>
+				<!-- End Recent Work -->
+
+				<!-- Start Recent Work -->
+				<div class="col-xl-3 col-md-4 col-sm-6 project branding">
+					<a href="#"
+						class="service-work card border-0 text-white shadow-sm overflow-hidden mx-5 m-sm-0">
+						<img class="card-img" src="./assets/img/services-07.jpg"
+						alt="Card image">
+						<div
+							class="service-work-vertical card-img-overlay d-flex align-items-end">
+							<div class="service-work-content text-left text-light">
+								<span
+									class="btn btn-outline-light rounded-pill mb-lg-3 px-lg-4 light-300">Business</span>
+								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
+									adipisicing</p>
+							</div>
+						</div>
+					</a>
+				</div>
+				<!-- End Recent Work -->
+
+				<!-- Start Recent Work -->
+				<div class="col-xl-3 col-md-4 col-sm-6 project ui graphic branding">
+					<a href="#"
+						class="service-work card border-0 text-white shadow-sm overflow-hidden mx-5 m-sm-0">
+						<img class="card-img" src="./assets/img/services-08.jpg"
+						alt="Card image">
+						<div
+							class="service-work-vertical card-img-overlay d-flex align-items-end">
+							<div class="service-work-content text-left text-light">
+								<span
+									class="btn btn-outline-light rounded-pill mb-lg-3 px-lg-4 light-300">Branding</span>
+								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
+									adipisicing</p>
+							</div>
+						</div>
+					</a>
+				</div>
+				<!-- End Recent Work -->
+
+			</div>
+		</section>
+		<!-- End Service -->
+
+		<!-- Start View Work -->
+		<section class="bg-secondary">
+			<div class="container py-5">
+				<div class="row d-flex justify-content-center text-center">
+					<div class="col-lg-2 col-12 text-light align-items-center">
+						<i class='display-1 bx bxs-box bx-lg'></i>
+					</div>
+					<div class="col-lg-7 col-12 text-light pt-2">
+						<h3 class="h4 light-300">Great transformations successful</h3>
+						<p class="light-300">Quis ipsum suspendisse ultrices gravida.</p>
+					</div>
+					<div class="col-lg-3 col-12 pt-4">
+						<a href="#"
+							class="btn btn-primary rounded-pill btn-block shadow px-4 py-2">View
+							Our Work</a>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- End View Work -->
+
+		<!-- Start Recent Work -->
+		<section class="py-5 mb-5">
+			<div class="container">
+				<div class="recent-work-header row text-center pb-5">
+					<h2 class="col-md-6 m-auto h2 semi-bold-600 py-5">Recent Works</h2>
+				</div>
+				<div class="row gy-5 g-lg-5 mb-4">
+
+					<!-- Start Recent Work -->
+					<div class="col-md-4 mb-3">
+						<a href="#"
+							class="recent-work card border-0 shadow-lg overflow-hidden">
+							<img class="recent-work-img card-img"
+							src="./assets/img/recent-work-01.jpg" alt="Card image">
+							<div
+								class="recent-work-vertical card-img-overlay d-flex align-items-end">
+								<div class="recent-work-content text-start mb-3 ml-3 text-dark">
+									<h3 class="card-title light-300">Social Media</h3>
+									<p class="card-text">Ullamco laboris nisi ut aliquip ex</p>
+								</div>
+							</div>
+						</a>
+					</div>
+					<!-- End Recent Work -->
+
+					<!-- Start Recent Work -->
+					<div class="col-md-4 mb-3">
+						<a href="#"
+							class="recent-work card border-0 shadow-lg overflow-hidden">
+							<img class="recent-work-img card-img"
+							src="./assets/img/recent-work-02.jpg" alt="Card image">
+							<div
+								class="recent-work-vertical card-img-overlay d-flex align-items-end">
+								<div class="recent-work-content text-start mb-3 ml-3 text-dark">
+									<h3 class="card-title light-300">Web Marketing</h3>
+									<p class="card-text">Psum officia anim id est laborum.</p>
+								</div>
+							</div>
+						</a>
+					</div>
+					<!-- End Recent Work -->
+
+					<!-- Start Recent Work -->
+					<div class="col-md-4 mb-3">
+						<a href="#"
+							class="recent-work card border-0 shadow-lg overflow-hidden">
+							<img class="recent-work-img card-img"
+							src="./assets/img/recent-work-03.jpg" alt="Card image">
+							<div
+								class="recent-work-vertical card-img-overlay d-flex align-items-end">
+								<div class="recent-work-content text-start mb-3 ml-3 text-dark">
+									<h3 class="card-title light-300">R & D</h3>
+									<p class="card-text">Sum dolor sit consencutur</p>
+								</div>
+							</div>
+						</a>
+					</div>
+					<!-- End Recent Work -->
+
+					<!-- Start Recent Work -->
+					<div class="col-md-4 mb-3">
+						<a href="#"
+							class="recent-work card border-0 shadow-lg overflow-hidden">
+							<img class="recent-work-img card-img"
+							src="./assets/img/recent-work-04.jpg" alt="Card image">
+							<div
+								class="recent-work-vertical card-img-overlay d-flex align-items-end">
+								<div class="recent-work-content text-start mb-3 ml-3 text-dark">
+									<h3 class="card-title light-300">Public Relation</h3>
+									<p class="card-text">Lorem ipsum dolor sit amet</p>
+								</div>
+							</div>
+						</a>
+					</div>
+					<!-- End Recent Work -->
+
+					<!-- Start Recent Work -->
+					<div class="col-md-4 mb-3">
+						<a href="#"
+							class="recent-work card border-0 shadow-lg overflow-hidden">
+							<img class="recent-work-img card-img"
+							src="./assets/img/recent-work-05.jpg" alt="Card image">
+							<div
+								class="recent-work-vertical card-img-overlay d-flex align-items-end">
+								<div class="recent-work-content text-start mb-3 ml-3 text-dark">
+									<h3 class="card-title light-300">Branding</h3>
+									<p class="card-text">Put enim ad minim veniam</p>
+								</div>
+							</div>
+						</a>
+					</div>
+					<!-- End Recent Work -->
+
+					<!-- Start Recent Work -->
+					<div class="col-md-4 mb-3">
+						<a href="#"
+							class="recent-work card border-0 shadow-lg overflow-hidden">
+							<img class="recent-work-img card-img"
+							src="./assets/img/recent-work-06.jpg" alt="Card image">
+							<div
+								class="recent-work-vertical card-img-overlay d-flex align-items-end">
+								<div class="recent-work-content text-start mb-3 ml-3 text-dark">
+									<h3 class="card-title light-300">Creative Design</h3>
+									<p class="card-text">Mollit anim id est laborum.</p>
+								</div>
+							</div>
+						</a>
+					</div>
+					<!-- End Recent Work -->
+
+				</div>
+			</div>
+		</section>
+		<!-- End Recent Work -->
+	</th:block>
+
+	<th:block id="resources-footer">
+		<script>
+			$(document).ready(function() {
+				$("#ser-input").focus(function() {
+					$('.search-full-view').addClass("search-normal-screen");
+					$("#ser-input").hide(200);
+					$("#search-input").focus();
+				});
+
+				$("#search-close").click(function() {
+					$('.search-full-view').removeClass("search-normal-screen");
+					$("#ser-input").show(200);
+				});
+			});
+		</script>
+	</th:block>
+</body>
+</html>

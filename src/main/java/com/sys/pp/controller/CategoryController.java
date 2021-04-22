@@ -37,6 +37,11 @@ public class CategoryController {
 		return "layouts/admin/category-list";
 	}
 
+	/**
+	 * Read by page
+	 * 
+	 * @return JSON List<Category>
+	 */
 	@ResponseBody
 	@RequestMapping(path = "/get/{page}", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
 	public List<Category> loadData(@PathVariable Integer page) {
@@ -46,24 +51,51 @@ public class CategoryController {
 		return categoryService.findByPageNumber(page);
 	}
 	
+	/**
+	 * Read one
+	 * 
+	 * @return JSON Category
+	 */
 	@ResponseBody
 	@RequestMapping(path = "/get/one/{id}", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
 	public Optional<Category> getById(@PathVariable Integer id) {
 		return categoryService.findById(id);
 	}
 
+	/**
+	 * Delete by key
+	 * @param Integer id
+	 * 
+	 * @return none
+	 */
 	@ResponseBody
 	@RequestMapping(path = "/delete/{id}", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
 	public void deleteById(@PathVariable Integer id) {
 		categoryService.removeById(id);
 	}
 
+	/**
+	 * Find parent category
+	 * 
+	 * @return JSON List<Category>
+	 */
 	@ResponseBody
 	@RequestMapping(path = "/parent", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
 	public List<Category> findByParentCategory() {
 		return categoryService.findByParentCategory();
 	}
 
+	
+	/**
+	 * Post a category
+	 * @param Map<String, String> paramater
+	 * Key map:
+	 * * categoryName
+	 * * price
+	 * * categoryIdParent
+	 * 
+	 * @return status, obj added
+	 */
 	@ResponseBody
 	@PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json; charset=UTF-8")
 	public Object saveCategory(@RequestBody Map<String, String> paramater) {
@@ -89,6 +121,16 @@ public class CategoryController {
 		}
 	}
 
+	/**
+	 * Update a category
+	 * @param Map<String, String> paramater
+	 * Key map:
+	 * * categoryName
+	 * * price
+	 * * categoryIdParent
+	 * 
+	 * @return status, obj added
+	 */
 	@ResponseBody
 	@PostMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json; charset=UTF-8")
 	public Object updateCategory(@RequestBody Map<String, String> paramater, @PathVariable Integer id) {
