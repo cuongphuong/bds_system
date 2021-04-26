@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Arrays;
+import java.util.Date;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.sys.pp.util.DateUtil;
 
 @Controller
 @RequestMapping("upload")
@@ -37,9 +40,9 @@ public class UploadFileController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/multi-file/{ip}/{hashTime}", method = RequestMethod.POST)
+	@RequestMapping(value = "/multi-file/{date}/{ip}/{hashTime}", method = RequestMethod.POST)
 	public String uploadMultiFileHandlerPOST(@RequestParam("file") MultipartFile file, @PathVariable String hashTime,
-			@PathVariable String ip) {
+			@PathVariable String date, @PathVariable String ip) {
 		try {
 			if (!Arrays.asList(ContentType.IMAGE_JPEG.getMimeType(), ContentType.IMAGE_PNG.getMimeType(),
 					ContentType.IMAGE_GIF.getMimeType()).contains(file.getContentType())) {
@@ -48,6 +51,8 @@ public class UploadFileController {
 
 			StringBuilder clientPath = new StringBuilder();
 			clientPath.append(DEFAULT_FOLDER_UPLOAD);
+			clientPath.append(File.separator);
+			clientPath.append(date);
 			clientPath.append(File.separator);
 			clientPath.append(ip);
 			clientPath.append(File.separator);
@@ -70,14 +75,14 @@ public class UploadFileController {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "FILE IS NOT SUPPORT");
 		}
 	}
-	
+
 	private static String makeDefaultPath() {
 		StringBuilder defaultPath = new StringBuilder();
 		defaultPath.append(File.separator);
 		defaultPath.append("temp");
 		defaultPath.append(File.separator);
 		defaultPath.append("upload");
-		
+
 		return defaultPath.toString();
 	}
 }

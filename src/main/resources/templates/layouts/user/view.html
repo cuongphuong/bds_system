@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{layouts/user/main-layout::main-fragment(  
+  th:replace="~{layouts/user/main-layout::main-fragment(  
                 ~{::title},
                 ~{:: #products-static-resources},
                 ~{:: #products-main-content},  
@@ -9,116 +9,178 @@
 <head>
 <title>Chi tiết bài viết</title>
 <th:block id="products-static-resources">
-	<!-- Add Google API Key -->
-	<script
-		src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAdyQ9iItZxYKPC78kk9-f-nt5dQJMTZH4&sensor=false">
-		
-	</script>
-	<script>
-		//Khoi tao Map
-		function initialize() {
-			//Khai bao cac thuoc tinh
-			var mapProp = {
-				//Tam ban do, quy dinh boi kinh do va vi do
-				center : new google.maps.LatLng(14.058324, 108.277199),
-				//set default zoom cua ban do khi duoc load
-				zoom : 6,
-				//Dinh nghia type
-				mapTypeId : google.maps.MapTypeId.ROADMAP
-			};
-			//Truyen tham so cho cac thuoc tinh Map cho the div chua Map
-			var map = new google.maps.Map(document.getElementById("googleMap"),
-					mapProp);
-		}
-		google.maps.event.addDomListener(window, 'load', initialize);
-	</script>
+  <!-- Add Google API Key -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script
+    src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAdyQ9iItZxYKPC78kk9-f-nt5dQJMTZH4&sensor=false">
+      
+    </script>
+  <script>
+      //Khoi tao Map
+      function initialize() {
+        //Khai bao cac thuoc tinh
+        var mapProp = {
+          //Tam ban do, quy dinh boi kinh do va vi do
+          center : new google.maps.LatLng(14.058324, 108.277199),
+          //set default zoom cua ban do khi duoc load
+          zoom : 6,
+          //Dinh nghia type
+          mapTypeId : google.maps.MapTypeId.ROADMAP
+        };
+        //Truyen tham so cho cac thuoc tinh Map cho the div chua Map
+        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
 </th:block>
 </head>
-
 <body>
-	<th:block id="products-main-content">
-		<div class="container" style="padding: 10px;">
-			<div class="row">
-				<div class="col-md-8">
-					<div class="full-screen-show">
-						<div id="carouselExampleIndicators" class="carousel slide"
-							data-bs-ride="carousel">
-							<ol class="carousel-indicators">
-								<li data-bs-target="#carouselExampleIndicators"
-									data-bs-slide-to="0" class="active"></li>
-								<li data-bs-target="#carouselExampleIndicators"
-									data-bs-slide-to="1"></li>
-								<li data-bs-target="#carouselExampleIndicators"
-									data-bs-slide-to="2"></li>
-							</ol>
-							<div class="carousel-inner">
-								<div class="carousel-item active">
-									<img class="d-block w-100" src="/assets/img/slide2.png"
-										alt="Second slide">
-								</div>
-								<div class="carousel-item">
-									<img class="d-block w-100" src="/assets/img/slide1.png"
-										alt="Third slide">
-								</div>
-							</div>
-							<a class="carousel-control-prev text-decoration-none"
-								href="#carouselExampleIndicators" role="button"
-								data-bs-slide="prev"> <i class='bx bx-chevron-left'></i> <span
-								class="visually-hidden">Previous</span>
-							</a> <a class="carousel-control-next text-decoration-none"
-								href="#carouselExampleIndicators" role="button"
-								data-bs-slide="next"> <i class='bx bx-chevron-right'></i> <span
-								class="visually-hidden">Next</span>
-							</a>
-						</div>
-					</div>
-
-					<nav aria-label="breadcrumb" style="padding-top: 10px">
-						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="#">Bán</a></li>
-							<li class="breadcrumb-item"><a href="#">Dự án</a></li>
-							<li class="breadcrumb-item active" aria-current="page">Đất
-								nền dự án tại Khu đô thị Quảng Hồng</li>
-						</ol>
-					</nav>
-
-					<h3>NHẬN ĐẶT CỌC GIỮ CHỖ BIỆT THỰ BAO BIỂN 300M2, MT 15M CHỦ
-						ĐẦU TƯ</h3>
-					<p style="color: #333;">Dự án Khu đô thị Quảng Hồng, Đường Quốc
-						lộ 18A, Phường Cẩm Sơn, Cẩm Phả, Quảng Ninh</p>
-
-
-					<div
-						style="border-top: solid 1px #ddd; border-bottom: solid 1px #ddd;">
-						<div class="row">
-							<div class="col-md-4">
-								<table class="table table-borderless">
-									<thead>
-										<tr>
-											<td>Mức giá</td>
-											<td>Diện tích</td>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td style="font-size: 20px; font-weight: bold;">Thỏa
-												thuận</td>
-											<td style="font-size: 20px; font-weight: bold;">300m²</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-							<div class="col-md-4"></div>
-							<div class="col-md-4"></div>
-						</div>
-					</div>
-
-					<div class="thong-tin-mo-ta"
-						style="border: solid 1px #ddd; padding: 10px; margin-top: 20px">
-						<h3>Thông tin mô tả</h3>
-
-						<pre
-							style="font-family: Montserrat, sans-serif; font-size: 1rem; overflow: hidden;">
+  <th:block id="products-main-content">
+    <div class="container" style="padding: 10px;">
+      <div class="row">
+        <div class="col-md-8">
+          <nav aria-label="breadcrumb" style="padding-top: 10px">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Bán</a></li>
+              <li class="breadcrumb-item"><a href="#">Dự án</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Đất nền dự án tại Khu đô
+                thị Quảng Hồng</li>
+            </ol>
+          </nav>
+          <div class="full-screen-show">
+            <div id="templatemo-slide-link-target" class="mb-3">
+              <img class="img-fluid border rounded" src="/assets/img/work-slide-04.jpg"
+                alt="Card image cap">
+            </div>
+            <div class="worksingle-slide-footer row">
+              <div class="col-1 align-self-center">
+                <a href="#multi-item-example" role="button" data-bs-slide="prev"> <i
+                  class='bx bxs-chevron-left bx-sm text-dark'></i>
+                </a>
+              </div>
+              <div id="multi-item-example" class="col-10 carousel slide" data-bs-ride="carousel">
+                <!--Start Slides-->
+                <div class="carousel-inner" role="listbox">
+                  <!--First slide-->
+                  <div class="carousel-item active">
+                    <div class="row">
+                      <div class="col">
+                        <a class="templatemo-slide-link" href="/assets/img/work-slide-06.jpg"> <img
+                          class="img-fluid border rounded" src="/assets/img/work-slide-06-small.jpg"
+                          alt="Product Image">
+                        </a>
+                      </div>
+                      <div class="col">
+                        <a class="templatemo-slide-link" href="/assets/img/work-slide-05.jpg"> <img
+                          class="img-fluid border rounded" src="/assets/img/work-slide-05-small.jpg"
+                          alt="Product Image">
+                        </a>
+                      </div>
+                      <div class="col">
+                        <a class="templatemo-slide-link" href="/assets/img/work-slide-04.jpg"> <img
+                          class="img-fluid border rounded" src="/assets/img/work-slide-04-small.jpg"
+                          alt="Product Image">
+                        </a>
+                      </div>
+                      <div class="col">
+                        <a class="templatemo-slide-link" href="/assets/img/work-slide-03.jpg"> <img
+                          class="img-fluid border rounded" src="/assets/img/work-slide-03-small.jpg"
+                          alt="Product Image">
+                        </a>
+                      </div>
+                      <div class="col">
+                        <a class="templatemo-slide-link" href="/assets/img/work-slide-01.jpg"> <img
+                          class="img-fluid border rounded" src="/assets/img/work-slide-01-small.jpg"
+                          alt="Product Image">
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <div class="row">
+                      <div class="col">
+                        <a class="templatemo-slide-link" href="/assets/img/work-slide-01.jpg"> <img
+                          class="img-fluid border rounded" src="/assets/img/work-slide-01-small.jpg"
+                          alt="Product Image">
+                        </a>
+                      </div>
+                      <div class="col">
+                        <a class="templatemo-slide-link" href="/assets/img/work-slide-03.jpg"> <img
+                          class="img-fluid border rounded" src="/assets/img/work-slide-03-small.jpg"
+                          alt="Product Image">
+                        </a>
+                      </div>
+                      <div class="col">
+                        <a class="templatemo-slide-link" href="/assets/img/work-slide-02.jpg"> <img
+                          class="img-fluid border rounded" src="/assets/img/work-slide-02-small.jpg"
+                          alt="Product Image">
+                        </a>
+                      </div>
+                      <div class="col">
+                        <a class="templatemo-slide-link" href="/assets/img/work-slide-01.jpg"> <img
+                          class="img-fluid border rounded" src="/assets/img/work-slide-01-small.jpg"
+                          alt="Product Image">
+                        </a>
+                      </div>
+                      <div class="col">
+                        <a class="templatemo-slide-link" href="/assets/img/work-slide-06.jpg"> <img
+                          class="img-fluid border rounded" src="/assets/img/work-slide-06-small.jpg"
+                          alt="Product Image">
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-1 align-self-center text-end">
+                <a href="#multi-item-example" role="button" data-bs-slide="next"> <i
+                  class='bx bxs-chevron-right bx-sm text-dark'></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="tieu-de" style="border: solid 1px #ddd; padding: 10px; margin-top: 20px">
+            <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">NHẬN ĐẶT CỌC GIỮ
+              CHỖ BIỆT THỰ BAO BIỂN 300M2, MT 15M CHỦ ĐẦU TƯ</h2>
+            <p style="color: #333; margin-top: 20px">Dự án Khu đô thị Quảng Hồng, Đường Quốc lộ
+              18A, Phường Cẩm Sơn, Cẩm Phả, Quảng Ninh</p>
+            <div style="border-top: solid 1px #ddd; padding-top: 10px;">
+              <div class="row">
+                <div class="col-md-4">
+                  <table class="table table-borderless" style="border-bottom: none">
+                    <thead>
+                      <tr>
+                        <td>Mức giá</td>
+                        <td>Diện tích</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style="font-size: 20px; font-weight: bold;">Thỏa thuận</td>
+                        <td style="font-size: 20px; font-weight: bold;">300m²</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                  <div class='like-button'>
+                    <div class='like-icon'>
+                      <div class='heart-animation-1'></div>
+                      <div class='heart-animation-2'></div>
+                    </div>
+                    Lưu tin
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="thong-tin-mo-ta"
+            style="border: solid 1px #ddd; padding: 10px; margin-top: 20px">
+            <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Thông tin mô tả</h2>
+            <pre
+              style="font-family: Montserrat, sans-serif; font-size: 1rem; overflow: hidden; margin-top: 20px">
 Thông tin mô tả
 1, Vị trí.
 + Đắc địa nhất dự án với đường bao biển 6 làn xe, view Vịnh.
@@ -141,71 +203,128 @@ Thông tin mô tả
 5, Năm 2021 đường đôi 30m thông sang Vincom và đường bao biển đi qua dự án giá bất động sản sẽ tăng 30% - 50%.
 Dự kiến 2022 đường bao biển giai đoạn 2 sẽ đi qua, cơ hội X2, X3 tài sản.
 					</pre>
-					</div>
+            <div class="ratio ratio-16x9">
+              <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/1z--ZRS5x5U"
+                allowfullscreen></iframe>
+            </div>
+          </div>
+          <div class="dat-diem-bds" style="border: solid 1px #ddd; padding: 10px; margin-top: 20px">
+            <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Đặc điểm bất động
+              sản</h2>
+            <table style="margin-top: 10px;" class="table table-borderless">
+              <tbody>
+                <tr>
+                  <td style="font-weight: bold; color: #555;">Loại tin đăng:</td>
+                  <td>@mdo</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: bold; color: #555;">Dự án:</td>
+                  <td>@twitter</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: bold; color: #555;">Địa chỉ:</td>
+                  <td>@fat</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: bold; color: #555;">Mặt tiền:</td>
+                  <td>@twitter</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: bold; color: #555;">Hướng nhà:</td>
+                  <td>@twitter</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: bold; color: #555;">Hướng ban công:</td>
+                  <td>@twitter</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="ban-do" style="border: solid 1px #ddd; padding: 5px; margin-top: 20px;">
+            <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Bản đồ</h2>
+            <div class="col-md-12">
+              <div style="box-shadow: 1px 0px 10px #ddd; height: 400px" id="googleMap"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4" style="padding-top: 48px;">
+          <div class="card">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <p class="card-text">This is a longer card with supporting text below as a natural
+                lead-in to additional content. This content is a little bit longer.</p>
+              <p class="card-text">
+                <small class="text-muted">Last updated 3 mins ago</small>
+              </p>
+            </div>
+          </div>
+          <div classs="list-du-an">
+            <h4>Thêm bất động sản cho quận xx</h4>
+            <ol class="list-group list-group-numbered">
+              <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold">Subheading</div>
+                  Cras justo odio
+                </div> <span class="badge bg-primary rounded-pill">14</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold">Subheading</div>
+                  Cras justo odio
+                </div> <span class="badge bg-primary rounded-pill">14</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold">Subheading</div>
+                  Cras justo odio
+                </div> <span class="badge bg-primary rounded-pill">14</span>
+              </li>
+            </ol>
+          </div>
+          <div classs="list-danh-muc" style="margin-top: 20px">
+            <h4>Danh mục</h4>
+            <ul class="list-group list-group-flush" style="border: solid 1px #ddd; padding: 10px;">
+              <li class="list-group-item">An item</li>
+              <li class="list-group-item">A second item</li>
+              <li class="list-group-item">A third item</li>
+              <li class="list-group-item">A fourth item</li>
+              <li class="list-group-item">And a fifth one</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </th:block>
+  <th:block id="resources-footer">
+    <script>
+          $(document).ready(function() {
+            $("#frame_size").height($("#image_size_copy").height() - 2);
 
+            $('.carousel').carousel({
+              interval : false,
+            });
 
-					<div class="dat-diem-bds"
-						style="border: solid 1px #ddd; padding: 10px; margin-top: 20px">
-						<h3>Đặc điểm bất động sản</h3>
+            $('div.like-button').on('click', function(e) {
+              $(this).toggleClass('liked');
 
-						<table class="table table-borderless">
-							<tbody>
-								<tr>
-									<td style="font-weight: bold; color: #555;">Loại tin đăng:</td>
-									<td>@mdo</td>
-								</tr>
-								<tr>
-									<td style="font-weight: bold; color: #555;">Dự án:</td>
-									<td>@twitter</td>
-								</tr>
-								<tr>
-									<td style="font-weight: bold; color: #555;">Địa chỉ:</td>
-									<td>@fat</td>
-								</tr>
-								<tr>
-									<td style="font-weight: bold; color: #555;">Mặt tiền:</td>
-									<td>@twitter</td>
-								</tr>
-								<tr>
-									<td style="font-weight: bold; color: #555;">Hướng nhà:</td>
-									<td>@twitter</td>
-								</tr>
-								<tr>
-									<td style="font-weight: bold; color: #555;">Hướng ban công:</td>
-									<td>@twitter</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-
-					<div class="ban-do"
-						style="border: solid 1px #ddd; padding: 5px; margin-top: 20px;">
-						<h3 style="padding: 10px;">Bản đồ</h3>
-						<div class="col-md-12">
-							<div style="box-shadow: 1px 0px 10px #ddd; height: 400px"
-								id="googleMap"></div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="card">
-						<img src="..." class="card-img-top" alt="...">
-						<div class="card-body">
-							<h5 class="card-title">Card title</h5>
-							<p class="card-text">This is a longer card with supporting
-								text below as a natural lead-in to additional content. This
-								content is a little bit longer.</p>
-							<p class="card-text">
-								<small class="text-muted">Last updated 3 mins ago</small>
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</th:block>
-
-	<th:block id="resources-footer">
-	</th:block>
+              //setTimeout(() => {
+              //    $(e.target).removeClass('liked')
+              //  }, 2000)
+            });
+          });
+        </script>
+    <script>
+          $(window).load(function() {
+            // Slide
+            $('.templatemo-slide-link').click(function() {
+              var this_href = $(this).attr('href');
+              $('#templatemo-slide-link-target img').attr('src', this_href);
+              return false;
+            });
+            // End Slide
+          });
+        </script>
+  </th:block>
 </body>
 </html>

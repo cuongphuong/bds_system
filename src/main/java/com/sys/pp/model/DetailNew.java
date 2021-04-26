@@ -21,15 +21,23 @@ public class DetailNew implements Serializable {
 
 	private double acreage;
 
+	@Column(name="contact_ind")
+	private int contactInd;
+
 	private String description;
 
 	private String direction;
+
+	@Column(name="district_id")
+	private int districtId;
 
 	@Column(name="entrance_width")
 	private double entranceWidth;
 
 	@Column(name="floors_num")
 	private int floorsNum;
+
+	private String formality;
 
 	@Column(name="front_width")
 	private double frontWidth;
@@ -47,14 +55,30 @@ public class DetailNew implements Serializable {
 
 	private BigDecimal price;
 
+	@Column(name="project_id")
+	private int projectId;
+
+	@Column(name="province_id")
+	private int provinceId;
+
 	@Column(name="room_num")
 	private int roomNum;
+
+	@Column(name="street_id")
+	private int streetId;
 
 	@Column(name="toilet_num")
 	private int toiletNum;
 
-	//bi-directional one-to-one association to BdsNew
-	@OneToOne(mappedBy="detailNew")
+	@Column(name="video_url")
+	private String videoUrl;
+
+	@Column(name="ward_id")
+	private int wardId;
+
+	//bi-directional one-to-one association to Bds_new
+	@OneToOne
+	@JoinColumn(name="news_id")
 	private BdsNew bdsNew;
 
 	public DetailNew() {
@@ -76,6 +100,14 @@ public class DetailNew implements Serializable {
 		this.acreage = acreage;
 	}
 
+	public int getContactInd() {
+		return this.contactInd;
+	}
+
+	public void setContactInd(int contactInd) {
+		this.contactInd = contactInd;
+	}
+
 	public String getDescription() {
 		return this.description;
 	}
@@ -92,6 +124,14 @@ public class DetailNew implements Serializable {
 		this.direction = direction;
 	}
 
+	public int getDistrictId() {
+		return this.districtId;
+	}
+
+	public void setDistrictId(int districtId) {
+		this.districtId = districtId;
+	}
+
 	public double getEntranceWidth() {
 		return this.entranceWidth;
 	}
@@ -106,6 +146,14 @@ public class DetailNew implements Serializable {
 
 	public void setFloorsNum(int floorsNum) {
 		this.floorsNum = floorsNum;
+	}
+
+	public String getFormality() {
+		return this.formality;
+	}
+
+	public void setFormality(String formality) {
+		this.formality = formality;
 	}
 
 	public double getFrontWidth() {
@@ -164,6 +212,22 @@ public class DetailNew implements Serializable {
 		this.price = price;
 	}
 
+	public int getProjectId() {
+		return this.projectId;
+	}
+
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
+	}
+
+	public int getProvinceId() {
+		return this.provinceId;
+	}
+
+	public void setProvinceId(int provinceId) {
+		this.provinceId = provinceId;
+	}
+
 	public int getRoomNum() {
 		return this.roomNum;
 	}
@@ -172,12 +236,36 @@ public class DetailNew implements Serializable {
 		this.roomNum = roomNum;
 	}
 
+	public int getStreetId() {
+		return this.streetId;
+	}
+
+	public void setStreetId(int streetId) {
+		this.streetId = streetId;
+	}
+
 	public int getToiletNum() {
 		return this.toiletNum;
 	}
 
 	public void setToiletNum(int toiletNum) {
 		this.toiletNum = toiletNum;
+	}
+
+	public String getVideoUrl() {
+		return this.videoUrl;
+	}
+
+	public void setVideoUrl(String videoUrl) {
+		this.videoUrl = videoUrl;
+	}
+
+	public int getWardId() {
+		return this.wardId;
+	}
+
+	public void setWardId(int wardId) {
+		this.wardId = wardId;
 	}
 
 	public BdsNew getBdsNew() {

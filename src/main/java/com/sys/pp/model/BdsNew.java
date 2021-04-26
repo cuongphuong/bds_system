@@ -12,57 +12,42 @@ import java.util.Date;
  */
 @Entity
 @Table(name="`bds_ news`")
-@NamedQuery(name="BdsNew.findAll", query="SELECT b FROM BdsNew b")
+@NamedQuery(name="Bds_new.findAll", query="SELECT b FROM BdsNew b")
 public class BdsNew implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="news_id")
 	private int newsId;
 
 	@Column(name="category_id")
 	private int categoryId;
 
-	@Column(name="contact_ind")
-	private String contactInd;
-
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="create_at")
-	private String createAt;
+	private Date createAt;
 
 	@Column(name="create_by")
-	private int createBy;
-
-	@Column(name="district_id")
-	private int districtId;
+	private String createBy;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="end_date")
 	private Date endDate;
 
-	private int formality;
-
 	private BigDecimal price;
-
-	private int project;
-
-	@Column(name="province_id")
-	private int provinceId;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="start_date")
 	private Date startDate;
-
-	@Column(name="street_id")
-	private int streetId;
+	
+	@Column(name="status_flg")
+	private String statusFlg;
 
 	private String title;
 
-	@Column(name="ward_id")
-	private int wardId;
-
 	//bi-directional one-to-one association to DetailNew
-	@OneToOne
-	@JoinColumn(name="news_id")
+	@OneToOne(mappedBy="bdsNew")
 	private DetailNew detailNew;
 
 	public BdsNew() {
@@ -84,36 +69,20 @@ public class BdsNew implements Serializable {
 		this.categoryId = categoryId;
 	}
 
-	public String getContactInd() {
-		return this.contactInd;
-	}
-
-	public void setContactInd(String contactInd) {
-		this.contactInd = contactInd;
-	}
-
-	public String getCreateAt() {
+	public Date getCreateAt() {
 		return this.createAt;
 	}
 
-	public void setCreateAt(String createAt) {
+	public void setCreateAt(Date createAt) {
 		this.createAt = createAt;
 	}
 
-	public int getCreateBy() {
+	public String getCreateBy() {
 		return this.createBy;
 	}
 
-	public void setCreateBy(int createBy) {
+	public void setCreateBy(String createBy) {
 		this.createBy = createBy;
-	}
-
-	public int getDistrictId() {
-		return this.districtId;
-	}
-
-	public void setDistrictId(int districtId) {
-		this.districtId = districtId;
 	}
 
 	public Date getEndDate() {
@@ -124,36 +93,12 @@ public class BdsNew implements Serializable {
 		this.endDate = endDate;
 	}
 
-	public int getFormality() {
-		return this.formality;
-	}
-
-	public void setFormality(int formality) {
-		this.formality = formality;
-	}
-
 	public BigDecimal getPrice() {
 		return this.price;
 	}
 
 	public void setPrice(BigDecimal price) {
 		this.price = price;
-	}
-
-	public int getProject() {
-		return this.project;
-	}
-
-	public void setProject(int project) {
-		this.project = project;
-	}
-
-	public int getProvinceId() {
-		return this.provinceId;
-	}
-
-	public void setProvinceId(int provinceId) {
-		this.provinceId = provinceId;
 	}
 
 	public Date getStartDate() {
@@ -164,28 +109,12 @@ public class BdsNew implements Serializable {
 		this.startDate = startDate;
 	}
 
-	public int getStreetId() {
-		return this.streetId;
-	}
-
-	public void setStreetId(int streetId) {
-		this.streetId = streetId;
-	}
-
 	public String getTitle() {
 		return this.title;
 	}
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public int getWardId() {
-		return this.wardId;
-	}
-
-	public void setWardId(int wardId) {
-		this.wardId = wardId;
 	}
 
 	public DetailNew getDetailNew() {
@@ -196,4 +125,11 @@ public class BdsNew implements Serializable {
 		this.detailNew = detailNew;
 	}
 
+	public String getStatusFlg() {
+		return statusFlg;
+	}
+
+	public void setStatusFlg(String statusFlg) {
+		this.statusFlg = statusFlg;
+	}
 }

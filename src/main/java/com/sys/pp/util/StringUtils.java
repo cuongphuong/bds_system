@@ -47,7 +47,7 @@ public class StringUtils {
 			return false;
 		return pat.matcher(email).matches();
 	}
-	
+
 	public static boolean isValidPhone(String phone) {
 		Pattern pattern = Pattern.compile("[0-9]{10}");
 		return pattern.matcher(phone).matches();
@@ -59,5 +59,17 @@ public class StringUtils {
 			sb.append(Integer.toString((data[i] & 0xff) + 0x100, 16).substring(1));
 		}
 		return sb.toString();
+	}
+
+	public static boolean isYoutubeUrl(String youTubeURl) {
+		boolean success;
+		String pattern = "^(http(s)?:\\/\\/)?((w){3}.)?youtu(be|.be)?(\\.com)?\\/.+";
+		if (!youTubeURl.isEmpty() && youTubeURl.matches(pattern)) {
+			success = true;
+		} else {
+			// Not Valid youtube URL
+			success = false;
+		}
+		return success;
 	}
 }

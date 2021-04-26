@@ -9,48 +9,59 @@ import javax.persistence.*;
  */
 @Embeddable
 public class ContactPK implements Serializable {
-	//default serial version id, required for serializable classes.
+	// default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="user_id")
-	private int userId;
+	@Column(name = "user_id")
+	private String userId;
 
 	private int ind;
 
 	public ContactPK() {
 	}
-	public int getUserId() {
+
+	public String getUserId() {
 		return this.userId;
 	}
-	public void setUserId(int userId) {
+
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
 	public int getInd() {
 		return this.ind;
 	}
+
 	public void setInd(int ind) {
 		this.ind = ind;
 	}
 
-	public boolean equals(Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (!(other instanceof ContactPK)) {
-			return false;
-		}
-		ContactPK castOther = (ContactPK)other;
-		return 
-			(this.userId == castOther.userId)
-			&& (this.ind == castOther.ind);
-	}
-
+	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int hash = 17;
-		hash = hash * prime + this.userId;
-		hash = hash * prime + this.ind;
-		
-		return hash;
+		int result = 1;
+		result = prime * result + ind;
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		return result;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ContactPK other = (ContactPK) obj;
+		if (ind != other.ind)
+			return false;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
+			return false;
+		return true;
+	}
+
 }

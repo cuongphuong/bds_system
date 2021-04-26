@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: 127.0.0.1
--- 生成日時: 2021-04-13 18:49:33
+-- 生成日時: 2021-04-26 19:20:10
 -- サーバのバージョン： 10.4.14-MariaDB
 -- PHP のバージョン: 7.4.10
 
@@ -30,19 +30,13 @@ SET time_zone = "+00:00";
 CREATE TABLE `bds_ news` (
   `news_id` int(11) NOT NULL,
   `category_id` int(11) DEFAULT NULL,
-  `title` varchar(45) DEFAULT NULL,
-  `formality` int(11) DEFAULT NULL,
-  `province_id` int(11) DEFAULT NULL,
-  `district_id` int(11) DEFAULT NULL,
-  `ward_id` int(11) DEFAULT NULL,
-  `street_id` int(11) DEFAULT NULL,
-  `project` int(11) DEFAULT NULL,
+  `title` varchar(200) DEFAULT NULL,
   `start_date` datetime DEFAULT NULL,
   `end_date` datetime DEFAULT NULL,
   `price` decimal(10,0) DEFAULT NULL,
-  `contact_ind` varchar(45) DEFAULT NULL,
-  `create_by` int(11) DEFAULT NULL,
-  `create_at` varchar(45) DEFAULT NULL
+  `create_by` varchar(10) DEFAULT NULL,
+  `create_at` datetime DEFAULT NULL,
+  `status_flg` int(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -63,8 +57,10 @@ CREATE TABLE `categorys` (
 --
 
 INSERT INTO `categorys` (`category_id`, `price`, `category_id_parent`, `category_name`) VALUES
-(1, '10000', 1, 'Nhà đất bán'),
-(69, '20000', 70, 'Phòng trọ cho thuê');
+(74, '10000', 0, 'Bán nhà các loại'),
+(75, '10000', 74, 'Nhà riêng'),
+(76, '10000', 74, 'Nhà biệt thự, liền kề'),
+(77, '10000', 74, 'Nhà mặt phố');
 
 -- --------------------------------------------------------
 
@@ -73,13 +69,23 @@ INSERT INTO `categorys` (`category_id`, `price`, `category_id_parent`, `category
 --
 
 CREATE TABLE `contacts` (
-  `user_id` int(11) NOT NULL,
+  `user_id` varchar(10) NOT NULL,
   `ind` int(11) NOT NULL,
   `contact_name` varchar(45) DEFAULT NULL,
   `phone` varchar(45) DEFAULT NULL,
-  `mobile_phone` varchar(45) DEFAULT NULL,
-  `email` varchar(45) DEFAULT NULL
+  `dia_chi` varchar(100) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
+  `mobile_phone` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- テーブルのデータのダンプ `contacts`
+--
+
+INSERT INTO `contacts` (`user_id`, `ind`, `contact_name`, `phone`, `dia_chi`, `email`, `mobile_phone`) VALUES
+('1', 1, 'Thùy Trang', '0123456719', 'Thừa Thiên Huế', NULL, NULL),
+('1', 2, 'Phương Cường', '0123456729', 'DakLak', 'cuongphuong@gmail.com', NULL),
+('1', 3, 'No Name', '0123456739', 'Đà Nẵng', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -89,18 +95,26 @@ CREATE TABLE `contacts` (
 
 CREATE TABLE `detail_news` (
   `news_id` int(11) NOT NULL,
+  `formality` varchar(10) DEFAULT NULL,
+  `province_id` int(10) DEFAULT NULL,
+  `district_id` int(10) DEFAULT NULL,
+  `ward_id` int(10) DEFAULT NULL,
+  `street_id` int(10) DEFAULT NULL,
+  `project_id` int(10) DEFAULT NULL,
+  `contact_ind` int(10) DEFAULT NULL,
   `direction` varchar(5) DEFAULT NULL,
   `front_width` double DEFAULT NULL,
   `entrance_width` double DEFAULT NULL,
-  `floors_num` int(11) DEFAULT NULL,
-  `room_num` int(11) DEFAULT NULL,
+  `floors_num` int(10) DEFAULT NULL,
+  `room_num` int(10) DEFAULT NULL,
   `furniture` varchar(100) DEFAULT NULL,
-  `toilet_num` int(11) DEFAULT NULL,
+  `toilet_num` int(10) DEFAULT NULL,
   `juridical_info` varchar(100) DEFAULT NULL,
   `images` varchar(1000) DEFAULT NULL,
   `lat` double DEFAULT NULL,
   `lng` double DEFAULT NULL,
   `description` varchar(200) DEFAULT NULL,
+  `video_url` varchar(100) DEFAULT NULL,
   `acreage` double DEFAULT NULL,
   `price` decimal(10,0) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -840,8 +854,8 @@ INSERT INTO `district` (`id`, `_name`, `_prefix`, `_province_id`) VALUES
 --
 
 CREATE TABLE `favourite` (
-  `user_id` int(11) NOT NULL,
-  `news_id` varchar(45) NOT NULL
+  `user_id` varchar(10) NOT NULL,
+  `news_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -4025,7 +4039,7 @@ INSERT INTO `province` (`id`, `_name`, `_code`) VALUES
 --
 
 CREATE TABLE `roles` (
-  `user_id` int(11) NOT NULL,
+  `user_id` varchar(10) NOT NULL,
   `role` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4034,8 +4048,8 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`user_id`, `role`) VALUES
-(1, 'ROLE_ADMIN'),
-(1, 'ROLE_USER');
+('1', 'ROLE_ADMIN'),
+('1', 'ROLE_USER');
 
 -- --------------------------------------------------------
 
@@ -35745,8 +35759,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `email`, `user_name`, `birthday`, `phone`, `credit`, `pass`) VALUES
-('1', 'admin@gmail.com', 'Cường', '1997-10-10 00:00:00', '0123456789', '10000', '$2a$10$SQhAcDGyt3iJhXEjkzQmtO37CIvTOIHYCbzArAob9SkLpHz3daZ3e'),
-('US00000002', 'newoisix90118@gmail.com', 'Cường1222', '1970-01-01 00:00:00', '0123456780', '0', '$2a$10$/RJ1buWFrmAuMkEj6Dqk7Ov0HAyfDyc7tK6uQCOEJY9XDhuRIgLSi');
+('1', 'admin@gmail.com', 'Cường', '1997-10-10 00:00:00', '0123456789', '41810000', '$2a$10$SQhAcDGyt3iJhXEjkzQmtO37CIvTOIHYCbzArAob9SkLpHz3daZ3e');
 
 -- --------------------------------------------------------
 
@@ -47066,7 +47079,9 @@ INSERT INTO `ward` (`id`, `_name`, `_prefix`, `_province_id`, `_district_id`) VA
 -- テーブルのインデックス `bds_ news`
 --
 ALTER TABLE `bds_ news`
-  ADD PRIMARY KEY (`news_id`);
+  ADD PRIMARY KEY (`news_id`),
+  ADD KEY `bds_new_to_category` (`category_id`),
+  ADD KEY `bds_new_to_users` (`create_by`);
 
 --
 -- テーブルのインデックス `categorys`
@@ -47097,14 +47112,16 @@ ALTER TABLE `district`
 -- テーブルのインデックス `favourite`
 --
 ALTER TABLE `favourite`
-  ADD PRIMARY KEY (`user_id`,`news_id`);
+  ADD PRIMARY KEY (`user_id`,`news_id`),
+  ADD KEY `favourite_to_bds_news` (`news_id`);
 
 --
 -- テーブルのインデックス `project`
 --
 ALTER TABLE `project`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `_province_id` (`_province_id`,`_district_id`);
+  ADD KEY `_province_id` (`_province_id`,`_district_id`),
+  ADD KEY `project_to__district_id` (`_district_id`);
 
 --
 -- テーブルのインデックス `province`
@@ -47123,7 +47140,8 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `street`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `_province_id` (`_province_id`,`_district_id`);
+  ADD KEY `_province_id` (`_province_id`,`_district_id`),
+  ADD KEY `street_to__district_id` (`_district_id`);
 
 --
 -- テーブルのインデックス `users`
@@ -47136,7 +47154,8 @@ ALTER TABLE `users`
 --
 ALTER TABLE `ward`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `_province_id` (`_province_id`,`_district_id`);
+  ADD KEY `_province_id` (`_province_id`,`_district_id`),
+  ADD KEY `_district_id_to__district_id` (`_district_id`);
 
 --
 -- ダンプしたテーブルのAUTO_INCREMENT
@@ -47146,13 +47165,13 @@ ALTER TABLE `ward`
 -- テーブルのAUTO_INCREMENT `bds_ news`
 --
 ALTER TABLE `bds_ news`
-  MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- テーブルのAUTO_INCREMENT `categorys`
 --
 ALTER TABLE `categorys`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- テーブルのAUTO_INCREMENT `district`
@@ -47192,7 +47211,57 @@ ALTER TABLE `ward`
 -- テーブルの制約 `bds_ news`
 --
 ALTER TABLE `bds_ news`
-  ADD CONSTRAINT `news_to_detail` FOREIGN KEY (`news_id`) REFERENCES `detail_news` (`news_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `bds_new_to_category` FOREIGN KEY (`category_id`) REFERENCES `categorys` (`category_id`),
+  ADD CONSTRAINT `bds_new_to_users` FOREIGN KEY (`create_by`) REFERENCES `users` (`user_id`);
+
+--
+-- テーブルの制約 `contacts`
+--
+ALTER TABLE `contacts`
+  ADD CONSTRAINT `dfgeftyg` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- テーブルの制約 `detail_news`
+--
+ALTER TABLE `detail_news`
+  ADD CONSTRAINT `to_news` FOREIGN KEY (`news_id`) REFERENCES `bds_ news` (`news_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- テーブルの制約 `district`
+--
+ALTER TABLE `district`
+  ADD CONSTRAINT `_district_id_to_province` FOREIGN KEY (`_province_id`) REFERENCES `province` (`id`);
+
+--
+-- テーブルの制約 `favourite`
+--
+ALTER TABLE `favourite`
+  ADD CONSTRAINT `favourite_to_bds_news` FOREIGN KEY (`news_id`) REFERENCES `bds_ news` (`news_id`),
+  ADD CONSTRAINT `favourite_to_bds_news_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+--
+-- テーブルの制約 `project`
+--
+ALTER TABLE `project`
+  ADD CONSTRAINT `project_to__district_id` FOREIGN KEY (`_district_id`) REFERENCES `district` (`id`);
+
+--
+-- テーブルの制約 `roles`
+--
+ALTER TABLE `roles`
+  ADD CONSTRAINT `roles_to_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+--
+-- テーブルの制約 `street`
+--
+ALTER TABLE `street`
+  ADD CONSTRAINT `street_to__district_id` FOREIGN KEY (`_district_id`) REFERENCES `district` (`id`);
+
+--
+-- テーブルの制約 `ward`
+--
+ALTER TABLE `ward`
+  ADD CONSTRAINT `_district_id_to__district_id` FOREIGN KEY (`_district_id`) REFERENCES `district` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

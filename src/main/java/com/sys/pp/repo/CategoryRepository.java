@@ -11,7 +11,7 @@ import com.sys.pp.model.Category;
 @Repository("CategoryRepository")
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
 	
-	@Query(value = "SELECT * FROM categorys WHERE category_id_parent <> 0", nativeQuery = true)
+	@Query(value = "SELECT * FROM categorys WHERE category_id_parent = 0", nativeQuery = true)
 	List<Category> findByParentCategory();
 	
 }

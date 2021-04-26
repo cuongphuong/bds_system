@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.sys.pp.model.Ward;
 
 @Repository("WardRepository")
-public interface WardRepository extends JpaRepository<Ward, String> {
+public interface WardRepository extends JpaRepository<Ward, Integer> {
 
 	@Query(value = "SELECT * FROM ward WHERE _district_id = :id", nativeQuery = true)
 	List<Ward> findByDistrictId(Integer id);
