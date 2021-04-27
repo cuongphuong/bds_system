@@ -26,6 +26,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.sys.pp.constant.GemRealtyConst;
 import com.sys.pp.constant.GemRealtyService;
+import com.sys.pp.constant.Names;
 import com.sys.pp.model.BdsNew;
 import com.sys.pp.model.Contact;
 import com.sys.pp.model.ContactPK;
@@ -138,6 +139,7 @@ public class PostController {
 				ContactPK pk = new ContactPK();
 				pk.setUserId(user.getUserId());
 				pk.setInd(contactService.registNewInd(user.getUserId()));
+				contact.setId(pk);
 				contactRepository.save(contact);
 			} else {
 				ContactPK pk = new ContactPK();
@@ -209,6 +211,7 @@ public class PostController {
 		bdsNew.setEndDate(DateUtil.convertFromString(paramater.get("endDate")));
 		bdsNew.setCreateAt(new Date());
 		bdsNew.setCreateBy(userId);
+		bdsNew.setStatusFlg(Names.FLAG_OFF);
 
 		// not require
 		if (!StringUtils.isNullOrEmpty(paramater.get("district_id"))) {

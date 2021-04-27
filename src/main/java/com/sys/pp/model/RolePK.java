@@ -13,16 +13,16 @@ public class RolePK implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="user_id")
-	private int userId;
+	private String userId;
 
 	private String role;
 
 	public RolePK() {
 	}
-	public int getUserId() {
+	public String getUserId() {
 		return this.userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 	public String getRole() {
@@ -31,26 +31,33 @@ public class RolePK implements Serializable {
 	public void setRole(String role) {
 		this.role = role;
 	}
-
-	public boolean equals(Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (!(other instanceof RolePK)) {
-			return false;
-		}
-		RolePK castOther = (RolePK)other;
-		return 
-			(this.userId == castOther.userId)
-			&& this.role.equals(castOther.role);
-	}
-
+	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int hash = 17;
-		hash = hash * prime + this.userId;
-		hash = hash * prime + this.role.hashCode();
-		
-		return hash;
+		int result = 1;
+		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RolePK other = (RolePK) obj;
+		if (role == null) {
+			if (other.role != null)
+				return false;
+		} else if (!role.equals(other.role))
+			return false;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
+			return false;
+		return true;
 	}
 }

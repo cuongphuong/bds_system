@@ -42,7 +42,7 @@ public class BdsNew implements Serializable {
 	private Date startDate;
 	
 	@Column(name="status_flg")
-	private String statusFlg;
+	private int statusFlg;
 
 	private String title;
 
@@ -125,11 +125,11 @@ public class BdsNew implements Serializable {
 		this.detailNew = detailNew;
 	}
 
-	public String getStatusFlg() {
+	public int getStatusFlg() {
 		return statusFlg;
 	}
 
-	public void setStatusFlg(String statusFlg) {
+	public void setStatusFlg(int statusFlg) {
 		this.statusFlg = statusFlg;
 	}
 }

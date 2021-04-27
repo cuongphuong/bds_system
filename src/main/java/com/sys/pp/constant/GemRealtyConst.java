@@ -7,7 +7,7 @@ import java.util.List;
 import com.sys.pp.controller.custommodel.KeyValue;
 
 public class GemRealtyConst {
-	public static String DEFAULT_IMAGE_FOLDER = "C:\\Users\\Cuong Phuong\\Desktop\\DOAN\\workspace\\BDS_system-1\\src\\main\\resources\\static\\image";
+	public static String DEFAULT_IMAGE_FOLDER = "D:\\GemRealty";
 
 	public enum Formality {
 		SELL("Bán"), LEASE("Cho thuê"), BUY("Mua"), RENT("Thuê");

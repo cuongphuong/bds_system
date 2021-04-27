@@ -50,7 +50,7 @@
           </nav>
           <div class="full-screen-show">
             <div id="templatemo-slide-link-target" class="mb-3">
-              <img class="img-fluid border rounded" src="/assets/img/work-slide-04.jpg"
+              <img class="img-fluid border rounded" th:src="${infomation.getImages().get(0).get(0)}"
                 alt="Card image cap">
             </div>
             <div class="worksingle-slide-footer row">
@@ -61,72 +61,13 @@
               </div>
               <div id="multi-item-example" class="col-10 carousel slide" data-bs-ride="carousel">
                 <!--Start Slides-->
-                <div class="carousel-inner" role="listbox">
+                <div id="slide-show_id" class="carousel-inner" role="listbox">
                   <!--First slide-->
-                  <div class="carousel-item active">
-                    <div class="row">
-                      <div class="col">
-                        <a class="templatemo-slide-link" href="/assets/img/work-slide-06.jpg"> <img
-                          class="img-fluid border rounded" src="/assets/img/work-slide-06-small.jpg"
-                          alt="Product Image">
-                        </a>
-                      </div>
-                      <div class="col">
-                        <a class="templatemo-slide-link" href="/assets/img/work-slide-05.jpg"> <img
-                          class="img-fluid border rounded" src="/assets/img/work-slide-05-small.jpg"
-                          alt="Product Image">
-                        </a>
-                      </div>
-                      <div class="col">
-                        <a class="templatemo-slide-link" href="/assets/img/work-slide-04.jpg"> <img
-                          class="img-fluid border rounded" src="/assets/img/work-slide-04-small.jpg"
-                          alt="Product Image">
-                        </a>
-                      </div>
-                      <div class="col">
-                        <a class="templatemo-slide-link" href="/assets/img/work-slide-03.jpg"> <img
-                          class="img-fluid border rounded" src="/assets/img/work-slide-03-small.jpg"
-                          alt="Product Image">
-                        </a>
-                      </div>
-                      <div class="col">
-                        <a class="templatemo-slide-link" href="/assets/img/work-slide-01.jpg"> <img
-                          class="img-fluid border rounded" src="/assets/img/work-slide-01-small.jpg"
-                          alt="Product Image">
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="carousel-item">
-                    <div class="row">
-                      <div class="col">
-                        <a class="templatemo-slide-link" href="/assets/img/work-slide-01.jpg"> <img
-                          class="img-fluid border rounded" src="/assets/img/work-slide-01-small.jpg"
-                          alt="Product Image">
-                        </a>
-                      </div>
-                      <div class="col">
-                        <a class="templatemo-slide-link" href="/assets/img/work-slide-03.jpg"> <img
-                          class="img-fluid border rounded" src="/assets/img/work-slide-03-small.jpg"
-                          alt="Product Image">
-                        </a>
-                      </div>
-                      <div class="col">
-                        <a class="templatemo-slide-link" href="/assets/img/work-slide-02.jpg"> <img
-                          class="img-fluid border rounded" src="/assets/img/work-slide-02-small.jpg"
-                          alt="Product Image">
-                        </a>
-                      </div>
-                      <div class="col">
-                        <a class="templatemo-slide-link" href="/assets/img/work-slide-01.jpg"> <img
-                          class="img-fluid border rounded" src="/assets/img/work-slide-01-small.jpg"
-                          alt="Product Image">
-                        </a>
-                      </div>
-                      <div class="col">
-                        <a class="templatemo-slide-link" href="/assets/img/work-slide-06.jpg"> <img
-                          class="img-fluid border rounded" src="/assets/img/work-slide-06-small.jpg"
-                          alt="Product Image">
+                  <div th:each="listImage: ${infomation.getImages()}" class="carousel-item">
+                    <div class="row" style="max-height:70px">
+                      <div class="col" th:each="itemImage: ${listImage}">
+                        <a class="templatemo-slide-link" th:href="${itemImage}"> <img
+                          class="img-fluid border rounded" th:src="${itemImage}" alt="Product Image">
                         </a>
                       </div>
                     </div>
@@ -141,8 +82,7 @@
             </div>
           </div>
           <div class="tieu-de" style="border: solid 1px #ddd; padding: 10px; margin-top: 20px">
-            <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">NHẬN ĐẶT CỌC GIỮ
-              CHỖ BIỆT THỰ BAO BIỂN 300M2, MT 15M CHỦ ĐẦU TƯ</h2>
+            <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line" th:text="${infomation.getTitle()}"></h2>
             <p style="color: #333; margin-top: 20px">Dự án Khu đô thị Quảng Hồng, Đường Quốc lộ
               18A, Phường Cẩm Sơn, Cẩm Phả, Quảng Ninh</p>
             <div style="border-top: solid 1px #ddd; padding-top: 10px;">
@@ -323,6 +263,8 @@ Dự kiến 2022 đường bao biển giai đoạn 2 sẽ đi qua, cơ hội X2,
               return false;
             });
             // End Slide
+            var x = $('#slide-show_id > .carousel-item')[0];
+            x.classList.add("active");
           });
         </script>
   </th:block>

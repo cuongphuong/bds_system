@@ -40,12 +40,12 @@ function save() {
 	if (!validateJsForPost()) {
 		return;
 	}
-	
+
 	var r = confirm("Lưu tin?");
 	if (r == false) {
 		return;
 	}
-	
+
 	$("#ladding_layer_id").show();
 
 	// get data
@@ -92,8 +92,8 @@ function save() {
 		"POST",
 		JSON.stringify(data),
 		function(res) {
-			setTimeout(function(){ $("#ladding_layer_id").hide(); }, 1000);
-			
+			setTimeout(function() { $("#ladding_layer_id").hide(); }, 1000);
+
 			if (res.status == true) {
 				alert("OK");
 				return;
@@ -103,12 +103,12 @@ function save() {
 			for (const key in res.data) {
 				$("#" + key).append(res.data[key]);
 			}
-			
+
 			var validateList = document.getElementsByClassName("validate");
 			var destItem = null;
 			for (var i = 0; i < validateList.length; i++) {
 				var item = validateList[i];
-			
+
 				if (item.textContent.length > 0) {
 					destItem = item;
 					item.parentElement.scrollIntoView();

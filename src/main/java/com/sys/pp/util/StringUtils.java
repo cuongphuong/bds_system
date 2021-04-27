@@ -5,6 +5,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.regex.Pattern;
 
 public class StringUtils {
+	public static final String EMPTY = "";
+	
 	public static String getMD5(String input) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
