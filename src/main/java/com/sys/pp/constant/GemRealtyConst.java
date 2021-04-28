@@ -8,6 +8,7 @@ import com.sys.pp.controller.custommodel.KeyValue;
 
 public class GemRealtyConst {
 	public static String DEFAULT_IMAGE_FOLDER = "D:\\GemRealty";
+	public static String DEFAULT_IMAGE_FOLDER_TEMP = "D:\\GemRealtyTemp";
 
 	public enum Formality {
 		SELL("Bán"), LEASE("Cho thuê"), BUY("Mua"), RENT("Thuê");

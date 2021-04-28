@@ -122,7 +122,7 @@ public class PostController {
 			String tmpFolderStr = this.makeTmpFolder(paramater.get("image"));
 			File tmpFolder = new File(tmpFolderStr);
 
-			if (FileUtil.isEmpty(Path.of(tmpFolderStr))) {
+			if (!FileUtil.isEmpty(Path.of(tmpFolderStr))) {
 				org.apache.commons.io.FileUtils.copyDirectory(tmpFolder, destFolder);
 			}
 		} catch (IOException e) {
@@ -173,11 +173,12 @@ public class PostController {
 		String timeFolder = actionArr[5];
 
 		StringBuilder uploadAction = new StringBuilder();
-		uploadAction.append("C:\\temp\\upload\\");
+		uploadAction.append(GemRealtyConst.DEFAULT_IMAGE_FOLDER_TEMP);
+		uploadAction.append(File.separator);
 		uploadAction.append(dateFolder);
-		uploadAction.append("/");
+		uploadAction.append(File.separator);
 		uploadAction.append(macFolder);
-		uploadAction.append("/");
+		uploadAction.append(File.separator);
 		uploadAction.append(timeFolder);
 		return uploadAction.toString();
 	}

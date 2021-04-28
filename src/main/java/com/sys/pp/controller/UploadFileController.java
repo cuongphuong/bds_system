@@ -4,7 +4,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Arrays;
-import java.util.Date;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.http.HttpStatus;
@@ -17,13 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.sys.pp.util.DateUtil;
+import com.sys.pp.constant.GemRealtyConst;
 
 @Controller
 @RequestMapping("upload")
 public class UploadFileController {
-
-	private static final String DEFAULT_FOLDER_UPLOAD = makeDefaultPath();
 
 	private enum ContentType {
 		IMAGE_JPEG("image/png"), IMAGE_PNG("image/jpeg"), IMAGE_GIF("image/gif");
@@ -50,7 +47,7 @@ public class UploadFileController {
 			}
 
 			StringBuilder clientPath = new StringBuilder();
-			clientPath.append(DEFAULT_FOLDER_UPLOAD);
+			clientPath.append(GemRealtyConst.DEFAULT_IMAGE_FOLDER_TEMP);
 			clientPath.append(File.separator);
 			clientPath.append(date);
 			clientPath.append(File.separator);
@@ -74,15 +71,5 @@ public class UploadFileController {
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "FILE IS NOT SUPPORT");
 		}
-	}
-
-	private static String makeDefaultPath() {
-		StringBuilder defaultPath = new StringBuilder();
-		defaultPath.append(File.separator);
-		defaultPath.append("temp");
-		defaultPath.append(File.separator);
-		defaultPath.append("upload");
-
-		return defaultPath.toString();
 	}
 }
