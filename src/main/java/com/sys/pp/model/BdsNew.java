@@ -14,8 +14,8 @@ import java.util.Date;
 @Table(name="`bds_ news`")
 @NamedQuery(name="Bds_new.findAll", query="SELECT b FROM BdsNew b")
 public class BdsNew implements Serializable {
-	private static final long serialVersionUID = 1L;
 
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="news_id")

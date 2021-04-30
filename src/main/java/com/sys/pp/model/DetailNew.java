@@ -4,49 +4,48 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-
 /**
  * The persistent class for the detail_news database table.
  * 
  */
 @Entity
-@Table(name="detail_news")
-@NamedQuery(name="DetailNew.findAll", query="SELECT d FROM DetailNew d")
+@Table(name = "detail_news")
+@NamedQuery(name = "DetailNew.findAll", query = "SELECT d FROM DetailNew d")
 public class DetailNew implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="news_id")
-	private int newsId;
+	@Column(name = "news_id")
+	private Integer newsId;
 
 	private double acreage;
 
-	@Column(name="contact_ind")
-	private int contactInd;
+	@Column(name = "contact_ind")
+	private Integer contactInd;
 
 	private String description;
 
 	private String direction;
 
-	@Column(name="district_id")
-	private int districtId;
+	@Column(name = "district_id")
+	private Integer districtId;
 
-	@Column(name="entrance_width")
+	@Column(name = "entrance_width")
 	private double entranceWidth;
 
-	@Column(name="floors_num")
-	private int floorsNum;
+	@Column(name = "floors_num")
+	private Integer floorsNum;
 
 	private String formality;
 
-	@Column(name="front_width")
+	@Column(name = "front_width")
 	private double frontWidth;
 
 	private String furniture;
 
 	private String images;
 
-	@Column(name="juridical_info")
+	@Column(name = "juridical_info")
 	private String juridicalInfo;
 
 	private double lat;
@@ -55,40 +54,43 @@ public class DetailNew implements Serializable {
 
 	private BigDecimal price;
 
-	@Column(name="project_id")
-	private int projectId;
+	@Column(name = "project_id")
+	private Integer projectId;
 
-	@Column(name="province_id")
-	private int provinceId;
+	@Column(name = "province_id")
+	private Integer provinceId;
 
-	@Column(name="room_num")
-	private int roomNum;
+	@Column(name = "room_num")
+	private Integer roomNum;
 
-	@Column(name="street_id")
-	private int streetId;
+	@Column(name = "street_id")
+	private Integer streetId;
 
-	@Column(name="toilet_num")
-	private int toiletNum;
+	@Column(name = "toilet_num")
+	private Integer toiletNum;
 
-	@Column(name="video_url")
+	@Column(name = "video_url")
 	private String videoUrl;
 
-	@Column(name="ward_id")
-	private int wardId;
+	@Column(name = "ward_id")
+	private Integer wardId;
 
-	//bi-directional one-to-one association to Bds_new
+	@Column(name = "unit")
+	private Integer unit;
+
+	// bi-directional one-to-one association to Bds_new
 	@OneToOne
-	@JoinColumn(name="news_id")
+	@JoinColumn(name = "news_id")
 	private BdsNew bdsNew;
 
 	public DetailNew() {
 	}
 
-	public int getNewsId() {
+	public Integer getNewsId() {
 		return this.newsId;
 	}
 
-	public void setNewsId(int newsId) {
+	public void setNewsId(Integer newsId) {
 		this.newsId = newsId;
 	}
 
@@ -100,11 +102,11 @@ public class DetailNew implements Serializable {
 		this.acreage = acreage;
 	}
 
-	public int getContactInd() {
+	public Integer getContactInd() {
 		return this.contactInd;
 	}
 
-	public void setContactInd(int contactInd) {
+	public void setContactInd(Integer contactInd) {
 		this.contactInd = contactInd;
 	}
 
@@ -124,11 +126,11 @@ public class DetailNew implements Serializable {
 		this.direction = direction;
 	}
 
-	public int getDistrictId() {
+	public Integer getDistrictId() {
 		return this.districtId;
 	}
 
-	public void setDistrictId(int districtId) {
+	public void setDistrictId(Integer districtId) {
 		this.districtId = districtId;
 	}
 
@@ -140,11 +142,11 @@ public class DetailNew implements Serializable {
 		this.entranceWidth = entranceWidth;
 	}
 
-	public int getFloorsNum() {
+	public Integer getFloorsNum() {
 		return this.floorsNum;
 	}
 
-	public void setFloorsNum(int floorsNum) {
+	public void setFloorsNum(Integer floorsNum) {
 		this.floorsNum = floorsNum;
 	}
 
@@ -212,43 +214,43 @@ public class DetailNew implements Serializable {
 		this.price = price;
 	}
 
-	public int getProjectId() {
+	public Integer getProjectId() {
 		return this.projectId;
 	}
 
-	public void setProjectId(int projectId) {
+	public void setProjectId(Integer projectId) {
 		this.projectId = projectId;
 	}
 
-	public int getProvinceId() {
+	public Integer getProvinceId() {
 		return this.provinceId;
 	}
 
-	public void setProvinceId(int provinceId) {
+	public void setProvinceId(Integer provinceId) {
 		this.provinceId = provinceId;
 	}
 
-	public int getRoomNum() {
+	public Integer getRoomNum() {
 		return this.roomNum;
 	}
 
-	public void setRoomNum(int roomNum) {
+	public void setRoomNum(Integer roomNum) {
 		this.roomNum = roomNum;
 	}
 
-	public int getStreetId() {
+	public Integer getStreetId() {
 		return this.streetId;
 	}
 
-	public void setStreetId(int streetId) {
+	public void setStreetId(Integer streetId) {
 		this.streetId = streetId;
 	}
 
-	public int getToiletNum() {
+	public Integer getToiletNum() {
 		return this.toiletNum;
 	}
 
-	public void setToiletNum(int toiletNum) {
+	public void setToiletNum(Integer toiletNum) {
 		this.toiletNum = toiletNum;
 	}
 
@@ -260,11 +262,11 @@ public class DetailNew implements Serializable {
 		this.videoUrl = videoUrl;
 	}
 
-	public int getWardId() {
+	public Integer getWardId() {
 		return this.wardId;
 	}
 
-	public void setWardId(int wardId) {
+	public void setWardId(Integer wardId) {
 		this.wardId = wardId;
 	}
 
@@ -274,6 +276,14 @@ public class DetailNew implements Serializable {
 
 	public void setBdsNew(BdsNew bdsNew) {
 		this.bdsNew = bdsNew;
+	}
+
+	public Integer getUnit() {
+		return unit;
+	}
+
+	public void setUnit(Integer unit) {
+		this.unit = unit;
 	}
 
 }

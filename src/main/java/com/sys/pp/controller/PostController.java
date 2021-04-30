@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.nio.file.Path;
 import java.security.Principal;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,6 +14,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -40,6 +43,7 @@ import com.sys.pp.repo.BDSNewRepository;
 import com.sys.pp.repo.CategoryRepository;
 import com.sys.pp.repo.ContactRepository;
 import com.sys.pp.repo.DetailNewRepository;
+import com.sys.pp.repo.NewsTypeRepository;
 import com.sys.pp.repo.UserRepository;
 import com.sys.pp.service.ContactService;
 import com.sys.pp.service.DistrictService;
@@ -50,11 +54,11 @@ import com.sys.pp.util.DateUtil;
 import com.sys.pp.util.FileUtil;
 import com.sys.pp.util.NumberUtils;
 import com.sys.pp.util.StringUtils;
-import java.nio.file.Path;
 
 @Controller
 @RequestMapping("post")
 public class PostController {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ViewPostController.class);
 
 	@Autowired
 	private ProvinceService provinceService;
@@ -76,6 +80,8 @@ public class PostController {
 	ContactService contactService;
 	@Autowired
 	BDSNewRepository bDSNewRepository;
+	@Autowired
+	NewsTypeRepository newsTypeRepository;
 
 	/**
 	 * Load form for add new bds
@@ -93,9 +99,26 @@ public class PostController {
 		model.addAttribute("category_list", categoryRepository.findAll());
 		model.addAttribute("unit_listxx", GemRealtyConst.getUnitList());
 		model.addAttribute("direction_list", GemRealtyConst.getDirectionList());
+		model.addAttribute("news_type", newsTypeRepository.findAll());
 
 		model.addAttribute("actionUpload", this.makeUploadAction());
 		return "layouts/user/post-news";
+	}
+
+	@ResponseBody
+	@RequestMapping(path = "/validate", method = RequestMethod.POST)
+	public Map<String, Object> validateToSave(Principal principal, @RequestBody Map<String, String> paramater) {
+		// validate data
+		Map<String, Object> errors = this.validate(paramater);
+		Map<String, Object> result = new HashMap<>();
+
+		if (!errors.isEmpty()) {
+			result.put("status", false);
+			result.put("data", errors);
+			return result;
+		}
+		result.put("status", true);
+		return result;
 	}
 
 	@ResponseBody
@@ -122,11 +145,16 @@ public class PostController {
 			String tmpFolderStr = this.makeTmpFolder(paramater.get("image"));
 			File tmpFolder = new File(tmpFolderStr);
 
-			if (!FileUtil.isEmpty(Path.of(tmpFolderStr))) {
-				org.apache.commons.io.FileUtils.copyDirectory(tmpFolder, destFolder);
+			File folderCheck = new File(tmpFolderStr);
+
+			if (folderCheck.exists() && folderCheck.isDirectory()) {
+				if (!FileUtil.isEmpty(Path.of(tmpFolderStr))) {
+					org.apache.commons.io.FileUtils.copyDirectory(tmpFolder, destFolder);
+				}
 			}
 		} catch (IOException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CAN_NOT_CREATE_FOLDER");
+			LOGGER.error("UPLOAD IMAGES FAIL", e);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Upload hình ảnh lỗi");
 		}
 
 		Contact contact = null;
@@ -150,19 +178,23 @@ public class PostController {
 					contact = contactOpt.get();
 				}
 			}
-			// tạo tin
+
+			// Tạo tin
 			BdsNew bdsNew = this.createNews(paramater, user.getUserId());
 			bDSNewRepository.save(bdsNew);
-			// tạo chi tiết tin
+			// Tạo chi tiết tin
 			DetailNew detail = this.createDetailNew(paramater);
 			detail.setNewsId(bdsNew.getNewsId());
 			detail.setContactInd(contact.getId().getInd());
 			detailNewRepos.save(detail);
 
-			result.put("data", bdsNew);
+			String finishUrl = String.format(GemRealtyConst.BASE_FINISH_URL, bdsNew.getNewsId(),
+					StringUtils.toSlug(bdsNew.getTitle()));
+			result.put("data", finishUrl);
 			return result;
 		} catch (Exception ex) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "OBJECT_EXISTS");
+			LOGGER.error("SAVE NEWS ERROR", ex);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lưu thông tin lỗi");
 		}
 	}
 
@@ -214,13 +246,9 @@ public class PostController {
 		bdsNew.setCreateBy(userId);
 		bdsNew.setStatusFlg(Names.FLAG_OFF);
 
-		// not require
-		if (!StringUtils.isNullOrEmpty(paramater.get("district_id"))) {
-			bdsNew.setPrice(GemRealtyService.getPriceByCategory(categoryRepository,
-					Integer.valueOf(paramater.get("category_id")),
-					DateUtil.convertFromString(paramater.get("startDate")),
-					DateUtil.convertFromString(paramater.get("endDate"))));
-		}
+		bdsNew.setPrice(GemRealtyService.getPriceByCategory(newsTypeRepository,
+				Integer.valueOf(paramater.get("newsType")), DateUtil.convertFromString(paramater.get("startDate")),
+				DateUtil.convertFromString(paramater.get("endDate"))));
 		return bdsNew;
 	}
 
@@ -278,6 +306,7 @@ public class PostController {
 		}
 		if (!StringUtils.isNullOrEmpty(paramater.get("price"))) {
 			detail.setPrice(new BigDecimal(paramater.get("price")));
+			detail.setUnit(Integer.valueOf(paramater.get("unit")));
 		}
 		if (!StringUtils.isNullOrEmpty(paramater.get("description"))) {
 			detail.setDescription(paramater.get("description"));
@@ -306,8 +335,8 @@ public class PostController {
 	 * @return Map<String, Object> * status: boolean * price: number
 	 */
 	@ResponseBody
-	@RequestMapping(path = "/calcalator/{categoryId}")
-	public Map<String, Object> caculatorPrice(@PathVariable Integer categoryId,
+	@RequestMapping(path = "/calcalator/{newsType}")
+	public Map<String, Object> caculatorPrice(@PathVariable Integer newsType,
 			@RequestBody Map<String, String> paramater) {
 		Map<String, Object> result = new HashMap<>();
 		result.put("status", false);
@@ -322,13 +351,13 @@ public class PostController {
 		Date startDate = DateUtil.convertFromString(paramater.get("startDate"));
 		Date endDate = DateUtil.convertFromString(paramater.get("endDate"));
 
-		if (categoryId == null || startDate == null || endDate == null || startDate.before(cal.getTime())
+		if (newsType == null || startDate == null || endDate == null || startDate.before(cal.getTime())
 				|| endDate.before(cal.getTime()) || (endDate.getTime() - startDate.getTime()) == 0) {
 			return result;
 		}
 
 		result.put("status", true);
-		result.put("data", GemRealtyService.getPriceByCategory(categoryRepository, categoryId, startDate, endDate));
+		result.put("data", GemRealtyService.getPriceByCategory(newsTypeRepository, newsType, startDate, endDate));
 		return result;
 	}
 
@@ -402,6 +431,10 @@ public class PostController {
 			errors.put("validate_formality", "Vui lòng chọn 1 loại hình thức bài đăng.");
 		}
 
+		if (StringUtils.isNullOrEmpty(paramater.get("province_id"))) {
+			errors.put("validate_province_id", "Địa điểm chính xác là bắt buộc.");
+		}
+
 		// Tỉnh thành
 		Province province = null;
 		if (!StringUtils.isNullOrEmpty(paramater.get("province_id"))
@@ -416,6 +449,10 @@ public class PostController {
 		}
 
 		// validate quận huyện
+		if (StringUtils.isNullOrEmpty(paramater.get("district_id"))) {
+			errors.put("validate_district_id", "Địa điểm chính xác là bắt buộc.");
+		}
+
 		District district = null;
 		if (!StringUtils.isNullOrEmpty(paramater.get("district_id"))
 				&& !NumberUtils.isNumeric(paramater.get("district_id"))) {
@@ -433,6 +470,10 @@ public class PostController {
 		}
 
 		// validate xã phường
+		if (StringUtils.isNullOrEmpty(paramater.get("ward_id"))) {
+			errors.put("validate_ward_id", "Địa điểm chính xác là bắt buộc.");
+		}
+
 		Ward ward = null;
 		if (!StringUtils.isNullOrEmpty(paramater.get("ward_id")) && !NumberUtils.isNumeric(paramater.get("ward_id"))) {
 			errors.put("validate_ward_id", "Kiểm tra lại xã phường đã chọn.");

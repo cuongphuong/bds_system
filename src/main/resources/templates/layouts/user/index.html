@@ -11,7 +11,6 @@
 <th:block id="products-static-resources">
   <script src="assets/js/pickup.js" type="text/javascript"></script>
   <style>
-
 </style>
 </th:block>
 </head>
@@ -173,113 +172,28 @@
         <div class="content" id="content">
           <div class="container">
             <div class="recent-work-header row text-center pb-5">
-              <h2 style="padding: 20px;" class="col-md-6 m-auto">Bất động sản dành cho bạn</h2>
+              <h2 style="padding: 20px;" class="col-md-6 m-auto">BÂT ĐỘNG SẢN HÔM NAY</h2>
             </div>
             <div class="row">
-              <div class="col-xs-12 col-sm-3">
-                <div class="card">
-                  <a class="img-card" href="#"> <img
-                    src="https://1.bp.blogspot.com/-Bii3S69BdjQ/VtdOpIi4aoI/AAAAAAAABlk/F0z23Yr59f0/s640/cover.jpg" />
+              <div th:each="item: ${posts}" class="col-xs-12 col-sm-3">
+                <div style="height: 340px; border-radius: 15px;" class="card">
+                  <a class="img-card" th:href="${item.getUrlPost()}"> <img
+                    th:src="${item.getThumnail()}" />
                   </a>
                   <div class="card-content">
-                    <h4 class="card-title" style="font-size: 1.3rem">
-                      <a href="#"> Cơ hội vàng - nhỉnh 1tỷ sở hưu ngay Ô góc LK 3 mặt thoáng,
-                        hướng biển, giá ngoại giao. </a>
-                    </h4>
-                    <p>Cẩm Phả, Quảng Ninh</p>
-                    <b>1 tỷ·100 m²</b>
-                    <div style="position: absolute; bottom: -2px; right: 15px;">
-                      <span style="font-size: 40px; color: #999;">♡</span>
+                    <h5 class="card-title" style="font-size: 1rem; height: 40px">
+                      <a style="font-weight: bold; color: #333" th:href="${item.getUrlPost()}"
+                        th:text="${item.getTitle()}"></a>
+                    </h5>
+                    <p>
+                      <small th:text="${item.getAddress()}"></small>
+                    </p>
+                    <div>
+                      <b><small th:text="${item.getPrice()}"></small> · <small
+                        th:text="${item.getAcreage()}"></small></b>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xs-12 col-sm-3">
-                <div class="card">
-                  <a class="img-card" href="#"> <img
-                    src="https://1.bp.blogspot.com/-Bii3S69BdjQ/VtdOpIi4aoI/AAAAAAAABlk/F0z23Yr59f0/s640/cover.jpg" />
-                  </a>
-                  <div class="card-content">
-                    <h4 class="card-title" style="font-size: 1.3rem;">
-                      <a href="#" style="color: red"> Cơ hội vàng - nhỉnh 1tỷ sở hưu ngay Ô góc
-                        LK 3 mặt thoáng, hướng biển, giá ngoại giao. </a>
-                    </h4>
-                    <p>Cẩm Phả, Quảng Ninh</p>
-                    <b>1 tỷ·100 m²</b>
-                    <div style="position: absolute; bottom: -2px; right: 15px;">
-                      <span style="font-size: 40px; color: #999;">♡</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xs-12 col-sm-3">
-                <div class="card">
-                  <a class="img-card" href="#"> <img
-                    src="https://1.bp.blogspot.com/-Bii3S69BdjQ/VtdOpIi4aoI/AAAAAAAABlk/F0z23Yr59f0/s640/cover.jpg" />
-                  </a>
-                  <div class="card-content">
-                    <h4 class="card-title" style="font-size: 1.3rem">
-                      <a href="#"> Cơ hội vàng - nhỉnh 1tỷ sở hưu ngay Ô góc LK 3 mặt thoáng,
-                        hướng biển, giá ngoại giao. </a>
-                    </h4>
-                    <p>Cẩm Phả, Quảng Ninh</p>
-                    <b>1 tỷ·100 m²</b>
-                    <div style="position: absolute; bottom: -2px; right: 15px;">
-                      <span style="font-size: 40px; color: #999;">♡</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xs-12 col-sm-3">
-                <div class="card">
-                  <a class="img-card" href="#"> <img
-                    src="https://1.bp.blogspot.com/-Bii3S69BdjQ/VtdOpIi4aoI/AAAAAAAABlk/F0z23Yr59f0/s640/cover.jpg" />
-                  </a>
-                  <div class="card-content">
-                    <h4 class="card-title" style="font-size: 1.3rem">
-                      <a href="#"> Cơ hội vàng - nhỉnh 1tỷ sở hưu ngay Ô góc LK 3 mặt thoáng,
-                        hướng biển, giá ngoại giao. </a>
-                    </h4>
-                    <p>Cẩm Phả, Quảng Ninh</p>
-                    <b>1 tỷ·100 m²</b>
-                    <div style="position: absolute; bottom: -2px; right: 15px;">
-                      <span style="font-size: 40px; color: #999;">♡</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xs-12 col-sm-3">
-                <div class="card">
-                  <a class="img-card" href="#"> <img
-                    src="https://1.bp.blogspot.com/-Bii3S69BdjQ/VtdOpIi4aoI/AAAAAAAABlk/F0z23Yr59f0/s640/cover.jpg" />
-                  </a>
-                  <div class="card-content">
-                    <h4 class="card-title" style="font-size: 1.3rem;">
-                      <a href="#" style="color: red"> Cơ hội vàng - nhỉnh 1tỷ sở hưu ngay Ô góc
-                        LK 3 mặt thoáng, hướng biển, giá ngoại giao. </a>
-                    </h4>
-                    <p>Cẩm Phả, Quảng Ninh</p>
-                    <b>1 tỷ·100 m²</b>
-                    <div style="position: absolute; bottom: -2px; right: 15px;">
-                      <span style="font-size: 40px; color: #999;">♡</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xs-12 col-sm-3">
-                <div class="card">
-                  <a class="img-card" href="#"> <img
-                    src="https://1.bp.blogspot.com/-Bii3S69BdjQ/VtdOpIi4aoI/AAAAAAAABlk/F0z23Yr59f0/s640/cover.jpg" />
-                  </a>
-                  <div class="card-content">
-                    <h4 class="card-title" style="font-size: 1.3rem">
-                      <a href="#"> Cơ hội vàng - nhỉnh 1tỷ sở hưu ngay Ô góc LK 3 mặt thoáng,
-                        hướng biển, giá ngoại giao. </a>
-                    </h4>
-                    <p>Cẩm Phả, Quảng Ninh</p>
-                    <b>1 tỷ·100 m²</b>
-                    <div style="position: absolute; bottom: -2px; right: 15px;">
-                      <span style="font-size: 40px; color: #999;">♡</span>
+                    <div style="position: absolute; top: 7px; right: 10px;">
+                      <i class="bx bx-bell bx-sm bx-heart text-primary"></i>
                     </div>
                   </div>
                 </div>
@@ -289,6 +203,69 @@
               <button type="button" class="btn btn-outline-warning">Tải thêm tin</button>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+    <section class="wrapper">
+      <div class="container">
+        <div id="tin_noi_bat_id" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="card card-body">
+                    <img class="img-fluid" src="http://placehold.it/380?text=1">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="card card-body">
+                    <img class="img-fluid" src="http://placehold.it/380?text=1">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="card card-body">
+                    <img class="img-fluid" src="http://placehold.it/380?text=1">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="card card-body">
+                    <img class="img-fluid" src="http://placehold.it/380?text=1">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="card card-body">
+                    <img class="img-fluid" src="http://placehold.it/380?text=2">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="card card-body">
+                    <img class="img-fluid" src="http://placehold.it/380?text=2">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="card card-body">
+                    <img class="img-fluid" src="http://placehold.it/380?text=2">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="card card-body">
+                    <img class="img-fluid" src="http://placehold.it/380?text=2">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <a class="carousel-control-prev text-decoration-none" href="#tin_noi_bat_id"
+            role="button" data-bs-slide="prev"> <i class='bx bx-chevron-left'></i> <span
+            class="visually-hidden">Previous</span>
+          </a> <a class="carousel-control-next text-decoration-none" href="#tin_noi_bat_id"
+            role="button" data-bs-slide="next"> <i class='bx bx-chevron-right'></i> <span
+            class="visually-hidden">Next</span>
+          </a>
         </div>
       </div>
     </section>
@@ -564,6 +541,10 @@
               $("#ser-input").show(200);
               $("#xemtin_id").show(200);
             });
+
+            $('#tin_noi_bat_id').carousel({
+              interval : 10000
+            })
           });
 
           function scrollToContent() {

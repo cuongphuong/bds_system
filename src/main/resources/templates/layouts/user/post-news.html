@@ -74,8 +74,8 @@
                             </select> <small class="validate" id="validate_formality" style="color: red;"></small>
                           </div>
                           <div class="mb-3">
-                            <label class="form-label">Tỉnh/Thành phố: </label> <input
-                              onchange="provinceChange()" type="text" class="form-select"
+                            <label class="form-label">Tỉnh/Thành phố(<font color="red">*</font>):
+                            </label> <input onchange="provinceChange()" type="text" class="form-select"
                               id="province_id" list="province_id_list">
                             <datalist id="province_id_list">
                               <option th:each="row : ${province_id_list}"
@@ -84,8 +84,8 @@
                             <small class="validate" id="validate_province_id" style="color: red;"></small>
                           </div>
                           <div class="mb-3">
-                            <label class="form-label">Phường/Xã: </label> <input type="text"
-                              class="form-select" id="ward_id" list="ward_id_list">
+                            <label class="form-label">Phường/Xã(<font color="red">*</font>):
+                            </label> <input type="text" class="form-select" id="ward_id" list="ward_id_list">
                             <datalist id="ward_id_list">
                               <option th:each="row : ${ward_id_list}" th:value="${row.getName()}"
                                 th:attr="key-data=${row.getId()}">
@@ -118,8 +118,8 @@
                             <small class="validate" id="validate_category_id" style="color: red;"></small>
                           </div>
                           <div class="mb-3">
-                            <label class="form-label">Quận/Huyện: </label> <input
-                              onchange="districtChange()" type="text" class="form-select"
+                            <label class="form-label">Quận/Huyện(<font color="red">*</font>):
+                            </label> <input onchange="districtChange()" type="text" class="form-select"
                               id="district_id" list="district_id_list">
                             <datalist id="district_id_list">
                             </datalist>
@@ -133,7 +133,8 @@
                             <small class="validate" id="validate_street_id" style="color: red;"></small>
                           </div>
                           <div class=" mb-3">
-                            <label class="form-label">Diện tích: </label>
+                            <label class="form-label">Diện tích(<font color="red">*</font>):
+                            </label>
                             <div class="input-group">
                               <input type="number" class="form-control" id="acreage"> <span
                                 class="input-group-text">m²</span>
@@ -178,7 +179,7 @@
                     </div>
                     <div class="mb-3">
                       <label class="form-label">Vui lòng nhập liên kết đến video mô tả của
-                        bạn:</label>
+                        bạn:</label> (<small style="color: red;">https://www.youtube.com/watch?v=PObQZZOjSOs&t=1s</small>)
                       <div class="mb-3">
                         <input placeholder="Chấp nhận liên kết youtube.com" id="video-youtube"
                           onfocusout="youtubeVideoFocus($(this))" class="form-control" rows="1"></input>
@@ -370,14 +371,14 @@
                         <div class="mb-3">
                           <label class="form-label">Ngày bắt đầu: </label> <input
                             onchange="dateTargetChange()" id="startDate" type="date"
-                            class="form-control">
+                            class="datepicker form-control">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="mb-3">
                           <label class="form-label">Ngày kết thúc: </label> <input
                             onchange="dateTargetChange()" id="endDate" type="date"
-                            class="form-control">
+                            class="datepicker form-control">
                         </div>
                       </div>
                       <small class="validate" id=validate_date style="color: red;"></small>
@@ -388,13 +389,14 @@
                   <div class="card-header">THÀNH TIỀN</div>
                   <div class="card-body">
                     <div class="row">
-                      <div class="col-md-4">
-                        <div id="box_credit" class="card border-success mb-3">
-                          <div style="font-weight: bold;" class="card-header">SỐ DƯ</div>
-                          <div id="box_credit_text" class="card-body text-success">
-                            <input type="hidden" id="credit_user_hidden" th:value="${user_credit}">
-                            <h5 id="credit_user" class="card-title" th:text="${user_credit}">₫0</h5>
-                          </div>
+                      <div class="col-md-12" style="padding-bottom: 10px;">
+                        <div th:each="item: ${news_type}" class="form-check"
+                          style="padding-bottom: 10px;">
+                          <input onchange="dateTargetChange()" class="form-check-input" type="radio"
+                            th:value="${item.getId()}" name="new_type"> <label
+                            style="font-weight: bold;" th:text="${item.getName()}"
+                            class="form-check-label"></label> (<small style="color: red;"
+                            th:text="${item.getDescription()}"></small>)
                         </div>
                       </div>
                       <div class="col-md-8">
@@ -442,73 +444,100 @@
                 </div>
                 <div class="d-grid gap-2 col-6 mx-auto mb-3">
                   <button class="btn btn-light" type="button">Xem trước</button>
-                  <button onclick="save()" id="submit_form" style="color: #fff"
+                  <button onclick="napThemOnClick()" id="submit_form" style="color: #fff"
                     class="btn btn-success" type="button" disabled>Lưu bài đăng</button>
                 </div>
-                <!-- Form nạp thêm -->
-                <div class="modal fade" id="modal" aria-hidden="true" aria-labelledby="..."
-                  tabindex="-1">
-                  <div class="modal-dialog modal-lg">
+                <!-- Form thanh toán -->
+                <div style="z-index: 9999" class="modal fade" id="modal" aria-hidden="true"
+                  aria-labelledby="..." tabindex="-1">
+                  <div class="modal-dialog modal-fullscreen">
                     <div class="modal-content" style="padding: 20px; text-align: left;">
                       <h5 style="padding-bottom: 20px;" class="modal-title">Lựa chọn phương
                         thức thanh toán</h5>
-                      <nav>
-                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                          <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
-                            data-bs-target="#nav-home" type="button" role="tab"
-                            aria-controls="nav-home" aria-selected="true">
-                            <img width="70px" height="70px" class="icon"
-                              src="https://img.alicdn.com/tfs/TB17BAYE7L0gK0jSZFAXXcA9pXa-80-80.png"
-                              data-spm-anchor-id="a2o4n.payment_page.0.i9.45a15d0aysY77C">
-                          </button>
-                          <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
-                            data-bs-target="#nav-profile" type="button" role="tab"
-                            aria-controls="nav-profile" aria-selected="false">
-                            <img width="70px" height="70px" class="icon"
-                              src="https://img.alicdn.com/tfs/TB1L1Felmf2gK0jSZFPXXXsopXa-160-160.png"
-                              data-spm-anchor-id="a2o4n.payment_page.0.i8.45a15d0aysY77C">
-                          </button>
-                          <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab"
-                            data-bs-target="#nav-contact" type="button" role="tab"
-                            aria-controls="nav-contact" aria-selected="false">
-                            <img width="70px" height="70px" class="icon"
-                              src="https://laz-img-cdn.alicdn.com/tfs/TB1nOISXQcx_u4jSZFlXXXnUFXa-96-96.png">
-                          </button>
+                      <div class="row">
+                        <div class="col-md-8">
+                          <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                              <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
+                                data-bs-target="#nav-home" type="button" role="tab"
+                                aria-controls="nav-home" aria-selected="true">
+                                <img width="70px" height="70px" class="icon"
+                                  src="https://img.alicdn.com/tfs/TB17BAYE7L0gK0jSZFAXXcA9pXa-80-80.png"
+                                  data-spm-anchor-id="a2o4n.payment_page.0.i9.45a15d0aysY77C">
+                              </button>
+                              <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
+                                data-bs-target="#nav-profile" type="button" role="tab"
+                                aria-controls="nav-profile" aria-selected="false">
+                                <img width="70px" height="70px" class="icon"
+                                  src="https://img.alicdn.com/tfs/TB1L1Felmf2gK0jSZFPXXXsopXa-160-160.png"
+                                  data-spm-anchor-id="a2o4n.payment_page.0.i8.45a15d0aysY77C">
+                              </button>
+                              <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab"
+                                data-bs-target="#nav-contact" type="button" role="tab"
+                                aria-controls="nav-contact" aria-selected="false">
+                                <img width="70px" height="70px" class="icon"
+                                  src="https://laz-img-cdn.alicdn.com/tfs/TB1nOISXQcx_u4jSZFlXXXnUFXa-96-96.png">
+                              </button>
+                            </div>
+                          </nav>
+                          <div style="text-align: left; padding: 10px;" class="tab-content"
+                            id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                              aria-labelledby="nav-home-tab">
+                              <p>
+                                Ensure you have these ready: <br>1. Password for ZaloPay login.
+                                <br>2. Your mobile number registered for ZaloPay is active.
+                              </p>
+                            </div>
+                            <div class="tab-pane fade" id="nav-profile" role="tabpanel"
+                              aria-labelledby="nav-profile-tab">
+                              <p>
+                                Ensure you have these ready: <br>1. Password for Momo login. <br>2.
+                                Your mobile number registered for MoMo is active. <br>3.
+                                Installed Momo mobile app.
+                              </p>
+                            </div>
+                            <div class="tab-pane fade" id="nav-contact" role="tabpanel"
+                              aria-labelledby="nav-contact-tab">
+                              <p>
+                                Awesome! Please have these ready: <br>1. ATM card <br>2.
+                                Registered for ONLINE PAYMENT SERVICE and/or INTERNET BANKING <br>3.
+                                Account balance LARGER THAN value of your order <br> <br>
+                                Dong A Bank is currently unavailable for payment via ATM
+                                Card/Internet Banking due to bank maintenance
+                              </p>
+                            </div>
+                          </div>
                         </div>
-                      </nav>
-                      <div style="text-align: left; padding: 10px;" class="tab-content"
-                        id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
-                          aria-labelledby="nav-home-tab">
-                          <p>
-                            Ensure you have these ready: <br>1. Password for ZaloPay login. <br>2.
-                            Your mobile number registered for ZaloPay is active.
-                          </p>
+                        <div class="col-md-4">
+                          <div style="border: solid 1px #ddd; padding: 10px;">
+                            <h3>Order Summary</h3>
+                            <table style="margin-top: 10px;"
+                              class="table table-borderless table_view">
+                              <tbody>
+                                <tr>
+                                  <td style="color: #888;">Subtotal(Phí bài viết mới)</td>
+                                  <td id="checkout_sub_fee" style="color: #888;"></td>
+                                </tr>
+                                <tr>
+                                  <td style="color: #888;">VAT</td>
+                                  <td id="checkout_tax_fee" style="color: #888;"></td>
+                                </tr>
+                                <tr>
+                                  <td style="color: #333;">Total Amount</td>
+                                  <td id="checkout_total_fee"
+                                    style="color: #212529; font-size: 20px;"></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
-                        <div class="tab-pane fade" id="nav-profile" role="tabpanel"
-                          aria-labelledby="nav-profile-tab">
-                          <p>
-                            Ensure you have these ready: <br>1. Password for Momo login. <br>2.
-                            Your mobile number registered for MoMo is active. <br>3. Installed
-                            Momo mobile app.
-                          </p>
+                        <div style="margin-top: 10px;" class="modal-footer">
+                          <button style="background: #ddd;" type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Đóng</button>
+                          <button onclick="save()" type="button" class="btn btn-primary">Thanh
+                            toán</button>
                         </div>
-                        <div class="tab-pane fade" id="nav-contact" role="tabpanel"
-                          aria-labelledby="nav-contact-tab">
-                          <p>
-                            Awesome! Please have these ready: <br>1. ATM card <br>2.
-                            Registered for ONLINE PAYMENT SERVICE and/or INTERNET BANKING <br>3.
-                            Account balance LARGER THAN value of your order <br> <br> Dong
-                            A Bank is currently unavailable for payment via ATM Card/Internet
-                            Banking due to bank maintenance
-                          </p>
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button style="background: #ddd;" type="button" class="btn btn-secondary"
-                          data-bs-dismiss="modal">Đóng</button>
-                        <button onclick="napOnClick()" type="button" class="btn btn-primary">Thanh
-                          toán</button>
                       </div>
                     </div>
                   </div>
@@ -520,13 +549,15 @@
             </div>
           </div>
         </div>
-      </div>
     </section>
     <div id="ladding_layer_id" style="display: none;" class="loading">Loading&#8230;</div>
   </th:block>
   <th:block id="resources-footer">
     <script>
-          $(document).ready(onInitScreen());
+          $(document).ready(function() {
+            onInitScreen();
+            $('.datepicker').val(new Date().toDateInputValue());
+          });
         </script>
   </th:block>
 </body>

@@ -2,11 +2,17 @@ package com.sys.pp.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class StringUtils {
+	private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
+	private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
+
 	public static final String EMPTY = "";
-	
+
 	public static String getMD5(String input) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
@@ -17,10 +23,17 @@ public class StringUtils {
 		}
 	}
 
-	public static String nullToEmpty(String str) {
+	public static String nullToEmpty(Object str) {
 		if (null == str)
 			return "";
-		return str;
+		return String.valueOf(str);
+	}
+
+	public static String toSlug(String input) {
+		String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
+		String normalized = Normalizer.normalize(nowhitespace, Form.NFD);
+		String slug = NONLATIN.matcher(normalized).replaceAll("");
+		return slug.toLowerCase(Locale.ENGLISH);
 	}
 
 	public static String getNumberOfString(final CharSequence input) {

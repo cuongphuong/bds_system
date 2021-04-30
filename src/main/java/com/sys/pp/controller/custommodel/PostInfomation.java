@@ -4,10 +4,12 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import com.sys.pp.util.StringUtils;
+
 public class PostInfomation {
 	// basic infomation
-	private int newsId;
-	private int categoryId;
+	private String newsId;
+	private String categoryId;
 	private Date createAt;
 	private String createBy;
 	private Date endDate;
@@ -15,43 +17,60 @@ public class PostInfomation {
 	private Date startDate;
 	private String statusFlg;
 	private String title;
+	private List<String> breadcrumbItems;
+
 	// ad infomation
-	private double acreage;
-	private int contactInd;
-	private String description;
-	private String direction;
-	private int districtId;
-	private double entranceWidth;
-	private int floorsNum;
-	private String formality;
-	private double frontWidth;
-	private String furniture;
+	private String address = StringUtils.EMPTY;
+	private String acreage = StringUtils.EMPTY;
+	private String contactInd = StringUtils.EMPTY;
+	private String description = StringUtils.EMPTY;
+	private String direction = StringUtils.EMPTY;
+	private String districtId = StringUtils.EMPTY;
+	private String entranceWidth = StringUtils.EMPTY;
+	private String floorsNum = StringUtils.EMPTY;
+	private String formality = StringUtils.EMPTY;
+	private String frontWidth = StringUtils.EMPTY;
+	private String furniture = StringUtils.EMPTY;
+	private boolean hasImage;
 	private List<List<String>> images;
 	private String juridicalInfo;
 	private double lat;
 	private double lng;
-	private BigDecimal price;
-	private int projectId;
-	private int provinceId;
-	private int roomNum;
-	private int streetId;
-	private int toiletNum;
-	private String videoUrl;
-	private int wardId;
+	private String price = StringUtils.EMPTY;
+	private String projectId = StringUtils.EMPTY;
+	private String provinceId = StringUtils.EMPTY;
+	private String roomNum = StringUtils.EMPTY;
+	private String streetId = StringUtils.EMPTY;
+	private String toiletNum = StringUtils.EMPTY;
+	private String videoUrl = StringUtils.EMPTY;
+	private boolean hasVideoUrl;
+	private String wardId = StringUtils.EMPTY;
 
-	public double getAcreage() {
+	// contact
+	private String contactName = StringUtils.EMPTY;
+	private String diaChi = StringUtils.EMPTY;
+	private String email = StringUtils.EMPTY;
+	private String phone = StringUtils.EMPTY;
+
+	// other
+	private List<KeyValue> moreBds;
+	private List<KeyValue> moreByCategory;
+	private String thumnail;
+	private String urlPost;
+
+	public String getAcreage() {
 		return this.acreage;
 	}
 
-	public void setAcreage(double acreage) {
+	public void setAcreage(String acreage) {
 		this.acreage = acreage;
 	}
 
-	public int getContactInd() {
+	public String getContactInd() {
 		return this.contactInd;
 	}
 
-	public void setContactInd(int contactInd) {
+	public void setContactInd(String contactInd) {
 		this.contactInd = contactInd;
 	}
 
@@ -71,28 +90,52 @@ public class PostInfomation {
 		this.direction = direction;
 	}
 
-	public int getDistrictId() {
+	public String getDistrictId() {
 		return this.districtId;
 	}
 
-	public void setDistrictId(int districtId) {
+	public String getThumnail() {
+		return thumnail;
+	}
+
+	public void setThumnail(String thumnail) {
+		this.thumnail = thumnail;
+	}
+
+	public String getUrlPost() {
+		return urlPost;
+	}
+
+	public void setUrlPost(String urlPost) {
+		this.urlPost = urlPost;
+	}
+
+	public void setDistrictId(String districtId) {
 		this.districtId = districtId;
 	}
 
-	public double getEntranceWidth() {
+	public String getEntranceWidth() {
 		return this.entranceWidth;
 	}
 
-	public void setEntranceWidth(double entranceWidth) {
+	public void setEntranceWidth(String entranceWidth) {
 		this.entranceWidth = entranceWidth;
 	}
 
-	public int getFloorsNum() {
+	public String getFloorsNum() {
 		return this.floorsNum;
 	}
 
-	public void setFloorsNum(int floorsNum) {
+	public void setFloorsNum(String floorsNum) {
 		this.floorsNum = floorsNum;
+	}
+
+	public List<KeyValue> getMoreByCategory() {
+		return moreByCategory;
+	}
+
+	public void setMoreByCategory(List<KeyValue> moreByCategory) {
+		this.moreByCategory = moreByCategory;
 	}
 
 	public String getFormality() {
@@ -103,16 +146,56 @@ public class PostInfomation {
 		this.formality = formality;
 	}
 
-	public double getFrontWidth() {
+	public String getFrontWidth() {
 		return this.frontWidth;
 	}
 
-	public void setFrontWidth(double frontWidth) {
+	public void setFrontWidth(String frontWidth) {
 		this.frontWidth = frontWidth;
+	}
+
+	public List<KeyValue> getMoreBds() {
+		return moreBds;
+	}
+
+	public void setMoreBds(List<KeyValue> moreBds) {
+		this.moreBds = moreBds;
 	}
 
 	public String getFurniture() {
 		return this.furniture;
+	}
+
+	public String getContactName() {
+		return contactName;
+	}
+
+	public void setContactName(String contactName) {
+		this.contactName = contactName;
+	}
+
+	public String getDiaChi() {
+		return diaChi;
+	}
+
+	public void setDiaChi(String diaChi) {
+		this.diaChi = diaChi;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public void setFurniture(String furniture) {
@@ -136,7 +219,7 @@ public class PostInfomation {
 	}
 
 	public double getLat() {
-		return this.lat;
+		return lat;
 	}
 
 	public void setLat(double lat) {
@@ -144,7 +227,7 @@ public class PostInfomation {
 	}
 
 	public double getLng() {
-		return this.lng;
+		return lng;
 	}
 
 	public void setLng(double lng) {
@@ -159,43 +242,43 @@ public class PostInfomation {
 		this.pricePost = price;
 	}
 
-	public int getProjectId() {
+	public String getProjectId() {
 		return this.projectId;
 	}
 
-	public void setProjectId(int projectId) {
+	public void setProjectId(String projectId) {
 		this.projectId = projectId;
 	}
 
-	public int getProvinceId() {
+	public String getProvinceId() {
 		return this.provinceId;
 	}
 
-	public void setProvinceId(int provinceId) {
+	public void setProvinceId(String provinceId) {
 		this.provinceId = provinceId;
 	}
 
-	public int getRoomNum() {
+	public String getRoomNum() {
 		return this.roomNum;
 	}
 
-	public void setRoomNum(int roomNum) {
+	public void setRoomNum(String roomNum) {
 		this.roomNum = roomNum;
 	}
 
-	public int getStreetId() {
+	public String getStreetId() {
 		return this.streetId;
 	}
 
-	public void setStreetId(int streetId) {
+	public void setStreetId(String streetId) {
 		this.streetId = streetId;
 	}
 
-	public int getToiletNum() {
+	public String getToiletNum() {
 		return this.toiletNum;
 	}
 
-	public void setToiletNum(int toiletNum) {
+	public void setToiletNum(String toiletNum) {
 		this.toiletNum = toiletNum;
 	}
 
@@ -207,27 +290,27 @@ public class PostInfomation {
 		this.videoUrl = videoUrl;
 	}
 
-	public int getWardId() {
+	public String getWardId() {
 		return this.wardId;
 	}
 
-	public void setWardId(int wardId) {
+	public void setWardId(String wardId) {
 		this.wardId = wardId;
 	}
 
-	public int getNewsId() {
+	public String getNewsId() {
 		return this.newsId;
 	}
 
-	public void setNewsId(int newsId) {
+	public void setNewsId(String newsId) {
 		this.newsId = newsId;
 	}
 
-	public int getCategoryId() {
+	public String getCategoryId() {
 		return this.categoryId;
 	}
 
-	public void setCategoryId(int categoryId) {
+	public void setCategoryId(String categoryId) {
 		this.categoryId = categoryId;
 	}
 
@@ -255,11 +338,11 @@ public class PostInfomation {
 		this.endDate = endDate;
 	}
 
-	public BigDecimal getPrice() {
+	public String getPrice() {
 		return this.price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 
@@ -285,5 +368,37 @@ public class PostInfomation {
 
 	public void setStatusFlg(String statusFlg) {
 		this.statusFlg = statusFlg;
+	}
+
+	public boolean isHasImage() {
+		return hasImage;
+	}
+
+	public void setHasImage(boolean hasImage) {
+		this.hasImage = hasImage;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public boolean isHasVideoUrl() {
+		return hasVideoUrl;
+	}
+
+	public void setHasVideoUrl(boolean hasVideoUrl) {
+		this.hasVideoUrl = hasVideoUrl;
+	}
+
+	public List<String> getBreadcrumbItems() {
+		return breadcrumbItems;
+	}
+
+	public void setBreadcrumbItems(List<String> breadcrumbItems) {
+		this.breadcrumbItems = breadcrumbItems;
 	}
 }

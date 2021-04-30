@@ -5,10 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.sys.pp.controller.custommodel.KeyValue;
+import com.sys.pp.util.StringUtils;
 
 public class GemRealtyConst {
 	public static String DEFAULT_IMAGE_FOLDER = "D:\\GemRealty";
 	public static String DEFAULT_IMAGE_FOLDER_TEMP = "D:\\GemRealtyTemp";
+	public static final String BASE_FINISH_URL = "/view/bds/%s/%s";
 
 	public enum Formality {
 		SELL("Bán"), LEASE("Cho thuê"), BUY("Mua"), RENT("Thuê");
@@ -24,18 +26,34 @@ public class GemRealtyConst {
 		}
 	}
 
+	public static String getFormalityFromId(String id) {
+		return Arrays.asList(Formality.values()).stream().filter(x -> x.toString().equals(id)).map(x -> x.getName())
+				.findFirst().get();
+	}
+
 	public enum Unit {
-		MILLION("Triệu"), BILLION("Tỷ");
+		MILLION(0, "Triệu"), BILLION(1, "Tỷ");
 
 		String name;
+		int id;
 
-		Unit(String name) {
+		Unit(int id, String name) {
+			this.id = id;
 			this.name = name;
 		}
 
 		public String getName() {
 			return name;
 		}
+
+		public int getId() {
+			return id;
+		}
+	}
+
+	public static String getUnitFromId(int id) {
+		return Arrays.asList(Unit.values()).stream().filter(x -> x.getId() == id).map(x -> x.getName()).findFirst()
+				.get();
 	}
 
 	public enum Direction {
@@ -58,6 +76,11 @@ public class GemRealtyConst {
 		public String getName() {
 			return name;
 		}
+	}
+
+	public static String getDirectionFromId(String id) {
+		return Arrays.asList(Direction.values()).stream().filter(x -> x.toString().equals(id)).map(x -> x.getName())
+				.findFirst().orElse(StringUtils.EMPTY);
 	}
 
 	/**
@@ -100,9 +123,8 @@ public class GemRealtyConst {
 		List<KeyValue> resultLst = new ArrayList<>();
 
 		for (Unit item : list) {
-			resultLst.add(new KeyValue(item.toString(), item.getName()));
+			resultLst.add(new KeyValue(String.valueOf(item.getId()), item.getName()));
 		}
 		return resultLst;
 	}
-
 }
