@@ -137,7 +137,7 @@ public class UtilController {
 	public List<LabelValue> loadAcreageScope() {
 		return GemRealtyConst.getAcreageScope();
 	}
-	
+
 	/**
 	 * Lấy danh diên tích mặt trươsc
 	 * 
@@ -170,6 +170,17 @@ public class UtilController {
 	public List<LabelValue> loadDistrict(@PathVariable Integer provinceId) {
 		return districtRepository.findByProvinceId(provinceId).stream().map(LabelValue::new)
 				.collect(Collectors.toList());
+	}
+
+	/**
+	 * Lấy danh sort
+	 * 
+	 * @return List<District> danh sách sort
+	 */
+	@ResponseBody
+	@RequestMapping(path = "/get-sort_la_va")
+	public List<LabelValue> loadSortResult() {
+		return GemRealtyConst.getSortResults();
 	}
 
 	/**

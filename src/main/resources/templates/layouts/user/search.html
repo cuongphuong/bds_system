@@ -10,6 +10,7 @@
 <title>Tìm kiếm bất động sản</title>
 <th:block id="products-static-resources">
   <link rel="stylesheet" href="/list-pickup/virtual-select.min.css">
+  <link rel="stylesheet" href="/assets/css/loading.css">
   <script src="assets/js/search.html.js" type="text/javascript"></script>
   <style>
 .col-1-5 { @extend .extra-col;
@@ -145,30 +146,31 @@
                 <div class="popup_tab_block" style="width: 250px; height: 400px; display: none;">
                   <div style="padding: 5px;">
                     <label style="color: #333; margin-bottom: 5px;">Mặt tiền</label>
-                    <div style="border: solid 1px #ddd; width: 100%; border-radius: 10px" id="selectbox_font-width_id" class="box_selected"></div>
+                    <div style="border: solid 1px #ddd; width: 100%; border-radius: 10px"
+                      id="selectbox_font-width_id" class="box_selected"></div>
                   </div>
-                  
                   <div style="padding: 5px;">
                     <label style="color: #333; margin-bottom: 5px;">Số tầng</label>
-                    <div style="border: solid 1px #ddd; width: 100%; border-radius: 10px" id="selectbox_floor_id" class="box_selected"></div>
+                    <div style="border: solid 1px #ddd; width: 100%; border-radius: 10px"
+                      id="selectbox_floor_id" class="box_selected"></div>
                   </div>
-                  
                   <div style="padding: 5px;">
                     <label style="color: #333; margin-bottom: 5px;">Số phòng ngủ</label>
-                    <div style="border: solid 1px #ddd; width: 100%; border-radius: 10px" id="selectbox_room_id" class="box_selected"></div>
+                    <div style="border: solid 1px #ddd; width: 100%; border-radius: 10px"
+                      id="selectbox_room_id" class="box_selected"></div>
                   </div>
-
                   <div style="padding: 5px;">
                     <label style="color: #333; margin-bottom: 5px;">Đường rộng</label>
-                    <div style="border: solid 1px #ddd; width: 100%; border-radius: 10px" id="selectbox_way_id" class="box_selected"></div>
+                    <div style="border: solid 1px #ddd; width: 100%; border-radius: 10px"
+                      id="selectbox_way_id" class="box_selected"></div>
                   </div>
-                  
                 </div>
               </div>
             </div>
             <div class="col-md-2">
-              <button style="margin-top: 20px; margin: 10%;" type="button"
-                class="btn btn-outline-primary">Tìm kiếm</button>
+              <div style="padding: 2px 0 0 9px; margin: 0;"
+                class="title_fixed_condition trucncate_inline">Xắp xếp</div>
+              <div id="selectbox_sort" class="box_selected"></div>
             </div>
           </div>
         </div>
@@ -183,9 +185,10 @@
               class="worksingle-heading h3 pb-3 light-300 typo-space-line">Loại nhà đất</h2>
             <div class="mini_show">
               <div th:each="item: ${categorys}" class="form-check">
-                <input name="category_checkbox_name" class="form-check-input" type="checkbox" th:value="${item.getKey()}"
-                  id="categorys"> <label th:text="${item.getValue()}"
-                  class="form-check-label title_category_list" for="flexCheckDefault"></label>
+                <input name="category_checkbox_name" class="form-check-input" type="checkbox"
+                  th:value="${item.getKey()}" id="categorys"> <label
+                  th:text="${item.getValue()}" class="form-check-label title_category_list"
+                  for="flexCheckDefault"></label>
               </div>
               <div style="position: absolute; bottom: -5px;" class="seemore-left-block">
                 <div onclick="categoryOnShowMore($(this))" class="btn-custom btn-seemor"
@@ -196,9 +199,10 @@
               class="worksingle-heading h3 pb-3 light-300 typo-space-line">Tỉnh thành</h2>
             <div class="mini_show">
               <div th:each="item: ${provinces}" class="form-check">
-                <input name="province_checkbox_name" class="form-check-input" type="checkbox" th:value="${item.getKey()}"
-                  id="categorys"> <label th:text="${item.getValue()}"
-                  class="form-check-label title_category_list" for="flexCheckDefault"></label>
+                <input name="province_checkbox_name" class="form-check-input" type="checkbox"
+                  th:value="${item.getKey()}" id="categorys"> <label
+                  th:text="${item.getValue()}" class="form-check-label title_category_list"
+                  for="flexCheckDefault"></label>
               </div>
               <div style="position: absolute; bottom: -5px;" class="seemore-left-block">
                 <div id="tesst_new" onclick="categoryOnShowMore($(this))"
@@ -206,7 +210,32 @@
               </div>
             </div>
           </div>
-          <div class="col-md-9"></div>
+          <div class="col-md-9">
+            <div class="sort_search" style="border-bottom: solid 1px #ddd">
+              <div class="row">
+                <div class="col-md-6">
+                  <div id="count_result_id" style="margin-top: 15px;">Có 0 bất động sản được
+                    tìm thấy</div>
+                </div>
+                <div class="col-md-4">
+                  <div class="vscomp-search-wrapper">
+                    <div class="vscomp-search-container">
+                      <input oninput="searchProvince()" id="keyword_id" type="text"
+                        class="vscomp-search-input" placeholder="Bạn muốn tìm gì...">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <button style="margin-bottom: 15px;" onclick="makeUrlFromForm()" type="button"
+                    class="btn btn-outline-primary">Tìm kiếm</button>
+                </div>
+              </div>
+            </div>
+            <div id="content_search_result" style="margin-top: 5px;">
+              <div class="row"></div>
+              <div id="ladding_layer_id" style="display: none;" class="loading">Loading&#8230;</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -245,6 +274,26 @@
           {{label}}
           </label>
         </div>
+    </script>
+    <script id="post-result-template" type="x-tmpl-mustache">
+		<div class="col-xs-12 col-sm-4">
+			<div style="height: 320px; border-radius: 15px;" class="card">
+			  <a class="img-card" href="{{urlPost}}"> <img src="{{thumnail}}">
+			  </a>
+			  <div class="card-content">
+				<h5 class="card-title" style="font-size: 0.8rem; height: 25px;">
+				  <a data-bs-toggle="tooltip" data-bs-placement="top" title="" class="trunc_string" style="font-weight: bold; color: #333; line-height: 1.5; text-transform: uppercase;" href="{{urlPost}}" data-bs-original-title="{{title}}">{{title}}</a>
+				</h5>
+				<div style="padding: 6px 0; margin: 0px;">
+				  <small data-bs-toggle="tooltip" data-bs-placement="top" title="{{address}}" class="article-info-location" data-bs-original-title="{{address}}">{{address}}</small>
+				</div>
+				<small class="article-price">{{description}}</small>
+				<div style="position: absolute; top: 7px; right: 10px; cursor: pointer;">
+				  <i class="bx bx-bell bx-sm bx-heart text-primary"></i>
+				</div>
+			  </div>
+			</div>
+		</div>
     </script>
     <script>
           $(document).ready(function() {

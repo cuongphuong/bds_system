@@ -2,19 +2,35 @@ package com.sys.pp.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sys.pp.constant.GemRealtyConst;
+import com.sys.pp.constant.GemRealtyConst.AcreageScope;
+import com.sys.pp.constant.GemRealtyConst.PriceScope;
+import com.sys.pp.constant.GemRealtyService;
 import com.sys.pp.controller.custommodel.KeyValue;
+import com.sys.pp.controller.custommodel.SearchCondition;
+import com.sys.pp.model.BdsNew;
 import com.sys.pp.model.Category;
 import com.sys.pp.model.Province;
 import com.sys.pp.repo.CategoryRepository;
+import com.sys.pp.repo.DistrictRepository;
+import com.sys.pp.repo.ProvinceRepository;
 import com.sys.pp.service.ProvinceService;
+import com.sys.pp.service.SearchService;
 import com.sys.pp.util.StringUtils;
 
 @Controller
@@ -24,6 +40,12 @@ public class SearchController {
 	CategoryRepository categoryRepository;
 	@Autowired
 	private ProvinceService provinceService;
+	@Autowired
+	SearchService service;
+	@Autowired
+	DistrictRepository districtRepository;
+	@Autowired
+	ProvinceRepository provinceRepository;
 
 	/**
 	 * Load search view
@@ -39,7 +61,98 @@ public class SearchController {
 		return "layouts/user/search";
 	}
 
-	
+	/**
+	 * Search Result
+	 * 
+	 * @return json data
+	 */
+	@ResponseBody
+	@PostMapping(path = "")
+	public Map<String, Object> search(@RequestParam Map<String, String> allRequestParams, ModelMap model,
+			Principal principal) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("status", true);
+		try {
+			SearchCondition searchCondition = this.makeSearchCondition(allRequestParams);
+			List<BdsNew> data = service.searchData(searchCondition);
+			result.put("data", GemRealtyService.makePostCardList(data, districtRepository, provinceRepository));
+
+			return result;
+		} catch (Exception e) {
+			result.put("status", false);
+			return result;
+		}
+	}
+
+	private SearchCondition makeSearchCondition(Map<String, String> allRequestParams) {
+		SearchCondition searchCondition = new SearchCondition();
+
+		if (allRequestParams.get("keyword") != null) {
+			String keyword = allRequestParams.get("keyword");
+			searchCondition.setKeyword(keyword);
+		} else {
+			searchCondition.setKeyword(StringUtils.EMPTY);
+		}
+
+		if (allRequestParams.get("formality") != null) {
+			String[] formalitys = allRequestParams.get("formality").split("_");
+			searchCondition.setFormalityList(Arrays.asList(formalitys));
+		}
+
+		if (allRequestParams.get("category") != null) {
+			String[] categorys = allRequestParams.get("category").split("t");
+			List<Integer> categoryList = Arrays.asList(categorys).stream().map(Integer::valueOf)
+					.collect(Collectors.toList());
+			searchCondition.setCategoryList(categoryList);
+		}
+
+		if (allRequestParams.get("location") != null) {
+			String location = allRequestParams.get("location");
+			searchCondition.setLocation(Integer.valueOf(location));
+		}
+
+		if (allRequestParams.get("district") != null) {
+			String[] districts = allRequestParams.get("district").split("t");
+			List<Integer> districtsList = Arrays.asList(districts).stream().map(Integer::valueOf)
+					.collect(Collectors.toList());
+			searchCondition.setCategoryList(districtsList);
+		}
+
+		if (allRequestParams.get("ward") != null) {
+			String[] wards = allRequestParams.get("ward").split("t");
+			List<Integer> wardList = Arrays.asList(wards).stream().map(Integer::valueOf).collect(Collectors.toList());
+			searchCondition.setCategoryList(wardList);
+		}
+
+		if (allRequestParams.get("street") != null) {
+			String[] streets = allRequestParams.get("street").split("t");
+			List<Integer> streetList = Arrays.asList(streets).stream().map(Integer::valueOf)
+					.collect(Collectors.toList());
+			searchCondition.setCategoryList(streetList);
+		}
+
+		if (allRequestParams.get("project") != null) {
+			String[] projects = allRequestParams.get("project").split("t");
+			List<Integer> projectList = Arrays.asList(projects).stream().map(Integer::valueOf)
+					.collect(Collectors.toList());
+			searchCondition.setCategoryList(projectList);
+		}
+
+		if (allRequestParams.get("price") != null) {
+			String price = allRequestParams.get("price");
+			PriceScope priceScope = GemRealtyConst.getPriceScopeById(Integer.valueOf(price));
+			searchCondition.setPrice(priceScope);
+		}
+
+		if (allRequestParams.get("acreage") != null) {
+			String acreage = allRequestParams.get("acreage");
+			AcreageScope acreageScope = GemRealtyConst.getAcreageScopeById(Integer.valueOf(acreage));
+			searchCondition.setAcreage(acreageScope);
+		}
+
+		return searchCondition;
+	}
+
 	private List<KeyValue> makeProvinceList() {
 		List<Province> provinceList = provinceService.findAll();
 		provinceList = provinceList.stream().limit(15).collect(Collectors.toList());

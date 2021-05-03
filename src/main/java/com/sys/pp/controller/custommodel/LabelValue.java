@@ -3,6 +3,7 @@ package com.sys.pp.controller.custommodel;
 import com.sys.pp.constant.GemRealtyConst.AcreageScope;
 import com.sys.pp.constant.GemRealtyConst.FontWidth;
 import com.sys.pp.constant.GemRealtyConst.PriceScope;
+import com.sys.pp.constant.GemRealtyConst.SortResult;
 import com.sys.pp.model.Category;
 import com.sys.pp.model.District;
 import com.sys.pp.model.Project;
@@ -56,6 +57,11 @@ public class LabelValue {
 
 	public LabelValue(AcreageScope item) {
 		this.label = item.getLable();
+		this.value = String.valueOf(item.getId());
+	}
+
+	public LabelValue(SortResult item) {
+		this.label = item.getLabel();
 		this.value = String.valueOf(item.getId());
 	}
 

@@ -18,8 +18,7 @@
 <th:block th:replace="${otherStaticResources} ?: ~{}"></th:block>
 </head>
 <body>
-  <nav style="z-index: 9997" id="main_nav"
-    class="navbar navbar-expand-lg navbar-light bg-white shadow">
+  <nav id="main_nav" class="navbar navbar-expand-lg navbar-light bg-white shadow">
     <div class="container d-flex justify-content-between align-items-center">
       <a class="navbar-brand h1" href="/"> <i class='bx bx-buildings bx-sm text-dark'></i> <span
         class="text-dark h4">Gem</span> <span class="text-primary h4">Realty</span>
@@ -37,17 +36,19 @@
             <li class="nav-item"><a class="nav-link btn-outline-primary rounded-pill px-3"
               href="/">Trang chủ</a></li>
             <li class="nav-item"><a class="nav-link btn-outline-primary rounded-pill px-3"
-              href="/post">Đăng tin</a></li>
+              href="/search?formality=SELL_BUY">Mua & bán</a></li>
+            <li class="nav-item"><a class="nav-link btn-outline-primary rounded-pill px-3"
+              href="/search?formality=LEASE_RENT">Thuê & cho thuê</a></li>
             <li class="nav-item"><a class="nav-link btn-outline-primary rounded-pill px-3"
               href="/about">Giới thiệu</a></li>
             <li class="nav-item"><a class="nav-link btn-outline-primary rounded-pill px-3"
-              href="/about">Thư viện</a></li>
-            <li class="nav-item"><a class="nav-link btn-outline-primary rounded-pill px-3"
-              href="contact.html">Liên hệ</a></li>
+              href="/contact">Liên hệ</a></li>
           </ul>
         </div>
         <div class="navbar align-self-center d-flex" style="position: relative;">
-          <a onclick="$('#favorite_show_id').toggle(200)" class="nav-link" href="#"><i
+          <a data-bs-toggle="tooltip" data-bs-placement="left" title="Đăng bài" class="nav-link"
+            href="/post"><i class='bx bx-upload bx-sm text-primary'></i></a> <a
+            onclick="$('#favorite_show_id').toggle(200)" class="nav-link" href="#"><i
             class='bx bx-bell bx-sm bx-heart text-primary'></i></a> <a
             sec:authorize="isFullyAuthenticated()" class="nav-link" href="#"><i
             class='bx bx-cog bx-sm text-primary'></i></a> <a onclick="$('#user_show_id').toggle(200)"
