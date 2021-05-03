@@ -5,49 +5,51 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
-
 /**
  * The persistent class for the `bds_ news` database table.
  * 
  */
 @Entity
-@Table(name="`bds_ news`")
-@NamedQuery(name="Bds_new.findAll", query="SELECT b FROM BdsNew b")
+@Table(name = "`bds_ news`")
+@NamedQuery(name = "Bds_new.findAll", query = "SELECT b FROM BdsNew b")
 public class BdsNew implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="news_id")
+	@Column(name = "news_id")
 	private int newsId;
 
-	@Column(name="category_id")
+	@Column(name = "category_id")
 	private int categoryId;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="create_at")
+	@Column(name = "create_at")
 	private Date createAt;
 
-	@Column(name="create_by")
+	@Column(name = "create_by")
 	private String createBy;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="end_date")
+	@Column(name = "end_date")
 	private Date endDate;
 
 	private BigDecimal price;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="start_date")
+	@Column(name = "start_date")
 	private Date startDate;
-	
-	@Column(name="status_flg")
+
+	@Column(name = "status_flg")
 	private int statusFlg;
+
+	@Column(name = "level")
+	private int level;
 
 	private String title;
 
-	//bi-directional one-to-one association to DetailNew
-	@OneToOne(mappedBy="bdsNew")
+	// bi-directional one-to-one association to DetailNew
+	@OneToOne(mappedBy = "bdsNew")
 	private DetailNew detailNew;
 
 	public BdsNew() {
@@ -63,6 +65,14 @@ public class BdsNew implements Serializable {
 
 	public int getCategoryId() {
 		return this.categoryId;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 	public void setCategoryId(int categoryId) {

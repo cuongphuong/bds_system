@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Path;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,10 +13,18 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.thymeleaf.util.ListUtils;
 
+import com.sys.pp.controller.custommodel.PostInfomation;
+import com.sys.pp.model.BdsNew;
+import com.sys.pp.model.DetailNew;
+import com.sys.pp.model.District;
 import com.sys.pp.model.NewsType;
+import com.sys.pp.repo.DistrictRepository;
 import com.sys.pp.repo.NewsTypeRepository;
+import com.sys.pp.repo.ProvinceRepository;
 import com.sys.pp.util.FileUtil;
+import com.sys.pp.util.StringUtils;
 
 public class GemRealtyService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(GemRealtyConst.class);
@@ -83,4 +92,97 @@ public class GemRealtyService {
 		}
 	}
 
+	public static List<List<PostInfomation>> makeHighlightPost(List<BdsNew> posts,
+			DistrictRepository districtRepository, ProvinceRepository provinceRepository) {
+		DecimalFormat formatter = new DecimalFormat("###,###,###");
+		List<List<PostInfomation>> results = new ArrayList<>();
+		List<PostInfomation> tmpList = new ArrayList<>();
+		for (BdsNew item : posts) {
+			PostInfomation post = makeAnItem(item, formatter, districtRepository, provinceRepository);
+			tmpList.add(post);
+
+			if (tmpList.size() == 4) {
+				results.add(tmpList);
+				tmpList = new ArrayList<>();
+			}
+		}
+		if (!ListUtils.isEmpty(tmpList))
+			results.add(tmpList);
+		return results;
+	}
+
+	public static List<PostInfomation> makePostCardList(List<BdsNew> posts, DistrictRepository districtRepository,
+			ProvinceRepository provinceRepository) {
+		DecimalFormat formatter = new DecimalFormat("###,###,###");
+		List<PostInfomation> results = new ArrayList<>();
+
+		for (BdsNew item : posts) {
+			PostInfomation post = makeAnItem(item, formatter, districtRepository, provinceRepository);
+			results.add(post);
+		}
+		return results;
+	}
+
+	private static PostInfomation makeAnItem(BdsNew item, DecimalFormat formatter,
+			DistrictRepository districtRepository, ProvinceRepository provinceRepository) {
+		PostInfomation post = new PostInfomation();
+		// Title
+		post.setTitle(item.getTitle());
+		// Diện tích && Giá tiền
+		String x1 = item.getDetailNew().getAcreage() != 0 ? formatter.format(item.getDetailNew().getAcreage()) + "m²"
+				: "--";
+		BigDecimal price = item.getDetailNew().getPrice();
+		String x2 = price != null && price.compareTo(BigDecimal.ZERO) != 0
+				? formatter.format(item.getDetailNew().getPrice()) + " "
+						+ GemRealtyConst.getUnitFromId(item.getDetailNew().getUnit())
+				: "Thỏa thuận";
+		post.setDescription(String.format("%s · %s", x2, x1));
+
+		// Hình ảnh
+		try {
+			final String CHARATER = "multi-file";
+			String imageUrlAction = item.getDetailNew().getImages();
+			String basePath = imageUrlAction.substring(imageUrlAction.indexOf(CHARATER) + CHARATER.length());
+			String fullPath = String.format("%s%s%s", GemRealtyConst.DEFAULT_IMAGE_FOLDER, File.separator, basePath);
+			File f = new File(fullPath);
+			if (f.exists() && f.isDirectory() && !FileUtil.isEmpty(Path.of(fullPath))) {
+				List<List<String>> images = GemRealtyService.makeImagesLinkList(item.getDetailNew().getImages());
+				post.setThumnail(images.get(0).get(0));
+			} else {
+				throw new Exception("Not existed image");
+			}
+		} catch (Exception e) {
+			post.setThumnail("/image/no_image.jpg");
+			LOGGER.info("Image not avaiable.");
+		}
+
+		// Địa chỉ
+		post.setAddress(makeAddress(item, districtRepository, provinceRepository));
+		// Url
+		String url = String.format(GemRealtyConst.BASE_FINISH_URL, item.getNewsId(),
+				StringUtils.toSlug(item.getTitle()));
+		post.setUrlPost(url);
+		post.setLevel(item.getLevel());
+
+		return post;
+	}
+
+	private static String makeAddress(BdsNew news, DistrictRepository districtRepository,
+			ProvinceRepository provinceRepository) {
+		StringBuilder address = new StringBuilder();
+		DetailNew detail = news.getDetailNew();
+
+		if (detail.getDistrictId() != null) {
+			District districtObj = districtRepository.findById(detail.getDistrictId()).get();
+			String district = districtObj.getPrefix() + " " + districtObj.getName();
+			address.append(String.format("%s, ", district));
+		}
+
+		if (detail.getProvinceId() != null) {
+			String province = provinceRepository.findById(detail.getProvinceId()).get().getName();
+			address.append(String.format("%s", province));
+		}
+
+		return address.toString();
+	}
 }

@@ -30,7 +30,6 @@
 					<tr>
 						<th>ID</th>
 						<th>Tên danh mục</th>
-						<th>Đơn giá</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -59,21 +58,6 @@
 									<small class="validate" style="color: red;" id="validate_name"></small>
 								</div>
 							</div>
-							<div class="row">
-								<div class="input-field col s12">
-									<input id="price" type="number" autofocus /><label for="price">Đơn
-										giá/giờ</label> <small class="validate" style="color: red;"
-										id="validate_price"></small>
-								</div>
-							</div>
-							<div class="row">
-								<div class="input-field col s12">
-									<select id="content_select">
-										<option value="0" selected disabled>Chọn danh mục cha</option>
-									</select> <small class="validate" style="color: red;"
-										id="validate_categoryIdParent"></small>
-								</div>
-							</div>
 						</div>
 					</form>
 				</div>
@@ -94,9 +78,8 @@
 			<tr id="content_id_{{categoryId}}">
 				<td>{{categoryId}}</td>
 				<td>{{categoryName}}</td>
-				<td>{{price}}</td>
 				<td>
-					<a href="#" onclick="onClickUpdate($(this));">Chỉnh sửa</a> | 
+					<a href="#" onclick="onUpdate($(this));">Chỉnh sửa</a> | 
 					<a href="#" onclick="onDelete($(this), '{{categoryId}}', '{{categoryName}}');">Xóa</a>
 				</td>
 			</tr>
@@ -113,14 +96,12 @@
 				// open modal
 				$("#add_new").click(function() {
 					$("#title_modal").html("Thêm mới");
-					loadParentCategory(function(){});
 				});
 
 				// Add item
 				$("#confirm_save").click(function(){
 					var data = {
 						categoryName: $("#name").val(),
-						price: $("#price").val(),
 						categoryIdParent: $("select").val()
 					}
 
@@ -135,20 +116,6 @@
 				});
 			});
 			
-			function loadParentCategory(onLoadSuccess) {
-				ajaxRequest("./category/parent", "GET", null, function(data) {
-					$("#content_select").empty();
-					var htmlText = "<option value=\"\" selected disabled>Chọn danh mục cha</option>";
-				    data.forEach((item) => {
-				    	htmlText = htmlText + "<option value=\"" + item.categoryId + "\">" + item.categoryName +"</option>";
-				    });
-				    $("#content_select").append(htmlText);
-				    $('select').material_select();
-
-				    onLoadSuccess();
-				});
-			}
-			
 			function loadData(page) {
 				// load data
 				if (page == null) {
@@ -157,7 +124,6 @@
 
 				ajaxRequest("./category/get/" + page, "GET", null, function(data) {
 				    data.forEach((item) => {
-				    	item.price = item.price.toLocaleString('en-US', {style : 'currency', currency : 'VND'});
 				        let rendered = Mustache.render(tmpl, item);
 				        $("#content_data").append(rendered);
 				    });
@@ -184,10 +150,6 @@
 					// set value into form
 					$("#indexUpdate").val(id);
 					$("#name").val(data.categoryName);
-					$("#price").val(data.price);
-			        $('#content_select').val(data.categoryIdParent);
-
-			        $('#content_select').material_select();
 					$('#modal1').modal('open');
 				});
 			}
@@ -198,7 +160,6 @@
 						onCloseModal();
 
 						var item = response.data;
-				    	item.price = item.price.toLocaleString('en-US', {style : 'currency', currency : 'VND'});
 				        let rendered = Mustache.render(tmpl, item);
 
 				        $("#content_data").prepend(rendered);
@@ -218,7 +179,6 @@
 				ajaxRequest("./category/update/" + id, "POST", JSON.stringify(data), function(response) {
 					if (response.status == true) {
 						var item = response.data;
-				    	item.price = item.price.toLocaleString('en-US', {style : 'currency', currency : 'VND'});
 				    	
 				    	var row = $("#content_id_" + item.categoryId);
 				    	row.find("td").eq(1).html(item.categoryName);
@@ -252,12 +212,6 @@
 				});
 			}
 
-			function onClickUpdate(obj) {
-				loadParentCategory(function (){
-					onUpdate(obj);
-				});
-			}
-			
 			function onCloseModal() {
 				$("input").val("");
 			}

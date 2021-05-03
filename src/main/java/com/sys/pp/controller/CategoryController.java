@@ -1,6 +1,5 @@
 package com.sys.pp.controller;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,12 +21,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.sys.pp.model.Category;
 import com.sys.pp.service.CategoryService;
-import com.sys.pp.util.NumberUtils;
 
 @Controller
 @RequestMapping("/admin/category")
 public class CategoryController {
-	private static int DEFAULT_PARENT_VALUE = 0;
 
 	@Autowired
 	CategoryService categoryService;
@@ -91,7 +88,6 @@ public class CategoryController {
 	 * @param Map<String, String> paramater
 	 * Key map:
 	 * * categoryName
-	 * * price
 	 * * categoryIdParent
 	 * 
 	 * @return status, obj added
@@ -126,7 +122,6 @@ public class CategoryController {
 	 * @param Map<String, String> paramater
 	 * Key map:
 	 * * categoryName
-	 * * price
 	 * * categoryIdParent
 	 * 
 	 * @return status, obj added
@@ -161,13 +156,6 @@ public class CategoryController {
 		// convert to object
 		Category category = new Category();
 		category.setCategoryName(paramater.get("categoryName"));
-		category.setPrice(new BigDecimal(paramater.get("price")));
-
-		if (paramater.get("categoryIdParent") != null) {
-			category.setCategoryIdParent(Integer.valueOf(paramater.get("categoryIdParent")));
-		} else {
-			category.setCategoryIdParent(DEFAULT_PARENT_VALUE);
-		}
 
 		return category;
 	}
@@ -180,19 +168,6 @@ public class CategoryController {
 
 		if (null != paramater.get("categoryName") && paramater.get("categoryName").length() < 5) {
 			errors.put("validate_name", "Tên danh mục phải lớn hơn 5 kí tự");
-		}
-
-		if (null == paramater.get("price")) {
-			errors.put("validate_price", "Đơn giá khi đăng tin trong danh mục không được để trống");
-		}
-
-		if (null != paramater.get("price") && !NumberUtils.isNumeric(paramater.get("price"))) {
-			errors.put("validate_price", "Đơn giá đăng tin trong danh mục phải là số");
-		}
-
-		if (null != paramater.get("categoryIdParent") && !NumberUtils.isNumeric(paramater.get("categoryIdParent"))
-				&& categoryService.findById(Integer.valueOf(paramater.get("categoryIdParent"))) == null) {
-			errors.put("validate_categoryIdParent", "Danh mục chứa không hợp lệ");
 		}
 		return errors;
 	}

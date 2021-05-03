@@ -1,4 +1,5 @@
 package com.sys.pp.service;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,11 @@ import com.sys.pp.repo.BDSNewRepository;
 public class BDSNewService {
 	@Autowired
 	private BDSNewRepository bDSNewRepository;
-	
+
 	public List<BdsNew> findByPageNumber(int pageNumber) {
 		Sort sortable = Sort.by("categoryId").descending();
-	    PageRequest pageable = PageRequest.of(pageNumber, Names.DEFAULT_PAGE_NUMBER_OF_HOME_NEWS, sortable);
-	    Page<BdsNew> page = bDSNewRepository.findAll(pageable);
+		PageRequest pageable = PageRequest.of(pageNumber, Names.DEFAULT_PAGE_NUMBER_OF_HOME_NEWS, sortable);
+		Page<BdsNew> page = bDSNewRepository.findAll(pageable);
 		return page.toList();
 	}
 }

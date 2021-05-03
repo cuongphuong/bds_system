@@ -57,6 +57,7 @@ public class PostInfomation {
 	private List<KeyValue> moreByCategory;
 	private String thumnail;
 	private String urlPost;
+	private int level;
 
 	public String getAcreage() {
 		return this.acreage;
@@ -76,6 +77,14 @@ public class PostInfomation {
 
 	public String getDescription() {
 		return this.description;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 	public void setDescription(String description) {

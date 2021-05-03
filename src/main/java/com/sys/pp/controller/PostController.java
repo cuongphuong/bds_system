@@ -519,6 +519,10 @@ public class PostController {
 			errors.put("validate_category_id", "Kiểm tra lại danh mục bài đăng.");
 		}
 		// diện tích
+		if (StringUtils.isNullOrEmpty(paramater.get("acreage"))) {
+			errors.put("validate_acreage", "Diện tích không được bỏ trống.");
+		}
+
 		if (!StringUtils.isNullOrEmpty(paramater.get("acreage")) && !NumberUtils.isNumeric(paramater.get("acreage"))) {
 			errors.put("validate_acreage", "Kiểm tra lại diện tích.");
 		}
