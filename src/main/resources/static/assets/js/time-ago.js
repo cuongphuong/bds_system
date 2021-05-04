@@ -1,6 +1,6 @@
 const MONTH_NAMES = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
+  'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
+  'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
 ];
 
 
@@ -24,7 +24,7 @@ function getFormattedDate(date, prefomattedDate = false, hideYear = false) {
 
   if (hideYear) {
     // 10. January at 10:20
-    return `${ day }. ${ month } at ${ hours }:${ minutes }`;
+    return `${day}.${month} at ${hours}:${ minutes }`;
   }
 
   // 10. January 2017. at 10:20
@@ -50,13 +50,13 @@ function timeAgo(dateParam) {
 
 
   if (seconds < 5) {
-    return 'now';
+    return 'Vừa xong';
   } else if (seconds < 60) {
-    return `${ seconds } seconds ago`;
+    return `${ seconds } giây`;
   } else if (seconds < 90) {
-    return 'about a minute ago';
+    return '1 phút trước';
   } else if (minutes < 60) {
-    return `${ minutes } minutes ago`;
+    return `${ minutes } phút`;
   } else if (isToday) {
     return getFormattedDate(date, 'Today'); // Today at 10:20
   } else if (isYesterday) {

@@ -9,49 +9,68 @@ import javax.persistence.*;
  */
 @Embeddable
 public class FavouritePK implements Serializable {
-	//default serial version id, required for serializable classes.
+	// default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="user_id")
-	private int userId;
+	@Column(name = "user_id")
+	private String userId;
 
-	@Column(name="news_id")
-	private String newsId;
+	@Column(name = "news_id")
+	private Integer newsId;
 
 	public FavouritePK() {
 	}
-	public int getUserId() {
-		return this.userId;
-	}
-	public void setUserId(int userId) {
+
+	public FavouritePK(String userId, Integer newsId) {
+		super();
 		this.userId = userId;
-	}
-	public String getNewsId() {
-		return this.newsId;
-	}
-	public void setNewsId(String newsId) {
 		this.newsId = newsId;
 	}
 
-	public boolean equals(Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (!(other instanceof FavouritePK)) {
-			return false;
-		}
-		FavouritePK castOther = (FavouritePK)other;
-		return 
-			(this.userId == castOther.userId)
-			&& this.newsId.equals(castOther.newsId);
+	public String getUserId() {
+		return userId;
 	}
 
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public Integer getNewsId() {
+		return newsId;
+	}
+
+	public void setNewsId(Integer newsId) {
+		this.newsId = newsId;
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int hash = 17;
-		hash = hash * prime + this.userId;
-		hash = hash * prime + this.newsId.hashCode();
-		
-		return hash;
+		int result = 1;
+		result = prime * result + ((newsId == null) ? 0 : newsId.hashCode());
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FavouritePK other = (FavouritePK) obj;
+		if (newsId == null) {
+			if (other.newsId != null)
+				return false;
+		} else if (!newsId.equals(other.newsId))
+			return false;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
+			return false;
+		return true;
 	}
 }

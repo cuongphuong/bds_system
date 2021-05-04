@@ -214,8 +214,7 @@
             <div class="sort_search" style="border-bottom: solid 1px #ddd">
               <div class="row">
                 <div class="col-md-6">
-                  <div id="count_result_id" style="margin-top: 15px;">Có 0 bất động sản được
-                    tìm thấy</div>
+                  <div id="count_result_id" style="margin-top: 15px;">Nhấn "Tìm kiếm" để lấy kết quả.</div>
                 </div>
                 <div class="col-md-4">
                   <div class="vscomp-search-wrapper">
@@ -281,15 +280,18 @@
 			  <a class="img-card" href="{{urlPost}}"> <img src="{{thumnail}}">
 			  </a>
 			  <div class="card-content">
-				<h5 class="card-title" style="font-size: 0.8rem; height: 25px;">
-				  <a data-bs-toggle="tooltip" data-bs-placement="top" title="" class="trunc_string" style="font-weight: bold; color: #333; line-height: 1.5; text-transform: uppercase;" href="{{urlPost}}" data-bs-original-title="{{title}}">{{title}}</a>
+			    <h5 class="card-title" style="font-size: 0.8rem; height: 25px;">
+					<a data-bs-toggle="tooltip" data-bs-placement="top" title="{{title}}" class="trunc_string"
+					style="font-weight: bold; color: #333; line-height: 1.5; text-transform: uppercase;"
+					href="{{urlPost}}">{{title}}</a>
 				</h5>
 				<div style="padding: 6px 0; margin: 0px;">
-				  <small data-bs-toggle="tooltip" data-bs-placement="top" title="{{address}}" class="article-info-location" data-bs-original-title="{{address}}">{{address}}</small>
+				    <small data-bs-toggle="tooltip" data-bs-placement="top"
+				      title="{{address}}" class="article-info-location">{{address}}</small>
 				</div>
 				<small class="article-price">{{description}}</small>
 				<div style="position: absolute; top: 7px; right: 10px; cursor: pointer;">
-				  <i class="bx bx-bell bx-sm bx-heart text-primary"></i>
+				  <i onclick="onSavePost($(this), '{{title}}', '{{urlPost}}', '{{thumnail}}', '{{description}}', '{{address}}');" class="bx bx-bell bx-sm bx-heart text-primary"></i>
 				</div>
 			  </div>
 			</div>

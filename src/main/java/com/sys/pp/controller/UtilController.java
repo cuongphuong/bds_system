@@ -1,12 +1,17 @@
 package com.sys.pp.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -15,16 +20,22 @@ import com.sys.pp.controller.custommodel.KeyValue;
 import com.sys.pp.controller.custommodel.LabelValue;
 import com.sys.pp.model.Category;
 import com.sys.pp.model.District;
+import com.sys.pp.model.Favourite;
+import com.sys.pp.model.FavouritePK;
 import com.sys.pp.model.Project;
 import com.sys.pp.model.Street;
+import com.sys.pp.model.Users;
 import com.sys.pp.model.Ward;
 import com.sys.pp.repo.CategoryRepository;
 import com.sys.pp.repo.DistrictRepository;
+import com.sys.pp.repo.FavouriteRepository;
 import com.sys.pp.repo.ProjectRepository;
 import com.sys.pp.repo.ProvinceRepository;
 import com.sys.pp.repo.StreetRepository;
 import com.sys.pp.repo.UserRepository;
 import com.sys.pp.repo.WardRepository;
+import com.sys.pp.util.NumberUtils;
+import com.sys.pp.util.StringUtils;
 
 @Controller
 @RequestMapping("util")
@@ -43,6 +54,8 @@ public class UtilController {
 	private CategoryRepository categoryRepository;
 	@Autowired
 	ProvinceRepository provinceRepository;
+	@Autowired
+	FavouriteRepository favouriteRepository;
 
 	/**
 	 * Lấy danh sách quận huyện theo ID của tỉnh thành
@@ -237,5 +250,89 @@ public class UtilController {
 			results.addAll(tmp);
 		}
 		return results.stream().map(LabelValue::new).collect(Collectors.toList());
+	}
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(HomePageController.class);
+
+	/**
+	 * Lưu bài đăng
+	 * 
+	 * @return String message if false;
+	 */
+	@ResponseBody
+	@PostMapping(path = "/like")
+	public String like(Principal principal, @RequestBody String url) {
+		Users user = null;
+		try {
+			String email = principal.getName();
+			user = userRepository.findByEmailAddress(email);
+
+			if (StringUtils.isNullOrEmpty(email) || user == null)
+				throw new Exception();
+		} catch (Exception e) {
+			LOGGER.warn("Chưa đăng nhập");
+			return "Chưa đăng nhập";
+		}
+
+		// save
+		try {
+			String[] urls = url.split("%2F");
+			String id = urls[3];
+			if (!NumberUtils.isNumeric(id)) {
+				LOGGER.warn("Id không hợp lệ");
+				return "Id không hợp lệ";
+			}
+
+			FavouritePK pk = new FavouritePK();
+			pk.setNewsId(Integer.valueOf(id));
+			pk.setUserId(user.getUserId());
+
+			favouriteRepository.save(new Favourite(pk));
+		} catch (Exception e) {
+			LOGGER.warn("Lưu bài không thành công.");
+			return "Không thể lưu bài lên server.";
+		}
+		return StringUtils.EMPTY;
+	}
+
+	/**
+	 * Lưu bài đăng
+	 * 
+	 * @return String message if false;
+	 */
+	@ResponseBody
+	@PostMapping(path = "/unlike")
+	public String unLike(Principal principal, @RequestBody String url) {
+		Users user = null;
+		try {
+			String email = principal.getName();
+			user = userRepository.findByEmailAddress(email);
+
+			if (StringUtils.isNullOrEmpty(email) || user == null)
+				throw new Exception();
+		} catch (Exception e) {
+			LOGGER.warn("Chưa đăng nhập");
+			return "Chưa đăng nhập";
+		}
+
+		// save
+		try {
+			String[] urls = url.split("%2F");
+			String id = urls[3];
+			if (!NumberUtils.isNumeric(id)) {
+				LOGGER.warn("Id không hợp lệ");
+				return "Id không hợp lệ";
+			}
+
+			FavouritePK pk = new FavouritePK();
+			pk.setNewsId(Integer.valueOf(id));
+			pk.setUserId(user.getUserId());
+
+			favouriteRepository.delete(new Favourite(pk));
+		} catch (Exception e) {
+			LOGGER.warn("Lưu bài không thành công.");
+			return "Không thể lưu bài lên server.";
+		}
+		return StringUtils.EMPTY;
 	}
 }

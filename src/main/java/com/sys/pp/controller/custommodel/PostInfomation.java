@@ -58,9 +58,18 @@ public class PostInfomation {
 	private String thumnail;
 	private String urlPost;
 	private int level;
+	private boolean isLiked;
 
 	public String getAcreage() {
 		return this.acreage;
+	}
+
+	public boolean isLiked() {
+		return isLiked;
+	}
+
+	public void setLiked(boolean isLiked) {
+		this.isLiked = isLiked;
 	}
 
 	public void setAcreage(String acreage) {

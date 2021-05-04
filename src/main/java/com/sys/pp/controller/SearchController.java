@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,9 +28,12 @@ import com.sys.pp.controller.custommodel.SearchCondition;
 import com.sys.pp.model.BdsNew;
 import com.sys.pp.model.Category;
 import com.sys.pp.model.Province;
+import com.sys.pp.model.Users;
 import com.sys.pp.repo.CategoryRepository;
 import com.sys.pp.repo.DistrictRepository;
+import com.sys.pp.repo.FavouriteRepository;
 import com.sys.pp.repo.ProvinceRepository;
+import com.sys.pp.repo.UserRepository;
 import com.sys.pp.service.ProvinceService;
 import com.sys.pp.service.SearchService;
 import com.sys.pp.util.StringUtils;
@@ -36,6 +41,7 @@ import com.sys.pp.util.StringUtils;
 @Controller
 @RequestMapping("search")
 public class SearchController {
+	private static final Logger LOGGER = LoggerFactory.getLogger(HomePageController.class);
 	@Autowired
 	CategoryRepository categoryRepository;
 	@Autowired
@@ -46,6 +52,10 @@ public class SearchController {
 	DistrictRepository districtRepository;
 	@Autowired
 	ProvinceRepository provinceRepository;
+	@Autowired
+	UserRepository userRepository;
+	@Autowired
+	FavouriteRepository favouriteRepository;
 
 	/**
 	 * Load search view
@@ -70,12 +80,29 @@ public class SearchController {
 	@PostMapping(path = "")
 	public Map<String, Object> search(@RequestParam Map<String, String> allRequestParams, ModelMap model,
 			Principal principal) {
+		Users user = null;
+		try {
+			String email = principal.getName();
+			user = userRepository.findByEmailAddress(email);
+
+			if (StringUtils.isNullOrEmpty(email) || user == null)
+				throw new Exception();
+		} catch (Exception e) {
+			LOGGER.warn("Chưa đăng nhập");
+		}
+
+		String userId = null;
+		if (user != null) {
+			userId = user.getUserId();
+		}
+
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("status", true);
 		try {
 			SearchCondition searchCondition = this.makeSearchCondition(allRequestParams);
 			List<BdsNew> data = service.searchData(searchCondition);
-			result.put("data", GemRealtyService.makePostCardList(data, districtRepository, provinceRepository));
+			result.put("data", GemRealtyService.makePostCardList(userId, favouriteRepository, data,
+					districtRepository, provinceRepository));
 
 			return result;
 		} catch (Exception e) {

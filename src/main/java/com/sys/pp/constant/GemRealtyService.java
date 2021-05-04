@@ -19,8 +19,11 @@ import com.sys.pp.controller.custommodel.PostInfomation;
 import com.sys.pp.model.BdsNew;
 import com.sys.pp.model.DetailNew;
 import com.sys.pp.model.District;
+import com.sys.pp.model.Favourite;
+import com.sys.pp.model.FavouritePK;
 import com.sys.pp.model.NewsType;
 import com.sys.pp.repo.DistrictRepository;
+import com.sys.pp.repo.FavouriteRepository;
 import com.sys.pp.repo.NewsTypeRepository;
 import com.sys.pp.repo.ProvinceRepository;
 import com.sys.pp.util.FileUtil;
@@ -92,13 +95,14 @@ public class GemRealtyService {
 		}
 	}
 
-	public static List<List<PostInfomation>> makeHighlightPost(List<BdsNew> posts,
-			DistrictRepository districtRepository, ProvinceRepository provinceRepository) {
+	public static List<List<PostInfomation>> makeHighlightPost(String userId, FavouriteRepository favouriteRepository,
+			List<BdsNew> posts, DistrictRepository districtRepository, ProvinceRepository provinceRepository) {
 		DecimalFormat formatter = new DecimalFormat("###,###,###");
 		List<List<PostInfomation>> results = new ArrayList<>();
 		List<PostInfomation> tmpList = new ArrayList<>();
 		for (BdsNew item : posts) {
-			PostInfomation post = makeAnItem(item, formatter, districtRepository, provinceRepository);
+			PostInfomation post = makeAnItem(userId, favouriteRepository, item, formatter, districtRepository,
+					provinceRepository);
 			tmpList.add(post);
 
 			if (tmpList.size() == 4) {
@@ -111,20 +115,21 @@ public class GemRealtyService {
 		return results;
 	}
 
-	public static List<PostInfomation> makePostCardList(List<BdsNew> posts, DistrictRepository districtRepository,
-			ProvinceRepository provinceRepository) {
+	public static List<PostInfomation> makePostCardList(String userId, FavouriteRepository favouriteRepository,
+			List<BdsNew> posts, DistrictRepository districtRepository, ProvinceRepository provinceRepository) {
 		DecimalFormat formatter = new DecimalFormat("###,###,###");
 		List<PostInfomation> results = new ArrayList<>();
 
 		for (BdsNew item : posts) {
-			PostInfomation post = makeAnItem(item, formatter, districtRepository, provinceRepository);
+			PostInfomation post = makeAnItem(userId, favouriteRepository, item, formatter, districtRepository,
+					provinceRepository);
 			results.add(post);
 		}
 		return results;
 	}
 
-	private static PostInfomation makeAnItem(BdsNew item, DecimalFormat formatter,
-			DistrictRepository districtRepository, ProvinceRepository provinceRepository) {
+	private static PostInfomation makeAnItem(String userId, FavouriteRepository favouriteRepository, BdsNew item,
+			DecimalFormat formatter, DistrictRepository districtRepository, ProvinceRepository provinceRepository) {
 		PostInfomation post = new PostInfomation();
 		// Title
 		post.setTitle(item.getTitle());
@@ -163,6 +168,15 @@ public class GemRealtyService {
 				StringUtils.toSlug(item.getTitle()));
 		post.setUrlPost(url);
 		post.setLevel(item.getLevel());
+
+		if (userId != null && favouriteRepository != null) {
+			Optional<Favourite> liked = favouriteRepository.findById(new FavouritePK(userId, item.getNewsId()));
+			if (liked.isPresent()) {
+				post.setLiked(true);
+			} else {
+				post.setLiked(false);
+			}
+		}
 
 		return post;
 	}

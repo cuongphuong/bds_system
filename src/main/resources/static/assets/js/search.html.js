@@ -1,6 +1,5 @@
 // define constans
 
-
 function init() {
 	$("#popup_tab_block").css("top", $("#input_popup_tab").height() + 17);
 	$(window).scroll(function() {
@@ -450,14 +449,14 @@ function onSearch(url) {
 	ajaxRequest(url, "POST", null, function(res) {
 		$("#content_search_result > .row").empty();
 		if (res.status == true) {
-            setTimeout(function() {
+			setTimeout(function() {
 				$("#count_result_id").text("Có " + res.data.length + " bất động sản được tìm thấy.");
 				res.data.forEach((item) => {
 					let rendered = Mustache.render(tmplPost, item);
 					$("#content_search_result > .row").append(rendered);
 				});
-                $("#ladding_layer_id").hide(500);
-            }, 1000);
+				$("#ladding_layer_id").hide(500);
+			}, 1000);
 		}
 	});
 }
@@ -472,6 +471,7 @@ function pickupFromUrl() {
 
 		pickUpFormality(function() {
 			document.querySelector('#selectbox_hinhthuc_id').setValue(formalityList);
+			makeUrlFromForm();
 		});
 	}
 
@@ -588,7 +588,6 @@ function pickupFromUrl() {
 	if (keywordParamater != null) {
 		$("#keyword_id").val(keywordParamater);
 	}
-
 }
 
 function getUrlParamt() {

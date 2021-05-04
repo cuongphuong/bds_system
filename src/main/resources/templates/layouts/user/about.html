@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{layouts/user/main-layout::main-fragment(  
+                ~{::title},
+                ~{:: #products-static-resources},
+                ~{:: #products-main-content},  
+                ~{:: #resources-footer},
+               )}">
+<head>
+<title>Giới thiệu</title>
+<th:block id="products-static-resources">
+  <link rel="stylesheet" href="/list-pickup/virtual-select.min.css">
+  <link rel="stylesheet" href="/assets/css/loading.css">
+  <script src="assets/js/search.html.js" type="text/javascript"></script>
+</th:block>
+</head>
+<body>
+  <th:block id="products-main-content">
+    <div class="container">
+      <div class="recent-work-header row pb-5" style="margin-top: 10px; margin-bottom: 5px;">
+        <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Giới thiệu WEBSITE</h2>
+      </div>
+      <h4>Bất động sản Gem Realty.</h4>
+      <p>Trang rao bán bất động sản thuộc hệ sinh thái Gem Realty.</p>
+      <p>
+        <strong>Chi nhánh Miền Bắc</strong><br> Tầng 20, Hanoi Landmark Tower, khu E6, khu đô
+        thị Cầu Giấy, phường Mễ Trì, quận Nam Từ Liêm, Hà Nội<br> Điện thoại: 0123.456.789 |
+        0987.654.321 <br> Tổng đài CSKH: 1900.1111
+      </p>
+      <!--  -->
+      <p>
+        <strong>Chi nhánh Miền Nam</strong><br> Lầu 5 Sailing Tower, 111A Pasteur, phường Bến
+        Nghé, Quận 1, TP. Hồ Chí Minh<br> Điện thoại: 0123.456.789
+      </p>
+      <!--  -->
+      <p>
+        <strong>Chi nhanh Miền Trung</strong><br> Tầng 9, tòa nhà Vĩnh Trung Plaza, số
+        255 – 257 Hùng Vương, phường Vĩnh Trung, quận Thanh Khê, TP. Đà Nẵng<br> Điện thoại:
+        0123.456.789 - Mobile: 0111.222.333
+      </p>
+    </div>
+  </th:block>
+  <th:block id="resources-footer">
+  </th:block>
+</body>
+</html>
