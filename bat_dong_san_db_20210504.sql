@@ -2,10 +2,10 @@
 -- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- ホスト: 127.0.0.1
--- 生成日時: 2021-04-26 19:20:10
--- サーバのバージョン： 10.4.14-MariaDB
--- PHP のバージョン: 7.4.10
+-- Host: 127.0.0.1
+-- Generation Time: May 04, 2021 at 07:55 AM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.4.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,19 +18,22 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- データベース: `bat_dong_san_db`
+-- Database: `bat_dong_san_db`
 --
+CREATE DATABASE IF NOT EXISTS `bat_dong_san_db` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `bat_dong_san_db`;
 
 -- --------------------------------------------------------
 
 --
--- テーブルの構造 `bds_ news`
+-- Table structure for table `bds_ news`
 --
 
 CREATE TABLE `bds_ news` (
   `news_id` int(11) NOT NULL,
   `category_id` int(11) DEFAULT NULL,
   `title` varchar(200) DEFAULT NULL,
+  `level` int(1) DEFAULT NULL,
   `start_date` datetime DEFAULT NULL,
   `end_date` datetime DEFAULT NULL,
   `price` decimal(10,0) DEFAULT NULL,
@@ -39,33 +42,70 @@ CREATE TABLE `bds_ news` (
   `status_flg` int(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `bds_ news`
+--
+
+INSERT INTO `bds_ news` (`news_id`, `category_id`, `title`, `level`, `start_date`, `end_date`, `price`, `create_by`, `create_at`, `status_flg`) VALUES
+(28, 77, 'Bán đất mặt phố Thành Phố Hồ Chí Minh - An Phú Tây', 1, '2021-04-27 00:00:00', '2021-04-30 00:00:00', '500000', '1', '2021-04-27 22:43:49', 0),
+(29, 74, 'Thêm tin bất động sản của bạnThêm tin bất động sản của bạn', 2, '2021-04-30 00:00:00', '2021-05-07 00:00:00', '1510000', '1', '2021-04-30 17:51:16', 0),
+(30, 76, '134 Quán Thánh - Bán chung cư cao cấp tại Hà Nội', 1, '2021-04-30 00:00:00', '2021-05-02 00:00:00', '280000', '1', '2021-04-30 20:16:56', 0),
+(31, 74, 'HÔNG TIN CƠ BẢNHÔNG TIN CƠ BẢNHÔNG TIN CƠ BẢNHÔNG TIN CƠ BẢN', 3, '2021-04-30 00:00:00', '2021-05-05 00:00:00', '990000', '1', '2021-04-30 21:51:17', 0),
+(32, 77, 'Bất động sản biển Đà Nẵng giá tốt - Đà Nẵng Resort', 3, '2021-05-01 00:00:00', '2021-05-15 00:00:00', '6540000', '1', '2021-05-01 09:07:20', 0);
+
 -- --------------------------------------------------------
 
 --
--- テーブルの構造 `categorys`
+-- Table structure for table `categorys`
 --
 
 CREATE TABLE `categorys` (
   `category_id` int(11) NOT NULL,
-  `price` decimal(10,0) DEFAULT NULL,
-  `category_id_parent` int(11) NOT NULL DEFAULT 0,
   `category_name` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- テーブルのデータのダンプ `categorys`
+-- Dumping data for table `categorys`
 --
 
-INSERT INTO `categorys` (`category_id`, `price`, `category_id_parent`, `category_name`) VALUES
-(74, '10000', 0, 'Bán nhà các loại'),
-(75, '10000', 74, 'Nhà riêng'),
-(76, '10000', 74, 'Nhà biệt thự, liền kề'),
-(77, '10000', 74, 'Nhà mặt phố');
+INSERT INTO `categorys` (`category_id`, `category_name`) VALUES
+(74, 'Nhà ở'),
+(75, 'Nhà cấp 4'),
+(76, 'Đất - Đất nền - Nhà như đất'),
+(77, 'Biệt thự - Song lập - Đơn lập'),
+(79, 'Nhà liền kề - Song lập - Đơn lập'),
+(80, 'Chung cư'),
+(81, 'Chung cư mini'),
+(82, 'Tập thể'),
+(83, 'Căn hộ cho thuê'),
+(84, '	\nCăn hộ du lịch - Condotel'),
+(85, 'Biệt thự du lịch, văn phòng - Officetel'),
+(86, 'Căn hộ dịch vụ - Homestay'),
+(87, 'Phòng trọ/ Nhà trọ'),
+(88, 'Shophouse - Nhà phố'),
+(89, 'Toà nhà văn phòng'),
+(90, 'Sàn văn phòng'),
+(91, 'Mặt bằng thương mại'),
+(92, '\nVăn phòng Co-working'),
+(93, 'Trang trại'),
+(94, 'Kho bãi - Nhà xưởng, Khu công nghiệp'),
+(95, 'Dự án BĐS - Khu nghỉ dưỡng - Resort'),
+(96, 'Sân bãi - Điểm đỗ xe'),
+(97, 'Khu tiện ích dự án - Khu vui chơi giải trí'),
+(98, 'Mát xa - Spa'),
+(99, 'Karaoke'),
+(100, 'Khách sạn - Nhà nghỉ'),
+(101, 'Nhà hàng - Cửa hàng - Ki ốt'),
+(102, 'Vị trí đặt biển bảng quảng cáo'),
+(103, 'Phòng họp, hội nghị'),
+(104, 'Phòng học'),
+(105, 'Sân bóng, sân tennis - Thể thao'),
+(107, 'Bất động sản khác');
 
 -- --------------------------------------------------------
 
 --
--- テーブルの構造 `contacts`
+-- Table structure for table `contacts`
 --
 
 CREATE TABLE `contacts` (
@@ -79,18 +119,18 @@ CREATE TABLE `contacts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- テーブルのデータのダンプ `contacts`
+-- Dumping data for table `contacts`
 --
 
 INSERT INTO `contacts` (`user_id`, `ind`, `contact_name`, `phone`, `dia_chi`, `email`, `mobile_phone`) VALUES
 ('1', 1, 'Thùy Trang', '0123456719', 'Thừa Thiên Huế', NULL, NULL),
-('1', 2, 'Phương Cường', '0123456729', 'DakLak', 'cuongphuong@gmail.com', NULL),
-('1', 3, 'No Name', '0123456739', 'Đà Nẵng', NULL, NULL);
+('1', 6, 'Phương Văn Cường', '0906404322', 'Eahleo-DakLak', 'cuongphuong@gmail.com', NULL),
+('1', 7, 'Trần Văn A', '0985647365', 'Hà Nội', 'vanA@gmail.com', NULL);
 
 -- --------------------------------------------------------
 
 --
--- テーブルの構造 `detail_news`
+-- Table structure for table `detail_news`
 --
 
 CREATE TABLE `detail_news` (
@@ -113,16 +153,29 @@ CREATE TABLE `detail_news` (
   `images` varchar(1000) DEFAULT NULL,
   `lat` double DEFAULT NULL,
   `lng` double DEFAULT NULL,
-  `description` varchar(200) DEFAULT NULL,
+  `description` text DEFAULT NULL,
   `video_url` varchar(100) DEFAULT NULL,
   `acreage` double DEFAULT NULL,
-  `price` decimal(10,0) DEFAULT NULL
+  `price` decimal(10,0) DEFAULT NULL,
+  `unit` int(1) DEFAULT NULL,
+  `detail_newscol` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `detail_news`
+--
+
+INSERT INTO `detail_news` (`news_id`, `formality`, `province_id`, `district_id`, `ward_id`, `street_id`, `project_id`, `contact_ind`, `direction`, `front_width`, `entrance_width`, `floors_num`, `room_num`, `furniture`, `toilet_num`, `juridical_info`, `images`, `lat`, `lng`, `description`, `video_url`, `acreage`, `price`, `unit`, `detail_newscol`) VALUES
+(28, 'SELL', 1, 1, 1, 8, 10, 6, 'EAST', 6, 2, 4, 7, 'Đầy đủ tiện nghi', 4, 'Đã có sổ đỏ', '/upload/multi-file/2021-04-27/00-15-5D-C2-B9-00/1619537475966', 0, 0, 'Khu nhà có vị trí thuận lợi: Gần công viên, gần trường học ... Tổng diện tích 52m2, đường đi ô tô vào tận cửa.', 'https://www.youtube.com/watch?v=n64YXVudU1o&list=RD8CU_MG1oLe8&index=8', 150, '0', 1, NULL),
+(29, 'LEASE', 1, NULL, NULL, NULL, NULL, 1, 'NONE', 0, 0, NULL, NULL, NULL, NULL, NULL, '/upload/multi-file/2021-04-30/00-15-5D-B2-EA-A0/1619779401981', 0, 0, NULL, NULL, 0, NULL, NULL, NULL),
+(30, 'SELL', 2, 25, 327, 7221, 1122, 7, 'EAST', 5, 2, 2, 4, 'Đầy đủ nội thất', 2, 'Đã có sổ đỏ', '/upload/multi-file/2021-04-30/00-15-5D-B2-EA-A0/1619788393685', 0, 0, 'Khu nhà có vị trí thuận lợi: Gần công viên, gần trường học ... \n\nTổng diện tích 52m2, đường đi ô tô vào tận cửa.\n\nĐất đẹp, đúng phong thủ', 'https://www.youtube.com/embed/PObQZZOjSOs?autoplay=1', 200, '2', 1, NULL),
+(31, 'SELL', 1, 1, 1, NULL, NULL, 1, 'NONE', 0, 0, NULL, NULL, NULL, NULL, NULL, '/upload/multi-file/2021-04-30/00-15-5D-B2-EA-A0/1619794202259', 0, 0, NULL, NULL, 0, NULL, NULL, NULL),
+(32, 'SELL', 3, 60, 952, 10998, 2077, 6, 'EAST', 10, 3, 10, 15, 'Đầy đủ', 2, 'Có sổ hồng', '/upload/multi-file/2021-05-01/00-15-5D-B2-EA-A0/1619834648260', 0, 0, 'Khu nhà có vị trí thuận lợi: Gần công viên, gần trường học ... Tổng diện tích 52m2, đường đi ô tô vào tận cửa.\n\nVị trí tiện lợi', NULL, 0, '5', 1, NULL);
 
 -- --------------------------------------------------------
 
 --
--- テーブルの構造 `district`
+-- Table structure for table `district`
 --
 
 CREATE TABLE `district` (
@@ -133,7 +186,7 @@ CREATE TABLE `district` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- テーブルのデータのダンプ `district`
+-- Dumping data for table `district`
 --
 
 INSERT INTO `district` (`id`, `_name`, `_prefix`, `_province_id`) VALUES
@@ -850,18 +903,66 @@ INSERT INTO `district` (`id`, `_name`, `_prefix`, `_province_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- テーブルの構造 `favourite`
+-- Table structure for table `favourite`
 --
 
 CREATE TABLE `favourite` (
   `user_id` varchar(10) NOT NULL,
-  `news_id` int(11) NOT NULL
+  `news_id` int(11) NOT NULL,
+  `create_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `favourite`
+--
+
+INSERT INTO `favourite` (`user_id`, `news_id`, `create_at`) VALUES
+('1', 28, '2021-05-04 11:33:02'),
+('1', 29, '2021-05-04 11:33:13'),
+('1', 30, '2021-05-04 11:33:16'),
+('1', 31, '2021-05-04 11:33:18'),
+('1', 32, '2021-05-04 11:33:17');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `news_type`
+--
+
+CREATE TABLE `news_type` (
+  `id` int(11) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  `level` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `news_type`
+--
+
+INSERT INTO `news_type` (`id`, `name`, `price`, `description`, `level`) VALUES
+(1, 'Tin thường', 10000, 'Tin thường là loại tin có chữ đen và hiển thị bình thường ngoài trang chủ', 1),
+(2, 'Tin VIP1', 15000, 'Tin VIP1 là loại tin có chữ màu đỏ hiển thị bình thường ngoài trang chủ', 2),
+(3, 'Tin VIP đặt biệt', 20000, 'Tin VIP đặt biêt là loại tin có chữ đỏ, ưu tiên hiển thị đầu tiền ngoài trang chủ', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `persistent_logins`
+--
+
+CREATE TABLE `persistent_logins` (
+  `username` varchar(64) NOT NULL,
+  `series` varchar(64) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `last_used` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- テーブルの構造 `project`
+-- Table structure for table `project`
 --
 
 CREATE TABLE `project` (
@@ -874,7 +975,7 @@ CREATE TABLE `project` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- テーブルのデータのダンプ `project`
+-- Dumping data for table `project`
 --
 
 INSERT INTO `project` (`id`, `_name`, `_province_id`, `_district_id`, `_lat`, `_lng`) VALUES
@@ -3954,7 +4055,7 @@ INSERT INTO `project` (`id`, `_name`, `_province_id`, `_district_id`, `_lat`, `_
 -- --------------------------------------------------------
 
 --
--- テーブルの構造 `province`
+-- Table structure for table `province`
 --
 
 CREATE TABLE `province` (
@@ -3964,7 +4065,7 @@ CREATE TABLE `province` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- テーブルのデータのダンプ `province`
+-- Dumping data for table `province`
 --
 
 INSERT INTO `province` (`id`, `_name`, `_code`) VALUES
@@ -4035,7 +4136,7 @@ INSERT INTO `province` (`id`, `_name`, `_code`) VALUES
 -- --------------------------------------------------------
 
 --
--- テーブルの構造 `roles`
+-- Table structure for table `roles`
 --
 
 CREATE TABLE `roles` (
@@ -4044,7 +4145,7 @@ CREATE TABLE `roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- テーブルのデータのダンプ `roles`
+-- Dumping data for table `roles`
 --
 
 INSERT INTO `roles` (`user_id`, `role`) VALUES
@@ -4054,7 +4155,7 @@ INSERT INTO `roles` (`user_id`, `role`) VALUES
 -- --------------------------------------------------------
 
 --
--- テーブルの構造 `street`
+-- Table structure for table `street`
 --
 
 CREATE TABLE `street` (
@@ -4066,7 +4167,7 @@ CREATE TABLE `street` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- テーブルのデータのダンプ `street`
+-- Dumping data for table `street`
 --
 
 INSERT INTO `street` (`id`, `_name`, `_prefix`, `_province_id`, `_district_id`) VALUES
@@ -35741,7 +35842,7 @@ INSERT INTO `street` (`id`, `_name`, `_prefix`, `_province_id`, `_district_id`) 
 -- --------------------------------------------------------
 
 --
--- テーブルの構造 `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -35755,16 +35856,16 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- テーブルのデータのダンプ `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`user_id`, `email`, `user_name`, `birthday`, `phone`, `credit`, `pass`) VALUES
-('1', 'admin@gmail.com', 'Cường', '1997-10-10 00:00:00', '0123456789', '41810000', '$2a$10$SQhAcDGyt3iJhXEjkzQmtO37CIvTOIHYCbzArAob9SkLpHz3daZ3e');
+('1', 'admin@gmail.com', 'Trần Thị Thùy Trang', '1997-10-10 00:00:00', '0123456789', '41810000', '$2a$10$SQhAcDGyt3iJhXEjkzQmtO37CIvTOIHYCbzArAob9SkLpHz3daZ3e');
 
 -- --------------------------------------------------------
 
 --
--- テーブルの構造 `ward`
+-- Table structure for table `ward`
 --
 
 CREATE TABLE `ward` (
@@ -35776,7 +35877,7 @@ CREATE TABLE `ward` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- テーブルのデータのダンプ `ward`
+-- Dumping data for table `ward`
 --
 
 INSERT INTO `ward` (`id`, `_name`, `_prefix`, `_province_id`, `_district_id`) VALUES
@@ -47072,11 +47173,11 @@ INSERT INTO `ward` (`id`, `_name`, `_prefix`, `_province_id`, `_district_id`) VA
 (11283, 'Trung Phúc', 'Xã', 63, 709);
 
 --
--- ダンプしたテーブルのインデックス
+-- Indexes for dumped tables
 --
 
 --
--- テーブルのインデックス `bds_ news`
+-- Indexes for table `bds_ news`
 --
 ALTER TABLE `bds_ news`
   ADD PRIMARY KEY (`news_id`),
@@ -47084,39 +47185,51 @@ ALTER TABLE `bds_ news`
   ADD KEY `bds_new_to_users` (`create_by`);
 
 --
--- テーブルのインデックス `categorys`
+-- Indexes for table `categorys`
 --
 ALTER TABLE `categorys`
   ADD PRIMARY KEY (`category_id`);
 
 --
--- テーブルのインデックス `contacts`
+-- Indexes for table `contacts`
 --
 ALTER TABLE `contacts`
   ADD PRIMARY KEY (`user_id`,`ind`);
 
 --
--- テーブルのインデックス `detail_news`
+-- Indexes for table `detail_news`
 --
 ALTER TABLE `detail_news`
   ADD PRIMARY KEY (`news_id`);
 
 --
--- テーブルのインデックス `district`
+-- Indexes for table `district`
 --
 ALTER TABLE `district`
   ADD PRIMARY KEY (`id`),
   ADD KEY `_province_id` (`_province_id`);
 
 --
--- テーブルのインデックス `favourite`
+-- Indexes for table `favourite`
 --
 ALTER TABLE `favourite`
   ADD PRIMARY KEY (`user_id`,`news_id`),
   ADD KEY `favourite_to_bds_news` (`news_id`);
 
 --
--- テーブルのインデックス `project`
+-- Indexes for table `news_type`
+--
+ALTER TABLE `news_type`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `persistent_logins`
+--
+ALTER TABLE `persistent_logins`
+  ADD PRIMARY KEY (`series`);
+
+--
+-- Indexes for table `project`
 --
 ALTER TABLE `project`
   ADD PRIMARY KEY (`id`),
@@ -47124,19 +47237,19 @@ ALTER TABLE `project`
   ADD KEY `project_to__district_id` (`_district_id`);
 
 --
--- テーブルのインデックス `province`
+-- Indexes for table `province`
 --
 ALTER TABLE `province`
   ADD PRIMARY KEY (`id`);
 
 --
--- テーブルのインデックス `roles`
+-- Indexes for table `roles`
 --
 ALTER TABLE `roles`
   ADD PRIMARY KEY (`user_id`,`role`);
 
 --
--- テーブルのインデックス `street`
+-- Indexes for table `street`
 --
 ALTER TABLE `street`
   ADD PRIMARY KEY (`id`),
@@ -47144,13 +47257,13 @@ ALTER TABLE `street`
   ADD KEY `street_to__district_id` (`_district_id`);
 
 --
--- テーブルのインデックス `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`);
 
 --
--- テーブルのインデックス `ward`
+-- Indexes for table `ward`
 --
 ALTER TABLE `ward`
   ADD PRIMARY KEY (`id`),
@@ -47158,107 +47271,107 @@ ALTER TABLE `ward`
   ADD KEY `_district_id_to__district_id` (`_district_id`);
 
 --
--- ダンプしたテーブルのAUTO_INCREMENT
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- テーブルのAUTO_INCREMENT `bds_ news`
+-- AUTO_INCREMENT for table `bds_ news`
 --
 ALTER TABLE `bds_ news`
-  MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
--- テーブルのAUTO_INCREMENT `categorys`
+-- AUTO_INCREMENT for table `categorys`
 --
 ALTER TABLE `categorys`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
 
 --
--- テーブルのAUTO_INCREMENT `district`
+-- AUTO_INCREMENT for table `district`
 --
 ALTER TABLE `district`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=710;
 
 --
--- テーブルのAUTO_INCREMENT `project`
+-- AUTO_INCREMENT for table `project`
 --
 ALTER TABLE `project`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3069;
 
 --
--- テーブルのAUTO_INCREMENT `province`
+-- AUTO_INCREMENT for table `province`
 --
 ALTER TABLE `province`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
--- テーブルのAUTO_INCREMENT `street`
+-- AUTO_INCREMENT for table `street`
 --
 ALTER TABLE `street`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31645;
 
 --
--- テーブルのAUTO_INCREMENT `ward`
+-- AUTO_INCREMENT for table `ward`
 --
 ALTER TABLE `ward`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11284;
 
 --
--- ダンプしたテーブルの制約
+-- Constraints for dumped tables
 --
 
 --
--- テーブルの制約 `bds_ news`
+-- Constraints for table `bds_ news`
 --
 ALTER TABLE `bds_ news`
   ADD CONSTRAINT `bds_new_to_category` FOREIGN KEY (`category_id`) REFERENCES `categorys` (`category_id`),
   ADD CONSTRAINT `bds_new_to_users` FOREIGN KEY (`create_by`) REFERENCES `users` (`user_id`);
 
 --
--- テーブルの制約 `contacts`
+-- Constraints for table `contacts`
 --
 ALTER TABLE `contacts`
   ADD CONSTRAINT `dfgeftyg` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- テーブルの制約 `detail_news`
+-- Constraints for table `detail_news`
 --
 ALTER TABLE `detail_news`
   ADD CONSTRAINT `to_news` FOREIGN KEY (`news_id`) REFERENCES `bds_ news` (`news_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- テーブルの制約 `district`
+-- Constraints for table `district`
 --
 ALTER TABLE `district`
   ADD CONSTRAINT `_district_id_to_province` FOREIGN KEY (`_province_id`) REFERENCES `province` (`id`);
 
 --
--- テーブルの制約 `favourite`
+-- Constraints for table `favourite`
 --
 ALTER TABLE `favourite`
   ADD CONSTRAINT `favourite_to_bds_news` FOREIGN KEY (`news_id`) REFERENCES `bds_ news` (`news_id`),
   ADD CONSTRAINT `favourite_to_bds_news_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 
 --
--- テーブルの制約 `project`
+-- Constraints for table `project`
 --
 ALTER TABLE `project`
   ADD CONSTRAINT `project_to__district_id` FOREIGN KEY (`_district_id`) REFERENCES `district` (`id`);
 
 --
--- テーブルの制約 `roles`
+-- Constraints for table `roles`
 --
 ALTER TABLE `roles`
-  ADD CONSTRAINT `roles_to_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+  ADD CONSTRAINT `roles_to_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- テーブルの制約 `street`
+-- Constraints for table `street`
 --
 ALTER TABLE `street`
   ADD CONSTRAINT `street_to__district_id` FOREIGN KEY (`_district_id`) REFERENCES `district` (`id`);
 
 --
--- テーブルの制約 `ward`
+-- Constraints for table `ward`
 --
 ALTER TABLE `ward`
   ADD CONSTRAINT `_district_id_to__district_id` FOREIGN KEY (`_district_id`) REFERENCES `district` (`id`);
