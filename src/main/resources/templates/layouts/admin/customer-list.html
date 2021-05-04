@@ -1,121 +1,126 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{layouts/admin/main-layout::main-fragment(  
+  th:replace="~{layouts/admin/main-layout::main-fragment(  
                 ~{::title},
                 ~{:: #products-static-resources},
                 ~{:: #home-nav},
                 ~{:: #products-main-content},  
                 ~{:: #resources-footer},
                )}">
-
 <head>
 <title>Danh sách người dùng hệ thống</title>
 <th:block id="products-static-resources"></th:block>
 </head>
 <body>
-	<nav id="home-nav">
-		<div class="nav-wrapper indigo darken-2">
-			<a style="margin-left: 20px;" class="breadcrumb" href="#!">Admin</a>
-			<a class="breadcrumb" href="#">Người dùng</a>
-			<div style="margin-right: 20px;" id="timestamp" class="right"></div>
-		</div>
-	</nav>
-	<div id="products-main-content">
-		<div class="ad-container">
-			<!-- Open modal -->
-			<a id="add_new" class="waves-effect waves-light btn modal-trigger"
-				href="#modal1"><i class="material-icons right">add</i>Thêm mới</a>
-			<table class="striped">
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>Tên người dùng</th>
-						<th>Ngày sinh</th>
-						<th>Số điện thoại</th>
-						<th>Địa chỉ thư</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody id="content_data" style="transition: all 0.5s ease-in-out;">
-				</tbody>
-			</table>
-
-			<div style="text-align: center; margin-top: 5px;">
-				<hr style="color: #ddd" />
-				<button id="loadmoreitem" class="btn waves-effect orange"
-					type="submit" name="action" onclick="loadData(null)">Tải
-					thêm</button>
-			</div>
-		</div>
-
-		<!-- Form add new category -->
-		<div id="modal1" class="modal">
-			<div class="modal-content" style="padding-bottom: 0px">
-				<div class="row" style="margin-bottom: 0px">
-					<form class="col s12">
-						<div class="row">
-							<h3 id="title_modal">Thêm mới</h3>
-							<input id="indexUpdate" type="hidden" />
-							<div class="row">
-								<div class="input-field col s12">
-									<input id="userName" type="text" /><label for="userName">Tên
-										người dùng</label> <small class="validate" style="color: red;"
-										id="validate_userName"></small>
-								</div>
-							</div>
-							<div class="row">
-								<div class="input-field col s12">
-									<input id="birthday" type="text" class="datepicker"><label
-										for="birthday">Ngày sinh</label> <small class="validate"
-										style="color: red;" id="validate_birthday"></small>
-								</div>
-							</div>
-							<div class="row">
-								<div class="input-field col s12">
-									<input id="phone" type="text" /><label for="phone">Số
-										điện thoại</label> <small class="validate" style="color: red;"
-										id="validate_phone"></small>
-								</div>
-							</div>
-							<div class="row">
-								<div class="input-field col s12">
-									<input id="email" type="text" /><label for="email">Địa
-										chỉ thư</label> <small class="validate" style="color: red;"
-										id="validate_email"></small>
-								</div>
-							</div>
-							<div class="row">
-								<div class="input-field col s12">
-									<input id="pass" type="password" /><label for="pass">Mât
-										khẩu (sử dụng cho đăng nhập)</label> <small class="validate"
-										style="color: red;" id="validate_pass"></small>
-								</div>
-							</div>
-							<div class="row" style="margin-left: 10px">
-								<input type="checkbox" class="filled-in" id="role_admin" /> <label
-									for="role_admin">Admin</label> <input type="checkbox"
-									class="filled-in" id="role_user" checked="checked" /> <label
-									for="role_user">User</label> <br> <small class="validate"
-									style="color: red;" id="validate_role"></small>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<a id="confirm_save" href="#"
-					class="waves-effect waves-green btn-flat">Đồng ý</a> <a href="#"
-					onclick="onCloseModal()"
-					class="modal-close waves-effect waves-green btn-flat">Đóng</a>
-			</div>
-		</div>
-
-		<!-- keep page number for load more item -->
-		<input id="page" type="hidden" value="1" />
-	</div>
-
-	<th:block id="resources-footer">
-		<script id="my-template" type="x-tmpl-mustache">
+  <th:block id="products-main-content">
+    <!-- Open modal -->
+    <a id="add_new" data-toggle="modal" data-target="#exampleModal" style="margin-bottom: 10px;"
+      href="#" class="btn btn-primary btn-icon-split"> <span class="icon text-white-50">
+        <i class="fas fa-flag"></i>
+    </span> <span class="text">Thêm mới</span>
+    </a>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Danh sách người dùng</h6>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Tên người dùng</th>
+                <th>Ngày sinh</th>
+                <th>Số điện thoại</th>
+                <th>Địa chỉ thư</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="content_data">
+            </tbody>
+          </table>
+          <div style="text-align: center; margin-top: 5px;">
+            <button onclick="loadData(null)" class="btn btn-light btn-icon-split">
+              <span class="icon text-gray-600"> <i class="fas fa-arrow-right"></i>
+              </span> <span class="text">Tải thêm</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="title_modal">Thêm mới</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form class="col s12">
+              <input id="indexUpdate" type="hidden" />
+              
+              <div class="form-group">
+                <label for="userName">Tên người dùng</label>
+                <input class="form-control" id="userName" type="text" />
+                <small class="validate" style="color: red;" id="validate_userName"></small>
+              </div>
+              
+              <div class="form-group">
+                <label for="birthday">Ngày sinh</label>
+                <input id="birthday" type="text" class="datepicker form-control">
+                <small class="validate" style="color: red;" id="validate_birthday"></small>
+              </div>
+              
+              <div class="form-group">
+                <label for="birthday">Số điện thoại</label>
+                <input id="birthday" type="text" class="datepicker form-control">
+                <small class="validate" style="color: red;" id="validate_userName"></small>
+              </div>
+              
+              <div class="form-group">
+                <label for="email">Địa chỉ thư</label>
+                <input id="email" type="text" class="datepicker form-control">
+                <small class="validate" style="color: red;" id="validate_email"></small>
+              </div>
+              
+              <div class="form-group">
+                <label for="pass">Mât khẩu (sử dụng cho đăng nhập)</label>
+                <input id="pass" type="text" class="datepicker form-control">
+                <small class="validate" style="color: red;" id="validate_pass"></small>
+              </div>
+              
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button onclick="onCloseModal()" type="button" class="btn btn-secondary"
+              data-dismiss="modal">Đóng</button>
+            <button id="confirm_save" type="button" class="btn btn-primary">Lưu người dùng</button>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <!-- keep page number for load more item -->
+      <input id="page" type="hidden" value="1" />
+    </div>
+  </th:block>
+  <th:block id="resources-footer">
+    <script id="my-template" type="x-tmpl-mustache">
 			<tr id="content_id_{{userId}}">
 				<td>{{userId}}</td>
 				<td>{{userName}}</td>
@@ -123,28 +128,22 @@
 				<td>{{phone}}</td>
 				<td>{{email}}</td>
 				<td>
-					<a href="#" onclick="onClickUpdate($(this));">Chỉnh sửa</a> | 
-					<a href="#" onclick="onDelete($(this), '{{userId}}', '{{userName}}');">Xóa</a>
+                    <a href="#" onclick="onClickUpdate($(this));" class="btn btn-info btn-circle btn-sm">
+                        <i class="fas fa-info-circle"></i>
+                    </a>
+					<a href="#" onclick="onDelete($(this), '{{userId}}', '{{userName}}');" class="btn btn-danger btn-circle btn-sm">
+                        <i class="fas fa-trash"></i>
+                    </a>
 				</td>
 			</tr>
 		</script>
-		<script>
+    <script>
 			let tmpl = $('#my-template').html();
 			Mustache.parse(tmpl);
 		
 			$(document).ready(function() {
 				var modal = $('#modal1').modal();
-				$('select').material_select();
 				loadData(0);
-
-				$('.datepicker').pickadate({
-				    selectMonths: true,
-				    selectYears: 15,
-				    today: 'Today',
-				    clear: 'Clear',
-				    closeOnSelect: true,
-				    format: 'yyyy/mm/dd'
-				});
 				  
 				// open modal
 				$("#add_new").click(function() {
@@ -308,6 +307,6 @@
 				$("input").val("");
 			}
 		</script>
-	</th:block>
+  </th:block>
 </body>
 </html>

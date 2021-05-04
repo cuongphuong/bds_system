@@ -1,96 +1,106 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{layouts/admin/main-layout::main-fragment(  
+  th:replace="~{layouts/admin/main-layout::main-fragment(  
                 ~{::title},
                 ~{:: #products-static-resources},
                 ~{:: #home-nav},
                 ~{:: #products-main-content},  
                 ~{:: #resources-footer},
                )}">
-
 <head>
 <title>Danh mục bất động sản</title>
 <th:block id="products-static-resources"></th:block>
 </head>
 <body>
-	<nav id="home-nav">
-		<div class="nav-wrapper indigo darken-2">
-			<a style="margin-left: 20px;" class="breadcrumb" href="#!">Admin</a>
-			<a class="breadcrumb" href="#">Danh mục</a>
-			<div style="margin-right: 20px;" id="timestamp" class="right"></div>
-		</div>
-	</nav>
-	<div id="products-main-content">
-		<div class="ad-container">
-			<!-- Open modal -->
-			<a id="add_new" class="waves-effect waves-light btn modal-trigger"
-				href="#modal1"><i class="material-icons right">add</i>Thêm mới</a>
-			<table class="striped">
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>Tên danh mục</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody id="content_data" style="transition: all 0.5s ease-in-out;">
-				</tbody>
-			</table>
-
-			<div style="text-align: center; margin-top: 5px;">
-				<hr style="color: #ddd" />
-				<button id="loadmoreitem" class="btn waves-effect orange"
-					type="submit" name="action" onclick="loadData(null)">Tải thêm</button>
-			</div>
-		</div>
-
-		<!-- Form add new category -->
-		<div id="modal1" class="modal">
-			<div class="modal-content" style="padding-bottom: 0px">
-				<div class="row" style="margin-bottom: 0px">
-					<form class="col s12">
-						<div class="row">
-							<h3 id="title_modal">Thêm mới</h3>
-							<input id="indexUpdate" type="hidden" />
-							<div class="row">
-								<div class="input-field col s12">
-									<input id="name" type="text" autofocus /><label for="password">Tên</label>
-									<small class="validate" style="color: red;" id="validate_name"></small>
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<a id="confirm_save" href="#"
-					class="waves-effect waves-green btn-flat">Đồng ý</a> <a href="#" onclick="onCloseModal()"
-					class="modal-close waves-effect waves-green btn-flat">Đóng</a>
-			</div>
-		</div>
-
-		<!-- keep page number for load more item -->
-		<input id="page" type="hidden" value="1" />
-	</div>
-
-	<th:block id="resources-footer">
-		<script id="my-template" type="x-tmpl-mustache">
+  <th:block id="products-main-content">
+    <!-- Open modal -->
+    <a id="add_new" data-toggle="modal" data-target="#exampleModal" style="margin-bottom: 10px;"
+      href="#" class="btn btn-primary btn-icon-split"> <span class="icon text-white-50">
+        <i class="fas fa-flag"></i>
+    </span> <span class="text">Thêm mới</span>
+    </a>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Danh sách danh mục tin</h6>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Tên danh mục</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="content_data">
+            </tbody>
+          </table>
+          <div style="text-align: center; margin-top: 5px;">
+            <button onclick="loadData(null)" class="btn btn-light btn-icon-split"> <span
+              class="icon text-gray-600"> <i class="fas fa-arrow-right"></i>
+            </span> <span class="text">Tải thêm</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="title_modal">Thêm mới</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form class="col s12">
+              <input id="indexUpdate" type="hidden" />
+              <div class="form-group">
+                <label for="exampleInputEmail1">Tên danh mục</label> <input type="text"
+                  class="form-control" id="name" placeholder="Nhập tên danh mục"> <small
+                  style="color: red;" id="validate_name" class="form-text text-muted validate"></small>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button onclick="onCloseModal()" type="button" class="btn btn-secondary"
+              data-dismiss="modal">Đóng</button>
+            <button id="confirm_save" type="button" class="btn btn-primary">Lưu danh mục</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- keep page number for load more item -->
+    <input id="page" type="hidden" value="1" />
+  </th:block>
+  <th:block id="resources-footer">
+    <!-- Page level custom scripts -->
+    <script src="/admin/js/demo/datatables-demo.js"></script>
+    <script id="my-template" type="x-tmpl-mustache">
 			<tr id="content_id_{{categoryId}}">
 				<td>{{categoryId}}</td>
 				<td>{{categoryName}}</td>
 				<td>
-					<a href="#" onclick="onUpdate($(this));">Chỉnh sửa</a> | 
-					<a href="#" onclick="onDelete($(this), '{{categoryId}}', '{{categoryName}}');">Xóa</a>
+                    <a href="#" onclick="onUpdate($(this));" class="btn btn-info btn-circle btn-sm">
+                        <i class="fas fa-info-circle"></i>
+                    </a>
+					<a href="#" onclick="onDelete($(this), '{{categoryId}}', '{{categoryName}}');" class="btn btn-danger btn-circle btn-sm">
+                        <i class="fas fa-trash"></i>
+                    </a>
 				</td>
 			</tr>
 		</script>
-		<script>
+    <script>
 			let tmpl = $('#my-template').html();
 			Mustache.parse(tmpl);
 		
 			$(document).ready(function() {
 				var modal = $('#modal1').modal();
-				$('select').material_select();
 				loadData(0);
 
 				// open modal
@@ -150,7 +160,7 @@
 					// set value into form
 					$("#indexUpdate").val(id);
 					$("#name").val(data.categoryName);
-					$('#modal1').modal('open');
+					$('#exampleModal').modal('show')
 				});
 			}
 			
@@ -163,7 +173,7 @@
 				        let rendered = Mustache.render(tmpl, item);
 
 				        $("#content_data").prepend(rendered);
-						$('#modal1').modal('close');
+				        $('#exampleModal').modal('hide')
 
 						return;
 					}
@@ -184,7 +194,7 @@
 				    	row.find("td").eq(1).html(item.categoryName);
 				    	row.find("td").eq(2).html(item.price);
 				    	
-						$('#modal1').modal('close');
+				    	$('#exampleModal').modal('hide')
 						return;
 					}
 
@@ -216,6 +226,6 @@
 				$("input").val("");
 			}
 		</script>
-	</th:block>
+  </th:block>
 </body>
 </html>
