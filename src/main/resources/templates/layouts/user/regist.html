@@ -1,77 +1,110 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="../static/login.css" th:href="@{/login.css}" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <title>Đăng ký tài khoản - Gem Realty</title>
 <link rel="stylesheet" href="/assets/css/loading.css">
+<style>
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 10px 0;
+  height: 400px;
+  text-align: center;
+}
+
+label{
+  color: #555 !important;
+}
+</style>
 </head>
 <body>
-  <div class="container mt-2 mb-4">
-    <div class="col-sm-8 ml-auto mr-auto">
-      <div class="col-sm-12 border border-primary shadow rounded pt-2">
-        <div class="text-center">
-          <a class="navbar-brand h1" href="/"> <i class='bx bx-buildings bx-sm text-dark'></i> <span
-            class="text-dark h2">Gem</span> <span class="text-primary h2">Realty</span>
-          </a>
+  <div class="wrapper">
+    <div class="container">
+      <div class="container">
+        <div class="col-sm-8 ml-auto mr-auto">
+          <div class="col-sm-12 shadow rounded pt-2">
+            <h1 style="color: #fff;">Gem Realty</h1>
+            <form style="padding: 0px;" method="post" id="singnupFrom" onsubmit="return onSave(event)">
+              <div class="form-group">
+                <input type="email" name="mail" id="signupemail" class="form-control"
+                  placeholder="Địa chỉ email" required>
+                <div class="text-danger">
+                  <em class="validate" id="validate_signupemail"></em>
+                </div>
+              </div>
+              <div class="form-group">
+                <input type="text" name="name" id="signupusername" class="form-control"
+                  placeholder="Tên người dùng" required>
+                <div class="text-danger">
+                  <em class="validate" id="validate_signupusername"></em>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="text-danger">
+                  <em class="validate" id="validate_signupphone"></em>
+                </div>
+              </div>
+              <div class="form-group">
+                <input type="password" name="pass" id="signuppassword" class="form-control"
+                  placeholder="***********" pattern="^\S{6,}$" required>
+                <div class="text-danger">
+                  <em class="validate" id="validate_signuppassword"></em>
+                </div>
+              </div>
+              <div class="form-group">
+                <input type="password" name="repass" id="signupcpassword" class="form-control"
+                  pattern="^\S{6,}$" placeholder="***********" required>
+                <div class="text-danger">
+                  <em class="validate" id="validate_signupcpassword"></em>
+                </div>
+              </div>
+              <div class="form-group">
+                <label><input type="checkbox" name="signupcondition" id="signupcondition"
+                  required> Tôi đồng ý với <a href="javascript:;">Điều khoản &amp; Điều
+                    kiện</a> đăng ký.</label>
+              </div>
+              <div class="form-group">
+                <input style="color: green; background: #fff; border: none;" type="submit" name="signupsubmit" value="Xác nhận đăng ký"
+                  class="btn btn-block btn-primary">
+              </div>
+              <div class="text-center">
+                <p>
+                  <a style="color: #fff;" href="/">Quay lại trang chủ</a>
+                </p>
+              </div>
+            </form>
+          </div>
         </div>
-        <form method="post" id="singnupFrom" onsubmit="return onSave(event)">
-          <div class="form-group">
-            <label class="font-weight-bold">Địa chỉ email <span class="text-danger">*</span></label>
-            <input type="email" name="mail" id="signupemail" class="form-control"
-              placeholder="Địa chỉ email" required>
-            <div class="text-danger">
-              <em class="validate" id="validate_signupemail"></em>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="font-weight-bold">Tên người dùng <span class="text-danger">*</span></label>
-            <input type="text" name="name" id="signupusername" class="form-control"
-              placeholder="Tên người dùng" required>
-            <div class="text-danger">
-              <em class="validate" id="validate_signupusername"></em>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="font-weight-bold">Điện thoại</label> <input type="text" name="phone"
-              id="signupphone" class="form-control">
-            <div class="text-danger">
-              <em class="validate" id="validate_signupphone"></em>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="font-weight-bold">Mật khẩu <span class="text-danger">*</span></label> <input
-              type="password" name="pass" id="signuppassword" class="form-control"
-              placeholder="***********" pattern="^\S{6,}$" required>
-            <div class="text-danger">
-              <em class="validate" id="validate_signuppassword"></em>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="font-weight-bold">Xác nhận mật khấu <span class="text-danger">*</span></label>
-            <input type="password" name="repass" id="signupcpassword" class="form-control"
-              pattern="^\S{6,}$" placeholder="***********" required>
-            <div class="text-danger">
-              <em class="validate" id="validate_signupcpassword"></em>
-            </div>
-          </div>
-          <div class="form-group">
-            <label><input type="checkbox" name="signupcondition" id="signupcondition"
-              required> Tôi đồng ý với <a href="javascript:;">Điều khoản &amp; Điều kiện</a>
-              đăng ký.</label>
-          </div>
-          <div class="form-group">
-            <input type="submit" name="signupsubmit" value="Xác nhận đăng ký"
-              class="btn btn-block btn-primary">
-          </div>
-          <div class="text-center">
-            <p>
-              <a href="/">Quay lại trang chủ</a>
-            </p>
-          </div>
-        </form>
+        <ul class="bg-bubbles">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+        <div id="ladding_layer_id" style="display: none;" class="loading">Loading&#8230;</div>
       </div>
     </div>
-    <div id="ladding_layer_id" style="display: none;" class="loading">Loading&#8230;</div>
+    <ul class="bg-bubbles">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
   </div>
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script>

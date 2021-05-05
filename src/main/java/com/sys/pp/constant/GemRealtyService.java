@@ -10,18 +10,23 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.thymeleaf.util.ListUtils;
 
+import com.sys.pp.constant.GemRealtyConst.Formality;
+import com.sys.pp.controller.custommodel.KeyValue;
 import com.sys.pp.controller.custommodel.PostInfomation;
 import com.sys.pp.model.BdsNew;
+import com.sys.pp.model.Category;
 import com.sys.pp.model.DetailNew;
 import com.sys.pp.model.District;
 import com.sys.pp.model.Favourite;
 import com.sys.pp.model.FavouritePK;
 import com.sys.pp.model.NewsType;
+import com.sys.pp.repo.CategoryRepository;
 import com.sys.pp.repo.DistrictRepository;
 import com.sys.pp.repo.FavouriteRepository;
 import com.sys.pp.repo.NewsTypeRepository;
@@ -198,5 +203,55 @@ public class GemRealtyService {
 		}
 
 		return address.toString();
+	}
+
+	public static List<KeyValue> getRealEstateByCategory(CategoryRepository categoryRepository) {
+		List<Category> categoryList = categoryRepository.findAll();
+
+		List<KeyValue> result = new ArrayList<>();
+		for (Category item : categoryList) {
+			KeyValue obj = new KeyValue();
+			obj.setKey(String.valueOf(item.getCategoryId()));
+			obj.setValue(item.getCategoryName());
+			obj.setValue1(String.format("/search?category=%s", item.getCategoryId()));
+			result.add(obj);
+		}
+		return result;
+	}
+
+	public static List<KeyValue> getCategoryList(CategoryRepository categoryRepository,
+			GemRealtyConst.Formality format) {
+		List<Category> categoryList = categoryRepository.findAll();
+		categoryList = categoryList.stream().limit(10).collect(Collectors.toList());
+
+		List<KeyValue> result = new ArrayList<>();
+		List<String> formality = new ArrayList<>();
+
+		if (GemRealtyConst.Formality.BUY.equals(format)) {
+			formality.add(Formality.BUY.toString());
+			formality.add(Formality.SELL.toString());
+		} else {
+			formality.add(Formality.RENT.toString());
+			formality.add(Formality.LEASE.toString());
+		}
+
+		for (Category item : categoryList) {
+			KeyValue obj = new KeyValue();
+			obj.setKey(String.valueOf(item.getCategoryId()));
+			obj.setValue(item.getCategoryName());
+
+			int count = categoryRepository.countByCategory(item.getCategoryId(), formality);
+			DecimalFormat formatter = new DecimalFormat("###,###,###");
+			obj.setValue2(String.format("(%s)", formatter.format(count)));
+
+			if (GemRealtyConst.Formality.BUY.equals(format)) {
+				obj.setValue1(String.format("/search?formality=SELL_BUY&category=%s", item.getCategoryId()));
+			} else {
+				obj.setValue1(String.format("/search?formality=LEASE_RENT&category=%s", item.getCategoryId()));
+			}
+
+			result.add(obj);
+		}
+		return result;
 	}
 }

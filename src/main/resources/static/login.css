@@ -1,49 +1,26 @@
-@font-face {
-  font-family: 'Source Sans Pro';
-  font-style: normal;
-  font-weight: 200;
-  src: url(https://fonts.gstatic.com/s/sourcesanspro/v14/6xKydSBYKcSV-LCoeQqfX1RYOo3i94_wlxdr.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Source Sans Pro';
-  font-style: normal;
-  font-weight: 300;
-  src: url(https://fonts.gstatic.com/s/sourcesanspro/v14/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdr.ttf) format('truetype');
-}
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-weight: 300;
-}
 body {
-  font-family: 'Source Sans Pro', sans-serif;
   color: white;
   font-weight: 300;
 }
 body ::-webkit-input-placeholder {
   /* WebKit browsers */
-  font-family: 'Source Sans Pro', sans-serif;
   color: white;
   font-weight: 300;
 }
 body :-moz-placeholder {
   /* Mozilla Firefox 4 to 18 */
-  font-family: 'Source Sans Pro', sans-serif;
   color: white;
   opacity: 1;
   font-weight: 300;
 }
 body ::-moz-placeholder {
   /* Mozilla Firefox 19+ */
-  font-family: 'Source Sans Pro', sans-serif;
   color: white;
   opacity: 1;
   font-weight: 300;
 }
 body :-ms-input-placeholder {
   /* Internet Explorer 10+ */
-  font-family: 'Source Sans Pro', sans-serif;
   color: white;
   font-weight: 300;
 }

@@ -492,22 +492,26 @@ a.trunc_string {
 }
 
 /* width */
-.popup_tab_block .tab_id::-webkit-scrollbar, #favorite_show_id::-webkit-scrollbar {
+.popup_tab_block .tab_id::-webkit-scrollbar, #favorite_show_id::-webkit-scrollbar
+  {
   width: 5px;
 }
 
 /* Track */
-.popup_tab_block .tab_id::-webkit-scrollbar-track, #favorite_show_id::-webkit-scrollbar-track {
+.popup_tab_block .tab_id::-webkit-scrollbar-track, #favorite_show_id::-webkit-scrollbar-track
+  {
   background: #f1f1f1;
 }
 
 /* Handle */
-.popup_tab_block .tab_id::-webkit-scrollbar-thumb, #favorite_show_id::-webkit-scrollbar-thumb {
+.popup_tab_block .tab_id::-webkit-scrollbar-thumb, #favorite_show_id::-webkit-scrollbar-thumb
+  {
   background: #888;
 }
 
 /* Handle on hover */
-.popup_tab_block #province_tab_id::-webkit-scrollbar-thumb:hover, #favorite_show_id::-webkit-scrollbar-thumb {
+.popup_tab_block #province_tab_id::-webkit-scrollbar-thumb:hover,
+  #favorite_show_id::-webkit-scrollbar-thumb {
   background: #555;
 }
 
@@ -586,4 +590,125 @@ a.trunc_string {
   margin-top: 20px;
   color: #888;
   opacity: 0.7;
+}
+
+.card_view_index {
+  width: 100%;
+  height: 62px;
+  background: #f5f7fc;
+  border-radius: 6px;
+  display: block;
+}
+
+.card_view_index>.image_background {
+  background: url('https://cdn.meeyland.com/img/icons/statistical.svg')
+    !important;
+  background-repeat: no-repeat !important;
+  display: block;
+  position: absolute;
+  top: 10px;
+  left: 5px;
+  width: 62px;
+  height: 62px;
+  width: 62px;
+}
+
+.card_view_index>div>.span1 {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #1a4bb7;
+}
+
+.card_view_index>div>.span2 {
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.71;
+  letter-spacing: normal;
+  color: #2b2b2b;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.card_index_view_link:before {
+  position: absolute;
+  left: 1px;
+  content: "";
+  width: 6px;
+  height: 6px;
+  top: 7px;
+  background-color: #e7843f;
+  border-radius: 3px;
+}
+
+.link-count {
+  float: left;
+  width: 30%;
+  text-align: right;
+  color: #1a4bb7;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card_index_view_link>a {
+  text-decoration: none;
+  color: #2b2b2b;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.card_index_view_link {
+  width: 70%;
+  float: left;
+  text-decoration: none !important;
+  font-size: 14px;
+  padding-left: 12px;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 15px);
+  word-break: break-all;
+}
+
+.category-card-footer {
+  text-align: end;
+  font-size: 14px;
+  padding-top: 10px;
+}
+
+.category-card-footer>a {
+  text-decoration: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 14px;
+  border-right: solid 1px #ddd;
+}
+
+.category-card-footer>a:last-child {
+  border-right: none !important;
+}
+
+.recent-work .recent-work-vertical {
+  background-position: 0 0 !important;
+  color: #fff;
+  opacity: 1
+}
+
+.recent-work .recent-work-vertical:hover {
+  background-position: 0% 100%! important;
+  color: #fff;
+  background-color: none;
+}
+
+.recent-work .recent-work-vertical h3, .recent-work .recent-work-vertical p
+  {
+  color: #fff;
 }

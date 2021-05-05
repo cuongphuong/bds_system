@@ -25,7 +25,6 @@ import com.sys.pp.constant.GemRealtyService;
 import com.sys.pp.controller.custommodel.KeyValue;
 import com.sys.pp.controller.custommodel.PostInfomation;
 import com.sys.pp.model.BdsNew;
-import com.sys.pp.model.Category;
 import com.sys.pp.model.Contact;
 import com.sys.pp.model.ContactPK;
 import com.sys.pp.model.DetailNew;
@@ -159,7 +158,7 @@ public class ViewPostController {
 			info.setPhone(phoneFormat);
 
 			info.setMoreBds(this.getRealEstateNearby(detailNews.getProvinceId()));
-			info.setMoreByCategory(this.getRealEstateByCategory());
+			info.setMoreByCategory(GemRealtyService.getRealEstateByCategory(categoryRepository));
 
 			Users user = userRepository.findById(news.getCreateBy()).get();
 			model.addAttribute("user", user);
@@ -170,21 +169,6 @@ public class ViewPostController {
 			LOGGER.error("Xử lý hiển thị tin lỗi", ex);
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Lỗi tải tin");
 		}
-	}
-
-	private List<KeyValue> getRealEstateByCategory() {
-		List<Category> categoryList = categoryRepository.findAll();
-
-		List<KeyValue> result = new ArrayList<>();
-		for (Category item : categoryList) {
-			KeyValue obj = new KeyValue();
-			obj.setKey(String.valueOf(item.getCategoryId()));
-			obj.setValue(item.getCategoryName());
-			obj.setValue1(String.format("/bds/category/%s/%s", item.getCategoryId(),
-					StringUtils.toSlug(String.format("Bất dộng sản %s", item.getCategoryName()))));
-			result.add(obj);
-		}
-		return result;
 	}
 
 	private List<KeyValue> getRealEstateNearby(int provinceId) {

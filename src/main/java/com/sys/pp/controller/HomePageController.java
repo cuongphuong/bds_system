@@ -13,11 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.sys.pp.constant.GemRealtyConst.Formality;
 import com.sys.pp.constant.GemRealtyService;
-import com.sys.pp.controller.custommodel.KeyValue;
 import com.sys.pp.controller.custommodel.PostInfomation;
 import com.sys.pp.model.BdsNew;
-import com.sys.pp.model.Category;
 import com.sys.pp.model.Users;
 import com.sys.pp.repo.BDSNewRepository;
 import com.sys.pp.repo.CategoryRepository;
@@ -80,6 +79,21 @@ public class HomePageController {
 		model.addAttribute("province_id_list", provinceService.findAll());
 		model.addAttribute("posts", this.getNewPost(user, favouriteRepository));
 		model.addAttribute("highlight_posts", this.getHighlightPost(user, favouriteRepository));
+		model.addAttribute("buy_category", GemRealtyService.getCategoryList(categoryRepository, Formality.BUY));
+		model.addAttribute("rent_category", GemRealtyService.getCategoryList(categoryRepository, Formality.RENT));
+		
+		List<String> formality = new ArrayList<>();
+		formality.add(Formality.BUY.toString());
+		formality.add(Formality.SELL.toString());
+		model.addAttribute("buy_countall", categoryRepository.countAllByFormatly(formality));
+		model.addAttribute("buy_countallinday", categoryRepository.countAllByFormatlyInday(formality));
+		
+		formality = new ArrayList<>();
+		formality.add(Formality.RENT.toString());
+		formality.add(Formality.LEASE.toString());
+		model.addAttribute("rent_countall", categoryRepository.countAllByFormatly(formality));
+		model.addAttribute("rent_countallinday", categoryRepository.countAllByFormatlyInday(formality));
+		
 		return "layouts/user/index";
 	}
 
@@ -96,7 +110,7 @@ public class HomePageController {
 	@RequestMapping(path = "/favourite")
 	public String favourite(Model model) {
 		PostInfomation info = new PostInfomation();
-		info.setMoreByCategory(this.getRealEstateByCategory());
+		info.setMoreByCategory(GemRealtyService.getRealEstateByCategory(categoryRepository));
 		model.addAttribute("infomation", info);
 		return "layouts/user/favourite";
 	}
@@ -125,20 +139,5 @@ public class HomePageController {
 		List<List<PostInfomation>> results = GemRealtyService.makeHighlightPost(userId, favouriteRepository, posts,
 				districtRepository, provinceRepository);
 		return results;
-	}
-
-	private List<KeyValue> getRealEstateByCategory() {
-		List<Category> categoryList = categoryRepository.findAll();
-
-		List<KeyValue> result = new ArrayList<>();
-		for (Category item : categoryList) {
-			KeyValue obj = new KeyValue();
-			obj.setKey(String.valueOf(item.getCategoryId()));
-			obj.setValue(item.getCategoryName());
-			obj.setValue1(String.format("/bds/category/%s/%s", item.getCategoryId(),
-					StringUtils.toSlug(String.format("Bất dộng sản %s", item.getCategoryName()))));
-			result.add(obj);
-		}
-		return result;
 	}
 }

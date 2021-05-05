@@ -17,7 +17,8 @@
 <body>
   <th:block id="products-main-content">
     <div class="banner-wrapper bg-light" style="position: relative;">
-      <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+      <div style="position: relative;" id="carouselExampleIndicators" class="carousel slide"
+        data-bs-ride="carousel">
         <ol class="carousel-indicators">
           <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
           <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
@@ -38,18 +39,13 @@
           role="button" data-bs-slide="next"> <i class='bx bx-chevron-right'></i> <span
           class="visually-hidden">Next</span>
         </a>
-      </div>
-      <div id="search_content_view" style="text-align: center;">
-        <a id="ser-input" href="#" class="button">Tìm kiếm</a>
-        <div id="xemtin_id" style="padding-top: 10px">
-          <a href="#view" onclick="scrollToContent()"><b>Xem danh sách tin hôm nay</b></a>
-        </div>
-        <div class="search-full-view">
+        <div id="search_content_view" style="text-align: center;">
           <div style="margin: 0 auto; width: 60%;">
-            <div style="margin-top: 200px;">
+            <div
+              style="margin-top: 15%; background: #fff; padding: 20px; border-radius: 25px; opacity: 0.9;">
               <div class="row" style="text-align: center;">
                 <div class="mb-3">
-                  <h3>Tìm kiếm bất động sản</h3>
+                  <h3 style="color: #555;">BẠN MUỐN TÌM GÌ?</h3>
                 </div>
               </div>
               <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
@@ -72,11 +68,9 @@
                 </div>
                 <div class="col-md-3">
                   <div class="mb-3">
-                    <input placeholder="Phường xã" type="text" class="form-select" id="ward_id"
-                      list="ward_id_list">
-                    <datalist id="ward_id_list">
-                      <option th:each="row : ${ward_id_list}" th:value="${row.getName()}"
-                        th:attr="key-data=${row.getId()}">
+                    <input onchange="districtChange()" type="text" placeholder="Quận huyện"
+                      class="form-select" id="district_id" list="district_id_list">
+                    <datalist id="district_id_list">
                     </datalist>
                   </div>
                 </div>
@@ -100,42 +94,8 @@
               <div class="row">
                 <div class="col-md-3">
                   <div class="mb-3">
-                    <input onchange="districtChange()" type="text" placeholder="Quận huyện"
-                      class="form-select" id="district_id" list="district_id_list">
-                    <datalist id="district_id_list">
-                    </datalist>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="mb-3">
-                    <input type="text" class="form-select" id="street_id" placeholder="Đường"
-                      list="street_id_list">
-                    <datalist id="street_id_list">
-                    </datalist>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="mb-3">
-                    <input type="text" class="form-select" id="price_id" placeholder="Giá tiền"
-                      list="price_id_list">
-                    <datalist id="price_id_list">
-                    </datalist>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="mb-3">
-                    <input type="text" class="form-select" id="street_id" placeholder="Hướng nhà"
-                      list="street_id_list">
-                    <datalist id="street_id_list">
-                    </datalist>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-3">
-                  <div class="mb-3">
-                    <input type="text" class="form-select"
-                      id="category_id" placeholder="Danh mục" list="category_id_list">
+                    <input type="text" class="form-select" id="category_id" placeholder="Danh mục"
+                      list="category_id_list">
                     <datalist id="category_id_list">
                     </datalist>
                   </div>
@@ -163,7 +123,10 @@
               </div>
             </div>
           </div>
-          <button class="btn btn-close" id="search-close">Đóng</button>
+          <div id="xemtin_id" style="padding-top: 10px">
+            <a href="#view" onclick="scrollToContent()"><b>Xem danh sách tin hôm nay</b></a>
+          </div>
+          <!-- <button class="btn btn-close" id="search-close">Đóng</button>-->
         </div>
       </div>
     </div>
@@ -171,7 +134,7 @@
     <section class="wrapper">
       <div class="container">
         <div class="recent-work-header row pb-5" style="margin-top: 10px; margin-bottom: 5px;">
-            <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Bất động sản nổi bật</h2>
+          <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Bất động sản nổi bật</h2>
         </div>
         <div id="tin_noi_bat_id" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
@@ -222,14 +185,117 @@
         </div>
       </div>
     </section>
+    <section class="wrapper">
+      <div class="container">
+        <div class="recent-work-header row pb-5" style="margin-top: 10px; margin-bottom: 5px;">
+          <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Mua bán bất động sản</h2>
+        </div>
+        <div class='row'>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div style="text-align: center; height: 40px;" class="card-title">
+                  <span
+                    style="background: url('https://cdn.meeyland.com/img/icons/mua-ban.svg?v=1.24'); background-repeat: no-repeat; color: #555; height: 40px; line-height: 40px; padding-left: 55px; padding-top: 5px; display: inline-block;">Mua
+                    bán nhà đất</span>
+                </div>
+                <div style="padding: 20px;">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div style="position: relative;" class="card_view_index">
+                        <span class="image_background"></span>
+                        <div style="position: absolute; top: 10px; left: 55px;">
+                          <span th:text="${buy_countall}" class="span1"></span> <span class="span2">Tin
+                            đăng</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div style="position: relative;" class="card_view_index">
+                        <span class="image_background"></span>
+                        <div style="position: absolute; top: 10px; left: 55px;">
+                          <span th:text="${buy_countallinday}" class="span1"></span> <span
+                            class="span2">Tin mới trong tháng</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" style="margin-top: 10px;">
+                    <div th:each="item: ${buy_category}" class="col-6" style="margin-bottom: 5px;">
+                      <div class="card_index_view_link">
+                        <a style="text-decoration: none;" th:href="${item.getValue1()}"
+                          data-toggle="tooltip" data-placement="top" th:title="${item.getValue1()}"
+                          th:text="${item.getValue()}"></a>
+                      </div>
+                      <div th:text="${item.getValue2()}" class="link-count"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="category-card-footer">
+                  <a href="/search?formality=SELL_BUY" class="link-newest"> Tin mới nhất </a> <a
+                    href="/search?formality=SELL_BUY"> Xem nhiều nhất </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div style="text-align: center; height: 40px;" class="card-title">
+                  <span
+                    style="background: url('https://cdn.meeyland.com/img/icons/mua-ban.svg?v=1.24'); background-repeat: no-repeat; color: #555; height: 40px; line-height: 40px; padding-left: 55px; padding-top: 5px; display: inline-block;">Thuê,
+                    cho thuê nhà đất</span>
+                </div>
+                <div style="padding: 20px;">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div style="position: relative;" class="card_view_index">
+                        <span class="image_background"></span>
+                        <div style="position: absolute; top: 10px; left: 55px;">
+                          <span th:text="${rent_countall}" class="span1"></span> <span class="span2">Tin
+                            đăng</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div style="position: relative;" class="card_view_index">
+                        <span class="image_background"></span>
+                        <div style="position: absolute; top: 10px; left: 55px;">
+                          <span th:text="${rent_countallinday}" class="span1"></span> <span
+                            class="span2">Tin mới trong tháng</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" style="margin-top: 10px;">
+                    <div th:each="item: ${rent_category}" class="col-6" style="margin-bottom: 5px;">
+                      <div class="card_index_view_link">
+                        <a style="text-decoration: none;" th:href="${item.getValue1()}"
+                          data-toggle="tooltip" data-placement="top" th:title="${item.getValue1()}"
+                          th:text="${item.getValue()}"></a>
+                      </div>
+                      <div th:text="${item.getValue2()}" class="link-count"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="category-card-footer">
+                  <a href="/search?formality=SELL_BUY" class="link-newest"> Tin mới nhất </a> <a
+                    href="/search?formality=SELL_BUY"> Xem nhiều nhất </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     <!-- Bất động sản mới nhất -->
     <section class="wrapper">
       <div class="container-fostrap">
         <div class="content" id="content">
           <div class="container">
-        <div class="recent-work-header row pb-5" style="margin-bottom: 5px; text-align: left;">
-            <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Tin mới đăng</h2>
-        </div>
+            <div class="recent-work-header row pb-5" style="margin-bottom: 5px; text-align: left;">
+              <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Tin mới đăng</h2>
+            </div>
             <div class="row">
               <div th:each="item: ${posts}" class="col-xs-12 col-sm-3">
                 <div style="height: 320px; border-radius: 15px;" class="card">
@@ -265,199 +331,68 @@
               </div>
             </div>
             <div>
-              <button type="button" onclick="window.location.href = '/search?formality=SELL_LEASE_BUY_RENT';" class="btn btn-outline-warning">Xem tất cả</button>
+              <button type="button"
+                onclick="window.location.href = '/search?formality=SELL_LEASE_BUY_RENT';"
+                class="btn btn-outline-primary">Xem tất cả</button>
             </div>
           </div>
         </div>
       </div>
     </section>
-    
-    
-    <div class="container">
-    <div class="list-city-detail" id="cms-location-content">
-         <div class="city-detail-item">
-            <div class="district-card district-card-type1">
-               <a href="/mua-ban-nha-dat/ho-chi-minh" class="link-hover"></a>
-               <div class="district-image-bg">
-                  <img src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/thanh-pho-ho-chi-minh-1366-big.png" class="lazy" alt="title" srcset="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/v3/cms/location-thanh-pho-ho-chi-minh-1024-big.png 1024w, https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/thanh-pho-ho-chi-minh-1366-big.png 1366w" style="">
-               </div>
-               <div class="district-item-content">
-                  <div class="district-name">
-                     Hồ Chí Minh
-                  </div>
-                  <div class="district-article">
-                     842,980 tin
-                  </div>
-               </div>
-               <div class="district">
-                  <a href="/mua-ban-nha-dat/ho-chi-minh">Chi tiết</a>
-               </div>
+    <!-- Bất động sản theo thành phố -->
+    <section class="wrapper">
+      <div class="container-fostrap">
+        <div class="content" id="content">
+          <div class="container">
+            <div class="recent-work-header row pb-5" style="margin-bottom: 5px; text-align: left;">
+              <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Khám phá bất
+                động sản ở các thành phố lớn</h2>
             </div>
-         </div>
-         <div class="city-detail-item">
-            <div class="district-card district-card-type2">
-               <a href="/mua-ban-nha-dat/lam-dong" class="link-hover"></a>
-               <div class="district-image-bg">
-                  <img src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/09-lam-dong-1366.png" class="lazy" alt="title" srcset="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/v3/cms/09-lam-dong-1024.png 1024w, https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/09-lam-dong-1366.png 1366w" style="">
-               </div>
-               <div class="district-item-content">
-                  <div class="district-name">
-                      Lâm Đồng
-                  </div>
-                  <div class="district-article">
-                    31,703 tin
-                  </div>
-               </div>
-               <div class="district">
-                  <a href="/mua-ban-nha-dat/lam-dong">Chi tiết</a>
-               </div>
+            <!-- Gallery -->
+            <div class="row">
+              <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+                <img
+                  src="/image/city/hanoi.png"
+                  class="w-100 shadow-1-strong rounded mb-4" alt="" /> <img
+                  src="/image/city/danang.png"
+                  class="w-100 shadow-1-strong rounded mb-4" alt="" />
+              </div>
+              <div class="col-lg-4 mb-4 mb-lg-0">
+                <img src="/image/city/hochiminh.png"
+                  class="w-100 shadow-1-strong rounded mb-4" alt="" /> <img
+                  src="/image/city/cantho.png"
+                  class="w-100 shadow-1-strong rounded mb-4" alt="" />
+              </div>
+              <div class="col-lg-4 mb-4 mb-lg-0">
+                <img src="/image/city/binhduong.png"
+                  class="w-100 shadow-1-strong rounded mb-4" alt="" /> <img
+                  src="/image/city/haiphong.png"
+                  class="w-100 shadow-1-strong rounded mb-4" alt="" />
+              </div>
             </div>
-            <div class="district-card district-card-type2">
-               <a href="/mua-ban-nha-dat/khanh-hoa" class="link-hover"></a>
-               <div class="district-image-bg">
-                  <img src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/07-khanh-hoa-1366.png" class="lazy" alt="title" srcset="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/v3/cms/07-khanh-hoa-1024.png 1024w, https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/07-khanh-hoa-1366.png 1366w" style="">
-               </div>
-               <div class="district-item-content">
-                  <div class="district-name">
-                     Khánh Hòa
-                  </div>
-                  <div class="district-article">
-                     39,493 tin
-                  </div>
-               </div>
-               <div class="district">
-                  <a href="/mua-ban-nha-dat/khanh-hoa">Chi tiết</a>
-               </div>
-            </div>
-         </div>
-         <div class="city-detail-item">
-            <div class="district-card district-card-type1">
-               <a href="/mua-ban-nha-dat/ha-noi" class="link-hover"></a>
-               <div class="district-image-bg">
-                  <img src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/ha-noi-1366-big.png" class="lazy" alt="title" srcset="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/v3/cms/location-ha-noi-1024-big.png 1024w, https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/ha-noi-1366-big.png 1366w" style="">
-               </div>
-               <div class="district-item-content">
-                  <div class="district-name">
-                      Hà Nội
-                  </div>
-                  <div class="district-article">
-                     854,603 tin
-                  </div>
-               </div>
-               <div class="district">
-                  <a href="/mua-ban-nha-dat/ha-noi">Chi tiết</a>
-               </div>
-            </div>
-         </div>
-         <div class="city-detail-item">
-            <div class="district-card district-card-type2">
-               <a href="/mua-ban-nha-dat/hai-phong" class="link-hover"></a>
-               <div class="district-image-bg">
-                  <img src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/08-hai-phong-1366.png" class="lazy" alt="title" srcset="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/v3/cms/08-hai-phong-1024.png 1024w, https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/08-hai-phong-1366.png 1366w" style="">
-               </div>
-               <div class="district-item-content">
-                  <div class="district-name">
-                      Hải Phòng
-                  </div>
-                  <div class="district-article">
-                     31,857 tin
-                  </div>
-               </div>
-               <div class="district">
-                  <a href="/mua-ban-nha-dat/hai-phong">Chi tiết</a>
-               </div>
-            </div>
-            <div class="district-card district-card-type2">
-               <a href="/mua-ban-nha-dat/ba-ria-vung-tau" class="link-hover"></a>
-               <div class="district-image-bg">
-                  <img src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/06-ba-ria-vung-tau-1366.png" class="lazy" alt="title" srcset="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/v3/cms/06-ba-ria-vung-tau-1024.png 1024w, https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/06-ba-ria-vung-tau-1366.png 1366w" style="">
-               </div>
-               <div class="district-item-content">
-                  <div class="district-name">
-                     Bà Rịa - Vũng Tàu
-                  </div>
-                  <div class="district-article">
-                     17,843 tin
-                  </div>
-               </div>
-               <div class="district">
-                  <a href="/mua-ban-nha-dat/ba-ria-vung-tau">Chi tiết</a>
-               </div>
-            </div>
-         </div>
-         <div class="city-detail-item">
-            <div class="district-card district-card-type1">
-               <a href="/mua-ban-nha-dat/binh-duong" class="link-hover"></a>
-               <div class="district-image-bg">
-                  <img src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/03-binh-duong-1366-big.png" class="lazy" alt="title" srcset="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/v3/cms/location-binh-duong-1024-big.png 1024w, https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/03-binh-duong-1366-big.png 1366w" style="">
-               </div>
-               <div class="district-item-content">
-                  <div class="district-name">
-                      Bình Dương
-                  </div>
-                  <div class="district-article">
-                    128,647 tin
-                  </div>
-               </div>
-               <div class="district">
-                  <a href="/mua-ban-nha-dat/binh-duong">Chi tiết</a>
-               </div>
-            </div>
-         </div>
-         <div class="city-detail-item">
-            <div class="district-card district-card-type2">
-               <a href="/mua-ban-nha-dat/long-an" class="link-hover"></a>
-               <div class="district-image-bg">
-                  <img src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/05-long-an-1366.png" class="lazy" alt="title" srcset="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/v3/cms/05-long-an-1024.png 1024w, https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/05-long-an-1366.png 1366w" style="">
-               </div>
-               <div class="district-item-content">
-                  <div class="district-name">
-                     Long An
-                  </div>
-                  <div class="district-article">
-                    43,707 tin
-                  </div>
-               </div>
-               <div class="district">
-                  <a href="/mua-ban-nha-dat/long-an">Chi tiết</a>
-               </div>
-            </div>
-            <div class="district-card district-card-type2">
-               <a href="/mua-ban-nha-dat/dong-nai" class="link-hover"></a>
-               <div class="district-image-bg">
-                  <img src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/04-dong-nai-1366.png" class="lazy" alt="title" srcset="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/v3/cms/04-dong-nai-1024.png 1024w, https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/04-dong-nai-1366.png 1366w" style="">
-               </div>
-               <div class="district-item-content">
-                  <div class="district-name">
-                      Đồng Nai
-                  </div>
-                  <div class="district-article">
-                    85,870 tin
-                  </div>
-               </div>
-               <div class="district">
-                  <a href="/mua-ban-nha-dat/dong-nai">Chi tiết</a>
-               </div>
-            </div>
-         </div>
+            <!-- Gallery -->
+          </div>
+        </div>
       </div>
-    </div>
-    
-    <section class="py-5 mb-5">
+    </section>
+    <!-- Bất động sản theo dự án -->
+    <section class="mb-5" style="padding-top: 5px;">
       <div class="container">
         <div class="recent-work-header row pb-5" style="margin-top: 10px; margin-bottom: 5px;">
-            <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Dự án bất động sản</h2>
+          <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Dự án bất động sản</h2>
         </div>
         <div class="row gy-5 g-lg-5 mb-4">
           <!-- Start Recent Work -->
           <div class="col-md-4 mb-3">
             <a href="#" class="recent-work card border-0 shadow-lg overflow-hidden"> <img
-              class="recent-work-img card-img" src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/feliz_en_vista.1605666831769.jpg?d=972x582"
+              class="recent-work-img card-img"
+              src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/feliz_en_vista.1605666831769.jpg?d=972x582"
               alt="Card image">
               <div class="recent-work-vertical card-img-overlay d-flex align-items-end">
                 <div class="recent-work-content text-start mb-3 ml-3 text-dark">
                   <h3 class="card-title light-300">Feliz En Vista</h3>
-                  <p class="card-text">Đường Đồng Văn Cống, Phường Thạnh Mỹ Lợi, Quận 2, Thành phố Hồ Chí Minh</p>
+                  <p class="card-text">Đường Đồng Văn Cống, Phường Thạnh Mỹ Lợi, Quận 2, Thành
+                    phố Hồ Chí Minh</p>
                 </div>
               </div>
             </a>
@@ -466,12 +401,14 @@
           <!-- Start Recent Work -->
           <div class="col-md-4 mb-3">
             <a href="#" class="recent-work card border-0 shadow-lg overflow-hidden"> <img
-              class="recent-work-img card-img" src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/bi_nh_minh_garden.1605666622324.jpg"
+              class="recent-work-img card-img"
+              src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/bi_nh_minh_garden.1605666622324.jpg"
               alt="Card image">
               <div class="recent-work-vertical card-img-overlay d-flex align-items-end">
                 <div class="recent-work-content text-start mb-3 ml-3 text-dark">
                   <h3 class="card-title light-300">Bình Minh Garden</h3>
-                  <p class="card-text">93 Đường Đức Giang, Phường Thượng Thanh, Quận Long Biên, Thành phố Hà Nội</p>
+                  <p class="card-text">93 Đường Đức Giang, Phường Thượng Thanh, Quận Long Biên,
+                    Thành phố Hà Nội</p>
                 </div>
               </div>
             </a>
@@ -480,12 +417,14 @@
           <!-- Start Recent Work -->
           <div class="col-md-4 mb-3">
             <a href="#" class="recent-work card border-0 shadow-lg overflow-hidden"> <img
-              class="recent-work-img card-img" src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/vinhomes_ocean_park.1605665709777.jpg"
+              class="recent-work-img card-img"
+              src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/vinhomes_ocean_park.1605665709777.jpg"
               alt="Card image">
               <div class="recent-work-vertical card-img-overlay d-flex align-items-end">
                 <div class="recent-work-content text-start mb-3 ml-3 text-dark">
                   <h3 class="card-title light-300">Vinhomes Ocean Park</h3>
-                  <p class="card-text">Xã Đa Tốn,Kiêu Kỵ, Dương Xá, Thị trấn Trâu Quỳ, Gia Lâm, Hà Nội, Xã Dương Xá, Huyện Gia Lâm, Thành phố Hà Nội</p>
+                  <p class="card-text">Xã Đa Tốn,Kiêu Kỵ, Dương Xá, Thị trấn Trâu Quỳ, Gia Lâm,
+                    Hà Nội, Xã Dương Xá, Huyện Gia Lâm, Thành phố Hà Nội</p>
                 </div>
               </div>
             </a>
@@ -494,7 +433,8 @@
           <!-- Start Recent Work -->
           <div class="col-md-4 mb-3">
             <a href="#" class="recent-work card border-0 shadow-lg overflow-hidden"> <img
-              class="recent-work-img card-img" src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/vinhomes_smart_city.1605665740302.jpg"
+              class="recent-work-img card-img"
+              src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/vinhomes_smart_city.1605665740302.jpg"
               alt="Card image">
               <div class="recent-work-vertical card-img-overlay d-flex align-items-end">
                 <div class="recent-work-content text-start mb-3 ml-3 text-dark">
@@ -508,12 +448,14 @@
           <!-- Start Recent Work -->
           <div class="col-md-4 mb-3">
             <a href="#" class="recent-work card border-0 shadow-lg overflow-hidden"> <img
-              class="recent-work-img card-img" src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/the_lotus_center.1605665781926.jpg"
+              class="recent-work-img card-img"
+              src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/the_lotus_center.1605665781926.jpg"
               alt="Card image">
               <div class="recent-work-vertical card-img-overlay d-flex align-items-end">
                 <div class="recent-work-content text-start mb-3 ml-3 text-dark">
                   <h3 class="card-title light-300">The Lotus Center</h3>
-                  <p class="card-text">Võ Chí Công, Phường Phú Thượng, Quận Tây Hồ, Thành phố Hà Nội</p>
+                  <p class="card-text">Võ Chí Công, Phường Phú Thượng, Quận Tây Hồ, Thành phố Hà
+                    Nội</p>
                 </div>
               </div>
             </a>
@@ -522,12 +464,14 @@
           <!-- Start Recent Work -->
           <div class="col-md-4 mb-3">
             <a href="#" class="recent-work card border-0 shadow-lg overflow-hidden"> <img
-              class="recent-work-img card-img" src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/the_stars_village.1605665854176.jpg"
+              class="recent-work-img card-img"
+              src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/the_stars_village.1605665854176.jpg"
               alt="Card image">
               <div class="recent-work-vertical card-img-overlay d-flex align-items-end">
                 <div class="recent-work-content text-start mb-3 ml-3 text-dark">
                   <h3 class="card-title light-300">The Stars Village</h3>
-                  <p class="card-text">Xã Nhơn Đức, Nhà Bè, Hồ Chí Minh, Xã Nhơn Đức, Huyện Nhà Bè, Thành phố Hồ Chí Minh</p>
+                  <p class="card-text">Xã Nhơn Đức, Nhà Bè, Hồ Chí Minh, Xã Nhơn Đức, Huyện Nhà
+                    Bè, Thành phố Hồ Chí Minh</p>
                 </div>
               </div>
             </a>

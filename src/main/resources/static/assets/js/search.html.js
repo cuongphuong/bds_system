@@ -39,11 +39,9 @@ function init() {
 		});
 }
 
-
-
 function addParameterToURL(param) {
 	_url = location.href;
-	_url += (_url.split('?')[1] ? '&'   : '?') + param;
+	_url += (_url.split('?')[1] ? '&' : '?') + param;
 	return _url;
 }
 
@@ -461,20 +459,7 @@ function onSearch(url) {
 	});
 }
 
-function pickupFromUrl() {
-	var urlParams = getUrlParamt();
-
-	// PICKUP HÌNH THỨC
-	const formalityParamater = urlParams.get('formality');
-	if (formalityParamater != null) {
-		var formalityList = formalityParamater.split("_");
-
-		pickUpFormality(function() {
-			document.querySelector('#selectbox_hinhthuc_id').setValue(formalityList);
-			makeUrlFromForm();
-		});
-	}
-
+function pickUpDanhMuc(urlParams) {
 	// PICKUP DANH MỤC
 	const categoryParamater = urlParams.get('category');
 	if (categoryParamater != null) {
@@ -487,9 +472,16 @@ function pickupFromUrl() {
 
 		pickUpCaterory(function() {
 			document.querySelector('#selectbox_category_id').setValue(categoryList);
+			pickUpTinhThanh(urlParams);
+			pickUpDiaDiem(urlParams);
 		});
+	} else {
+		pickUpTinhThanh(urlParams);
+		pickUpDiaDiem(urlParams);
 	}
+}
 
+function pickUpTinhThanh(urlParams) {
 	//PICKUP TỈNH THÀNH
 	const provinceParamater = urlParams.get('province');
 
@@ -501,7 +493,9 @@ function pickupFromUrl() {
 			}
 		});
 	}
+}
 
+function pickUpDiaDiem(urlParams) {
 	//PICKUP ĐỊA ĐIỂM
 	const locationParamater = urlParams.get('location');
 	if (locationParamater != null) {
@@ -511,60 +505,83 @@ function pickupFromUrl() {
 		onLoadProvince(function() {
 			$("input[name=province_checkbox][value=" + locationParamater + "]").prop('checked', true);
 			$("#input_popup_tab").val($('input[name=province_checkbox]:checked').next().text().trim());
-
-			onLoadDistrict(function() {
-				// PICKUP QUẬN HUYỆN
-				const districtParamater = urlParams.get('district');
-				if (districtParamater != null) {
-					var districtList = districtParamater.split("t");
-					$("input[name='district_checkbox']").each(function() {
-						if (districtList.includes($(this).val())) {
-							this.checked = true;
-						}
-					});
-
-					onLoadWard(districtList, function() {
-						// PICKUP PHƯƠNG XÃ
-						const wardParamater = urlParams.get('ward');
-						if (wardParamater != null) {
-							var wardList = wardParamater.split("t");
-							$("input[name='ward_checkbox']").each(function() {
-								if (wardList.includes($(this).val())) {
-									this.checked = true;
-								}
-							});
-						}
-					});
-
-					onLoadStreet(districtList, function() {
-						// PICKUP ĐƯỜNG
-						const streetParamater = urlParams.get('street');
-						if (streetParamater != null) {
-							var streetList = streetParamater.split("t");
-							$("input[name='street_checkbox']").each(function() {
-								if (streetList.includes($(this).val())) {
-									this.checked = true;
-								}
-							});
-						}
-					});
-
-					onLoadProject(districtList, function() {
-						// PICKUP DỰ ÁN
-						const projectParamater = urlParams.get('project');
-						if (projectParamater != null) {
-							var streetList = projectParamater.split("t");
-							document.querySelector('#selectbox_project_id').setValue(streetList);
-						}
-					});
-
-				}
-
-			});
-
+			pickUpQuanHuyen(urlParams);
 		});
+	} else {
+		pickUpMucGia(urlParams);
 	}
+}
 
+function pickUpXaPhuong(urlParams, districtList) {
+	onLoadWard(districtList, function() {
+		// PICKUP PHƯƠNG XÃ
+		const wardParamater = urlParams.get('ward');
+		if (wardParamater != null) {
+			var wardList = wardParamater.split("t");
+			$("input[name='ward_checkbox']").each(function() {
+				if (wardList.includes($(this).val())) {
+					this.checked = true;
+				}
+			});
+			pickUpTenDuong(urlParams, districtList);
+		} else {
+			pickUpTenDuong(urlParams, districtList);
+		}
+	});
+}
+
+function pickUpTenDuong(urlParams, districtList) {
+	onLoadStreet(districtList, function() {
+		// PICKUP ĐƯỜNG
+		const streetParamater = urlParams.get('street');
+		if (streetParamater != null) {
+			var streetList = streetParamater.split("t");
+			$("input[name='street_checkbox']").each(function() {
+				if (streetList.includes($(this).val())) {
+					this.checked = true;
+				}
+			});
+			pickUpDuAn(urlParams, districtList);
+		} else {
+			pickUpDuAn(urlParams, districtList)
+		}
+	});
+}
+
+function pickUpDuAn(urlParams, districtList) {
+	onLoadProject(districtList, function() {
+		// PICKUP DỰ ÁN
+		const projectParamater = urlParams.get('project');
+		if (projectParamater != null) {
+			var streetList = projectParamater.split("t");
+			document.querySelector('#selectbox_project_id').setValue(streetList);
+			pickUpMucGia(urlParams);
+		} else {
+			pickUpMucGia(urlParams);
+		}
+		
+	});
+}
+
+function pickUpQuanHuyen(urlParams) {
+	onLoadDistrict(function() {
+		// PICKUP QUẬN HUYỆN
+		const districtParamater = urlParams.get('district');
+		if (districtParamater != null) {
+			var districtList = districtParamater.split("t");
+			$("input[name='district_checkbox']").each(function() {
+				if (districtList.includes($(this).val())) {
+					this.checked = true;
+				}
+			});
+			pickUpXaPhuong(urlParams, districtList);
+		} else {
+			pickUpMucGia(urlParams);
+		}
+	});
+}
+
+function pickUpMucGia(urlParams) {
 	//PICKUP PRICE SCOPE
 	const priceParamater = urlParams.get('price');
 	if (priceParamater != null) {
@@ -572,8 +589,13 @@ function pickupFromUrl() {
 		pickUpPriceScope(function() {
 			document.querySelector('#selectbox_price_id').setValue(priceList);
 		});
+		pickUpDienTich(urlParams);
+	} else {
+		pickUpDienTich(urlParams);
 	}
+}
 
+function pickUpDienTich(urlParams) {
 	//PICKUP DIỆN TÍCH
 	const acreageParamater = urlParams.get('acreage');
 	if (acreageParamater != null) {
@@ -581,12 +603,36 @@ function pickupFromUrl() {
 		pickUpAcreageScope(function() {
 			document.querySelector('#selectbox_dientich_id').setValue(acreageList);
 		});
+		pickUpTuKhoa(urlParams);
+	} else {
+		pickUpTuKhoa(urlParams);
 	}
 
+}
+
+function pickUpTuKhoa(urlParams) {
 	// PICKUP TỪ KHÓA
 	const keywordParamater = urlParams.get('keyword');
 	if (keywordParamater != null) {
 		$("#keyword_id").val(keywordParamater);
+	}
+	makeUrlFromForm();
+}
+
+function pickupFromUrl() {
+	var urlParams = getUrlParamt();
+
+	// PICKUP HÌNH THỨC
+	const formalityParamater = urlParams.get('formality');
+	if (formalityParamater != null) {
+		var formalityList = formalityParamater.split("_");
+
+		pickUpFormality(function() {
+			document.querySelector('#selectbox_hinhthuc_id').setValue(formalityList);
+			pickUpDanhMuc(urlParams);
+		});
+	} else {
+		pickUpDanhMuc(urlParams);
 	}
 }
 
