@@ -19,6 +19,14 @@ public class RolePK implements Serializable {
 
 	public RolePK() {
 	}
+	
+	public RolePK(String userId, String role) {
+		super();
+		this.userId = userId;
+		this.role = role;
+	}
+
+
 	public String getUserId() {
 		return this.userId;
 	}

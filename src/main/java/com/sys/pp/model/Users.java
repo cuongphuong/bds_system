@@ -39,7 +39,7 @@ public class Users implements Serializable {
 
 	@Column(name="user_name")
 	private String userName;
-
+	
 	public Users() {
 	}
 

@@ -21,7 +21,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.sys.pp.constant.Names;
+import com.sys.pp.model.RolePK;
+import com.sys.pp.model.Roles;
 import com.sys.pp.model.Users;
+import com.sys.pp.repo.RoleRepository;
 import com.sys.pp.service.UserService;
 import com.sys.pp.util.DateUtil;
 import com.sys.pp.util.StringUtils;
@@ -32,6 +36,8 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+	@Autowired
+	RoleRepository roleService;
 
 	@GetMapping("")
 	public String viewAll() {
@@ -49,7 +55,7 @@ public class UserController {
 
 	@ResponseBody
 	@PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json; charset=UTF-8")
-	public Object saveCategory(@RequestBody Map<String, String> paramater) {
+	public Object save(@RequestBody Map<String, String> paramater) {
 		// validate data
 		Map<String, String> errors = this.validate(paramater, false);
 		Map<String, Object> result = new HashMap<>();
@@ -63,13 +69,34 @@ public class UserController {
 
 		try {
 			Users user = this.createObject(paramater);
-
 			userService.save(user);
+			List<Roles> roles = this.createRoles(paramater, user.getUserId());
+			roleService.saveAll(roles);
+
 			result.put("data", user);
 			return result;
 		} catch (Exception ex) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "OBJECT_EXISTS");
 		}
+	}
+
+	private List<Roles> createRoles(Map<String, String> paramater, String userId) {
+		List<Roles> roles = new ArrayList<Roles>();
+		if (!StringUtils.isNullOrEmpty(paramater.get("role_admin"))
+				|| !StringUtils.isNullOrEmpty(paramater.get("role_user"))) {
+			if (!StringUtils.isNullOrEmpty(paramater.get("role_admin")) && "true".equals(paramater.get("role_admin"))) {
+				Roles item = new Roles();
+				item.setId(new RolePK(userId, Names.ROLES.ROLE_ADMIN.toString()));
+				roles.add(item);
+			}
+
+			if (!StringUtils.isNullOrEmpty(paramater.get("role_user")) && "true".equals(paramater.get("role_user"))) {
+				Roles item = new Roles();
+				item.setId(new RolePK(userId, Names.ROLES.ROLE_USER.toString()));
+				roles.add(item);
+			}
+		}
+		return roles;
 	}
 
 	@ResponseBody
