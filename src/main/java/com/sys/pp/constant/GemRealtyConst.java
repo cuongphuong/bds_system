@@ -66,7 +66,7 @@ public class GemRealtyConst {
 		SOUTH("Nam"), //
 		NORTH("Bắc"), //
 		NORTHEAST("Đông bắc"), //
-		NORTHWEST("Đông bắc"), //
+		NORTHWEST("Tây bắc"), //
 		SOUTHWEST("Tây nam"), //
 		SOUTHEAST("Đông nam"); //
 

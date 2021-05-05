@@ -15,8 +15,8 @@
   <th:block id="products-main-content">
     <!-- Open modal -->
     <a id="add_new" data-toggle="modal" data-target="#exampleModal" style="margin-bottom: 10px;"
-      href="#" class="btn btn-primary btn-icon-split"> <span class="icon text-white-50">
-        <i class="fas fa-flag"></i>
+      href="#" class="btn btn-success btn-icon-split"> <span class="icon text-white-50">
+        <i class="fas fa-plus"></i>
     </span> <span class="text">Thêm mới</span>
     </a>
     <!-- DataTales Example -->
@@ -123,9 +123,6 @@
       </div>
     </div>
       
-      
-      
-      
       <!-- keep page number for load more item -->
       <input id="page" type="hidden" value="1" />
     </div>
@@ -143,7 +140,7 @@
                         <i class="fas fa-info-circle"></i>
                     </a>
 					<a href="#" onclick="onDelete($(this), '{{userId}}', '{{userName}}');" class="btn btn-danger btn-circle btn-sm">
-                        <i class="fas fa-trash"></i>
+                        <i class="fas fa-edit"></i>
                     </a>
 				</td>
 			</tr>
@@ -303,7 +300,7 @@
 			    if (day.length < 2) 
 			        day = '0' + day;
 
-			    return [year, month, day].join('/');
+			    return [day, month, year].join('/');
 			}
 
 			function onClickUpdate(obj) {

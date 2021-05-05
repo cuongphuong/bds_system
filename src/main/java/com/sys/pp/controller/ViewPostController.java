@@ -129,7 +129,7 @@ public class ViewPostController {
 			}
 
 			if (!StringUtils.isNullOrEmpty(StringUtils.nullToEmpty(detailNews.getRoomNum()))) {
-				info.setToiletNum(formatter.format(detailNews.getRoomNum()) + " (phòng)");
+				info.setRoomNum(formatter.format(detailNews.getRoomNum()) + " (phòng)");
 			}
 
 			info.setFurniture(!StringUtils.isNullOrEmpty(detailNews.getFurniture()) ? detailNews.getFurniture() : "--");

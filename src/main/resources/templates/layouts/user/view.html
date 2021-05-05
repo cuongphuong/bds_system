@@ -192,13 +192,13 @@
                   <td style="color: #555;">Số tầng:</td>
                   <td style="font-weight: bold; color: #555;" th:text="${infomation.getFloorsNum()}"></td>
                 </tr>
-                <tr th:if="${infomation.getToiletNum() != '' }">
-                  <td style="color: #555;">Số toilet:</td>
-                  <td style="font-weight: bold; color: #555;" th:text="${infomation.getToiletNum()}"></td>
-                </tr>
                 <tr th:if="${infomation.getRoomNum() != '' }">
                   <td style="color: #555;">Số phòng ngủ:</td>
                   <td style="font-weight: bold; color: #555;" th:text="${infomation.getRoomNum()}"></td>
+                </tr>
+                <tr th:if="${infomation.getToiletNum() != '' }">
+                  <td style="color: #555;">Số tolet:</td>
+                  <td style="font-weight: bold; color: #555;" th:text="${infomation.getToiletNum()}"></td>
                 </tr>
                 <tr th:if="${infomation.getFurniture() != '' }">
                   <td style="color: #555;">Nội thất:</td>
