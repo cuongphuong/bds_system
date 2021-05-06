@@ -132,7 +132,8 @@ public class ViewPostController {
 			}
 
 			info.setFurniture(!StringUtils.isNullOrEmpty(detailNews.getFurniture()) ? detailNews.getFurniture() : "--");
-			info.setJuridicalInfo(!StringUtils.isNullOrEmpty(detailNews.getJuridicalInfo()) ? detailNews.getJuridicalInfo() : "--");
+			info.setJuridicalInfo(
+					!StringUtils.isNullOrEmpty(detailNews.getJuridicalInfo()) ? detailNews.getJuridicalInfo() : "--");
 
 			if (detailNews.getProjectId() != null) {
 				Optional<Project> project = projectRepository.findById(detailNews.getProjectId());
@@ -159,6 +160,26 @@ public class ViewPostController {
 
 			info.setMoreBds(this.getRealEstateNearby(detailNews.getProvinceId()));
 			info.setMoreByCategory(GemRealtyService.getRealEstateByCategory(categoryRepository));
+
+			Users owner = null;
+			if (principal != null) {
+				String email = principal.getName();
+				owner = userRepository.findByEmailAddress(email);
+			}
+
+			if (news.getStatusFlg() == 1) {
+				info.setApproved(true);
+			}
+
+			if (news.getDeleteFlg() == 1) {
+				info.setCanceled(true);
+			}
+
+			if (owner != null && owner.getUserId().equals(news.getCreateBy())) {
+				info.setAccessByOwner(true);
+			} else {
+				info.setAccessByOwner(false);
+			}
 
 			Users user = userRepository.findById(news.getCreateBy()).get();
 			model.addAttribute("user", user);

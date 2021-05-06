@@ -245,6 +245,7 @@ public class PostController {
 		bdsNew.setCreateAt(new Date());
 		bdsNew.setCreateBy(userId);
 		bdsNew.setStatusFlg(Names.FLAG_OFF);
+		bdsNew.setDeleteFlg(Names.FLAG_OFF);
 
 		bdsNew.setPrice(GemRealtyService.getPriceByCategory(newsTypeRepository,
 				Integer.valueOf(paramater.get("newsType")), DateUtil.convertFromString(paramater.get("startDate")),

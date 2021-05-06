@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 public class DateUtil {
 	public static final String YYYYMMDD_FORMAT = "yyyy/MM/dd";
+	public static final String DDMMYYYY_FORMAT = "dd/MM/yyyy";
 	public static final String YYYYMMDD_FORMAT_MINUS = "yyyy-MM-dd";
 
 	public static boolean validateDate(String yyyyMMDD) {
@@ -22,6 +23,12 @@ public class DateUtil {
 			return null;
 		}
 		return date;
+	}
+	
+	public static String convertDDMMYYYYString(Date date) {
+		SimpleDateFormat formatter = new SimpleDateFormat(DDMMYYYY_FORMAT);
+		String strDate = formatter.format(date);
+		return strDate;
 	}
 
 	public static long getDiffDayByDate(Date d1, Date d2) {

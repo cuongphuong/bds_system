@@ -1,1 +1,267 @@
-Con cò bé bé nó đậu cành tre
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{layouts/admin/main-layout::main-fragment(  
+                ~{::title},
+                ~{:: #products-static-resources},
+                ~{:: #home-nav},
+                ~{:: #products-main-content},  
+                ~{:: #resources-footer},
+               )}">
+<head>
+<title>Danh mục bất động sản</title>
+<th:block id="products-static-resources">
+  <style>
+input {
+  width: 20px;
+  height: 20px;
+}
+</style>
+</th:block>
+</head>
+<body>
+  <th:block id="products-main-content">
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 id="title_id" class="m-0 font-weight-bold text-primary">Danh sách danh mục tin</h6>
+      </div>
+      <div class="card-body">
+        <div onclick="approvedAll()" style="margin-bottom: 10px;"
+          class="btn btn-success btn-icon-split">
+          <span class="icon text-white-50"> <i class="fas fa-check-square"></i>
+          </span> <span class="text">Duyệt mục đã chọn</span>
+        </div>
+        <div style="margin-bottom: 10px;" onclick="cancelAll()" class="btn btn-warning btn-icon-split"> <span
+          class="icon text-white-50"> <i class="fa fa-times"></i>
+        </span> <span class="text">Hủy mục đã chọn</span>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>ID
+                  <div style="margin-left: 20px; padding-bottom: 17px;">
+                    <input id="checkp" class="form-check-input" type="checkbox">
+                  </div>
+                </th>
+                <th>Tên bài viết</th>
+                <th>Chuyện mục</th>
+                <th>Địa chỉ</th>
+                <th>Dự án</th>
+                <th>Diện tích</th>
+                <th>Giá tiền</th>
+                <th>Ngày bắt đầu</th>
+                <th>Ngày kết thúc</th>
+                <th>Đã thanh toán</th>
+                <th>Trạng thái</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="content_data">
+            </tbody>
+          </table>
+          <div style="text-align: center; margin-top: 5px;">
+            <button onclick="loadData(null)" class="btn btn-light btn-icon-split">
+              <span class="icon text-gray-600"> <i class="fas fa-arrow-right"></i>
+              </span> <span class="text">Tải thêm</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="title_modal">Thêm mới</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form class="col s12">
+              <input id="indexUpdate" type="hidden" />
+              <div class="form-group">
+                <label for="exampleInputEmail1">Tên danh mục</label> <input type="text"
+                  class="form-control" id="name" placeholder="Nhập tên danh mục"> <small
+                  style="color: red;" id="validate_name" class="form-text text-muted validate"></small>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button onclick="onCloseModal()" type="button" class="btn btn-secondary"
+              data-dismiss="modal">Đóng</button>
+            <button id="confirm_save" type="button" class="btn btn-primary">Lưu danh mục</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- keep page number for load more item -->
+    <input id="page" type="hidden" value="1" />
+  </th:block>
+  <th:block id="resources-footer">
+    <!-- Page level custom scripts -->
+    <script src="/admin/js/demo/datatables-demo.js"></script>
+    <script id="my-template" type="x-tmpl-mustache">
+			<tr id="content_id_{{newsId}}" style="{{^canceled}}{{^approved}} background-color: #EFEFFB; {{/approved}}{{/canceled}} {{#canceled}}background-color: #ddd;{{/canceled}}">
+				<td>{{newsId}}<br/>
+					<div style="margin-left: 20px;">
+  						<input {{^approved}}name="idchecked"{{/approved}} class="form-check-input checkbox_class" type="checkbox" value="{{newsId}}" {{^canceled}}{{#approved}} disabled {{/approved}}{{/canceled}} {{#canceled}}disabled{{/canceled}}>
+					</div>
+				</td>
+				<td>{{title}}</td>
+				<td>{{categoryId}}</td>
+				<td>{{address}}</td>
+				<td>{{projectId}}</td>
+				<td>{{acreage}}</td>
+				<td>{{price}}</td>
+				<td>{{startDate}}</td>
+				<td>{{endDate}}</td>
+				<td>{{pricePost}}</td>
+				<td>
+
+				{{^canceled}}
+					{{#approved}}
+  						<span class="badge bg-success">Đã duyệt</span>
+					{{/approved}}
+					{{^approved}}
+  						<span class="badge bg-warning text-dark">Chưa xét duyệt</span>
+					{{/approved}}
+				{{/canceled}}
+				{{#canceled}}
+					<span class="badge bg-danger text-dark">Đã hủy</span>
+				{{/canceled}}
+
+				</td>
+				<td>
+					{{^canceled}}{{^approved}}
+                    	<a href="#" onclick="approvedOne('{{newsId}}', '{{title}}')" class="btn btn-info btn-circle btn-sm">
+                       	 	<i class="	fas fa-check-square"></i>
+                    	</a>
+					{{/approved}}{{/canceled}}
+					<a href="#" onclick="onDelete($(this), '{{newsId}}', '{{title}}');" class="btn btn-danger btn-circle btn-sm">
+                        <i class="fas fa-trash"></i>
+                    </a>
+				</td>
+			</tr>
+		</script>
+    <script>
+			let tmpl = $('#my-template').html();
+			Mustache.parse(tmpl);
+		
+			$(document).ready(function() {
+				var modal = $('#modal1').modal();
+				loadData(0);
+
+    		    $("#checkp").click(function() {
+        	        var checkBoxes = $("input[name=idchecked]");
+        	        checkBoxes.prop("checked", !checkBoxes.prop("checked"));
+        	    }); 
+			});
+
+			function loadData(page) {
+				// load data
+				if (page == null) {
+					page = $("#page").val();
+				}
+
+				var urlParams = getUrlParamt();
+				const f = urlParams.get('f');
+				var url = "./news/get/" + page;
+
+				if (f == "notapproved") {
+				  $("#title_id").text("Tin chưa duyệt");
+				  var url = url + "?filter=notapproved";
+				}
+
+				ajaxRequest(url, "GET", null, function(data) {
+				    data.forEach((item) => {
+				        let rendered = Mustache.render(tmpl, item);
+				        $("#content_data").append(rendered);
+				    });
+
+				    $("#page").val(parseInt(page) + 1);
+				});	
+			}
+			
+			function approvedOne(id, name) {
+				var r;
+				
+				if(name == null) {
+				  r = confirm("Phê duyệt " + id.split("t").length + " mục đã chọn");
+				} else {
+				  r = confirm("Phê duyệt bài viết dược hiển thị công khai [" + name + "]");
+				}
+
+				if (r == true) {
+					ajaxRequest("./news/approved/" + id, "POST", null, function(data) {
+					  location.reload();
+					});
+				}
+			}
+			
+			function approvedAll() {
+    		     var allVals = $("input[name=idchecked]:checked").map(function () {
+    		       return this.value;
+    		     }).get().join("t");
+    		     
+    		     approvedOne(allVals, null);
+			}
+			
+			function cancelAll() {
+    		     var allVals = $("input[name=idchecked]:checked").map(function () {
+    		       return this.value;
+    		     }).get().join("t");
+    		     
+    		     if (allVals.length == 0) {
+    		       alert("Vui lòng chọn ít nhất 1 mục.");
+    		       return;
+    		     }
+    		     
+				var r = confirm("Hủy " + allVals.split("t").length + " mục đã chọn");
+
+				if (r == true) {
+					ajaxRequest("./news/cancel/" + allVals, "POST", null, function(data) {
+					  location.reload();
+					});
+				}
+			}
+
+			function onDelete(obj, key, name) {
+				var r = confirm("Xác nhận xóa [" + name + "]");
+
+				if (r == true) {
+					ajaxRequest("./news/delete/" + key, "DELETE", null, function(data) {
+						obj.parents("tr").remove();
+					});
+				}
+			}
+			
+			function ajaxRequest(url, method, data, calBackFuntion) {
+				var config = {
+					method : method,
+					url : url,
+					context : document.body,
+				};
+
+				if (data) {
+					config.data = data;
+					config.contentType = "application/json; charset=utf-8";
+				}
+
+				$.ajax(config).done(function(data) {
+					calBackFuntion(data);
+				});
+			}
+
+			function getUrlParamt() {
+				const queryString = window.location.search;
+				const urlParams = new URLSearchParams(queryString);
+				return urlParams;
+			}
+		</script>
+  </th:block>
+</body>
+</html>

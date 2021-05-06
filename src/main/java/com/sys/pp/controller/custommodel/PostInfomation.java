@@ -1,6 +1,5 @@
 package com.sys.pp.controller.custommodel;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -12,9 +11,9 @@ public class PostInfomation {
 	private String categoryId;
 	private Date createAt;
 	private String createBy;
-	private Date endDate;
-	private BigDecimal pricePost;
-	private Date startDate;
+	private String endDate;
+	private String pricePost;
+	private String startDate;
 	private String statusFlg;
 	private String title;
 	private List<String> breadcrumbItems;
@@ -59,9 +58,36 @@ public class PostInfomation {
 	private String urlPost;
 	private int level;
 	private boolean isLiked;
+	private boolean isApproved;
+	private boolean isCanceled;
+	private boolean isAccessByOwner;
 
 	public String getAcreage() {
 		return this.acreage;
+	}
+
+	public boolean isCanceled() {
+		return isCanceled;
+	}
+
+	public boolean isAccessByOwner() {
+		return isAccessByOwner;
+	}
+
+	public void setAccessByOwner(boolean isAccessByOwner) {
+		this.isAccessByOwner = isAccessByOwner;
+	}
+
+	public void setCanceled(boolean isCanceled) {
+		this.isCanceled = isCanceled;
+	}
+
+	public boolean isApproved() {
+		return isApproved;
+	}
+
+	public void setApproved(boolean isApproved) {
+		this.isApproved = isApproved;
 	}
 
 	public boolean isLiked() {
@@ -252,11 +278,11 @@ public class PostInfomation {
 		this.lng = lng;
 	}
 
-	public BigDecimal getPricePost() {
+	public String getPricePost() {
 		return this.pricePost;
 	}
 
-	public void setPricePost(BigDecimal price) {
+	public void setPricePost(String price) {
 		this.pricePost = price;
 	}
 
@@ -348,11 +374,11 @@ public class PostInfomation {
 		this.createBy = createBy;
 	}
 
-	public Date getEndDate() {
+	public String getEndDate() {
 		return this.endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 
@@ -364,11 +390,11 @@ public class PostInfomation {
 		this.price = price;
 	}
 
-	public Date getStartDate() {
+	public String getStartDate() {
 		return this.startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 

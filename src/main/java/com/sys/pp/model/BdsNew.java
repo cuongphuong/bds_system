@@ -43,6 +43,9 @@ public class BdsNew implements Serializable {
 	@Column(name = "status_flg")
 	private int statusFlg;
 
+	@Column(name = "delete_flg")
+	private int deleteFlg;
+
 	@Column(name = "level")
 	private int level;
 
@@ -53,6 +56,14 @@ public class BdsNew implements Serializable {
 	private DetailNew detailNew;
 
 	public BdsNew() {
+	}
+
+	public int getDeleteFlg() {
+		return deleteFlg;
+	}
+
+	public void setDeleteFlg(int deleteFlg) {
+		this.deleteFlg = deleteFlg;
 	}
 
 	public int getNewsId() {

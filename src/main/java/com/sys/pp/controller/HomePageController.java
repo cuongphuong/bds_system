@@ -3,6 +3,7 @@ package com.sys.pp.controller;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,19 +82,19 @@ public class HomePageController {
 		model.addAttribute("highlight_posts", this.getHighlightPost(user, favouriteRepository));
 		model.addAttribute("buy_category", GemRealtyService.getCategoryList(categoryRepository, Formality.BUY));
 		model.addAttribute("rent_category", GemRealtyService.getCategoryList(categoryRepository, Formality.RENT));
-		
+
 		List<String> formality = new ArrayList<>();
 		formality.add(Formality.BUY.toString());
 		formality.add(Formality.SELL.toString());
 		model.addAttribute("buy_countall", categoryRepository.countAllByFormatly(formality));
 		model.addAttribute("buy_countallinday", categoryRepository.countAllByFormatlyInday(formality));
-		
+
 		formality = new ArrayList<>();
 		formality.add(Formality.RENT.toString());
 		formality.add(Formality.LEASE.toString());
 		model.addAttribute("rent_countall", categoryRepository.countAllByFormatly(formality));
 		model.addAttribute("rent_countallinday", categoryRepository.countAllByFormatlyInday(formality));
-		
+
 		return "layouts/user/index";
 	}
 
@@ -117,6 +118,7 @@ public class HomePageController {
 
 	private List<PostInfomation> getNewPost(Users user, FavouriteRepository favouriteRepository) {
 		List<BdsNew> posts = bDSNewService.findByPageNumber(0);
+		posts = posts.stream().filter(p -> p.getDeleteFlg() == 0 && p.getStatusFlg() == 1).collect(Collectors.toList());
 
 		String userId = null;
 		if (user != null) {

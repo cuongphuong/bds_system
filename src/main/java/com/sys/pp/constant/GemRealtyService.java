@@ -136,6 +136,7 @@ public class GemRealtyService {
 	private static PostInfomation makeAnItem(String userId, FavouriteRepository favouriteRepository, BdsNew item,
 			DecimalFormat formatter, DistrictRepository districtRepository, ProvinceRepository provinceRepository) {
 		PostInfomation post = new PostInfomation();
+
 		// Title
 		post.setTitle(item.getTitle());
 		// Diện tích && Giá tiền

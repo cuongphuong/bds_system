@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org"
   th:replace="~{layouts/user/main-layout::main-fragment(  
                 ~{::title},
                 ~{:: #products-static-resources},
@@ -45,223 +45,482 @@
 </head>
 <body>
   <th:block id="products-main-content">
-    <div class="container" style="padding: 10px;">
-      <div class="row">
-        <div class="col-md-8">
-          <nav aria-label="breadcrumb" style="padding-top: 10px">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a
-                th:text="${infomation.getBreadcrumbItems().get(0)}" href="/"></a></li>
-              <li class="breadcrumb-item"><a
-                th:text="${infomation.getBreadcrumbItems().get(1)}" href="/"></a></li>
-              <li th:text="${infomation.getBreadcrumbItems().get(2)}" class="breadcrumb-item active"
-                aria-current="page"></li>
-            </ol>
-          </nav>
-          <div th:if="${infomation.isHasImage()}" class="full-screen-show">
-            <div id="templatemo-slide-link-target" class="mb-3">
-              <img class="img-fluid border rounded" th:src="${infomation.getImages().get(0).get(0)}"
-                alt="Card image cap">
-            </div>
-            <div class="worksingle-slide-footer row">
-              <div class="col-1 align-self-center">
-                <a href="#multi-item-example" role="button" data-bs-slide="prev"> <i
-                  class='bx bxs-chevron-left bx-sm text-dark'></i>
-                </a>
-              </div>
-              <div id="multi-item-example" class="col-10 carousel slide" data-bs-ride="carousel">
-                <!--Start Slides-->
-                <div id="slide-show_id" class="carousel-inner" role="listbox">
-                  <!--First slide-->
-                  <div th:each="listImage: ${infomation.getImages()}" class="carousel-item">
-                    <div class="row" style="height: 70px; float: left;">
-                      <div class="col" th:each="itemImage: ${listImage}">
-                        <a class="templatemo-slide-link" th:href="${itemImage}"> <img
-                          style="height: 70px" class="img-fluid border rounded"
-                          th:src="${itemImage}" alt="preview">
+    <span th:text="${isAdmin}"></span>
+    <div th:if="${!infomation.isCanceled()}">
+      <div th:if="${!infomation.isApproved()}">
+        <div sec:authorize="isFullyAuthenticated()">
+          <div
+            th:if="${infomation.isAccessByOwner() OR #strings.contains(#authentication.principal.authorities,'ROLE_ADMIN')}">
+            <div th:if="${infomation.isHasImage()}" class="container" style="padding: 10px;">
+              <div class="row">
+                <div class="col-md-8">
+                  <nav aria-label="breadcrumb" style="padding-top: 10px">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a
+                        th:text="${infomation.getBreadcrumbItems().get(0)}" href="/"></a></li>
+                      <li class="breadcrumb-item"><a
+                        th:text="${infomation.getBreadcrumbItems().get(1)}" href="/"></a></li>
+                      <li th:text="${infomation.getBreadcrumbItems().get(2)}"
+                        class="breadcrumb-item active" aria-current="page"></li>
+                    </ol>
+                  </nav>
+                  <div class="alert alert-warning" role="alert">Bài viết đang chờ phê duyệt</div>
+                  <div th:if="${infomation.isHasImage()}" class="full-screen-show">
+                    <div id="templatemo-slide-link-target" class="mb-3">
+                      <img class="img-fluid border rounded"
+                        th:src="${infomation.getImages().get(0).get(0)}" alt="Card image cap">
+                    </div>
+                    <div class="worksingle-slide-footer row">
+                      <div class="col-1 align-self-center">
+                        <a href="#multi-item-example" role="button" data-bs-slide="prev"> <i
+                          class='bx bxs-chevron-left bx-sm text-dark'></i>
                         </a>
+                      </div>
+                      <div id="multi-item-example" class="col-10 carousel slide"
+                        data-bs-ride="carousel">
+                        <!--Start Slides-->
+                        <div id="slide-show_id" class="carousel-inner" role="listbox">
+                          <!--First slide-->
+                          <div th:each="listImage: ${infomation.getImages()}" class="carousel-item">
+                            <div class="row" style="height: 70px; float: left;">
+                              <div class="col" th:each="itemImage: ${listImage}">
+                                <a class="templatemo-slide-link" th:href="${itemImage}"> <img
+                                  style="height: 70px" class="img-fluid border rounded"
+                                  th:src="${itemImage}" alt="preview">
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-1 align-self-center text-end">
+                        <a href="#multi-item-example" role="button" data-bs-slide="next"> <i
+                          class='bx bxs-chevron-right bx-sm text-dark'></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tieu-de"
+                    style="border: solid 1px #ddd; padding: 10px; margin-top: 20px">
+                    <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line"
+                      th:text="${infomation.getTitle()}"></h2>
+                    <p th:text="${infomation.getAddress()}" style="color: #333; margin-top: 20px"></p>
+                    <div style="border-top: solid 1px #ddd; padding-top: 10px;">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <table class="table table-borderless" style="border-bottom: none">
+                            <thead>
+                              <tr>
+                                <td>Mức giá</td>
+                                <td>Diện tích</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td th:text="${infomation.getPrice()}"
+                                  style="font-size: 20px; font-weight: bold;"></td>
+                                <td th:text="${infomation.getAcreage()}"
+                                  style="font-size: 20px; font-weight: bold;"></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                          <div class='like-button'>
+                            <div class='like-icon'>
+                              <div class='heart-animation-1'></div>
+                              <div class='heart-animation-2'></div>
+                            </div>
+                            Lưu tin
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="thong-tin-lien-he"
+                    style="border: solid 1px #ddd; padding: 10px; margin-top: 20px">
+                    <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Thông tin
+                      liên hệ</h2>
+                    <table style="margin-top: 10px;" class="table table-borderless table_view">
+                      <tbody>
+                        <tr>
+                          <td style="color: #555;">Họ tên người liên hệ:</td>
+                          <td style="font-weight: bold; color: #555;"
+                            th:text="${infomation.getContactName()}"><div>xxx</div></td>
+                        </tr>
+                        <tr>
+                          <td style="color: #555;">Địa chỉ:</td>
+                          <td style="font-weight: bold; color: #555;"
+                            th:text="${infomation.getDiaChi()}"></td>
+                        </tr>
+                        <tr>
+                          <td style="color: #555;">Điện thoại:</td>
+                          <td style="font-weight: bold; color: #555;"
+                            th:text="${infomation.getPhone()}"></td>
+                        </tr>
+                        <tr>
+                          <td style="color: #555;">Email:</td>
+                          <td style="font-weight: bold; color: #555;"
+                            th:text="${infomation.getEmail()}"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="thong-tin-mo-ta"
+                    style="border: solid 1px #ddd; padding: 10px; margin-top: 20px">
+                    <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Thông tin
+                      mô tả</h2>
+                    <pre th:text="${infomation.getDescription()}"
+                      style="word-wrap: break-word; font-family: Montserrat, sans-serif; font-size: 1rem; overflow: hidden; margin-top: 20px">
+					</pre>
+                    <div th:if="${infomation.isHasVideoUrl()}" class="ratio ratio-16x9">
+                      <iframe class="embed-responsive-item" th:src="${infomation.getVideoUrl()}"
+                        allowfullscreen></iframe>
+                    </div>
+                  </div>
+                  <div class="dat-diem-bds"
+                    style="border: solid 1px #ddd; padding: 10px; margin-top: 20px">
+                    <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Đặc điểm
+                      bất động sản</h2>
+                    <table style="margin-top: 10px;" class="table table-borderless">
+                      <tbody>
+                        <tr th:if="${infomation.getProjectId() != '' }">
+                          <td style="color: #555;">Dự án:</td>
+                          <td style="font-weight: bold; color: #555;"
+                            th:text="${infomation.getProjectId()}"></td>
+                        </tr>
+                        <tr th:if="${infomation.getDirection() != '' }">
+                          <td style="color: #555;">Hướng nhà:</td>
+                          <td style="font-weight: bold; color: #555;"
+                            th:text="${infomation.getDirection()}"></td>
+                        </tr>
+                        <tr th:if="${infomation.getFrontWidth() != '' }">
+                          <td style="color: #555;">Chiều rộng mặt trước:</td>
+                          <td style="font-weight: bold; color: #555;"
+                            th:text="${infomation.getFrontWidth()}"></td>
+                        </tr>
+                        <tr th:if="${infomation.getEntranceWidth() != '' }">
+                          <td style="color: #555;">Chiều rộng lối vào:</td>
+                          <td style="font-weight: bold; color: #555;"
+                            th:text="${infomation.getEntranceWidth()}"></td>
+                        </tr>
+                        <tr th:if="${infomation.getFloorsNum() != '' }">
+                          <td style="color: #555;">Số tầng:</td>
+                          <td style="font-weight: bold; color: #555;"
+                            th:text="${infomation.getFloorsNum()}"></td>
+                        </tr>
+                        <tr th:if="${infomation.getRoomNum() != '' }">
+                          <td style="color: #555;">Số phòng ngủ:</td>
+                          <td style="font-weight: bold; color: #555;"
+                            th:text="${infomation.getRoomNum()}"></td>
+                        </tr>
+                        <tr th:if="${infomation.getToiletNum() != '' }">
+                          <td style="color: #555;">Số tolet:</td>
+                          <td style="font-weight: bold; color: #555;"
+                            th:text="${infomation.getToiletNum()}"></td>
+                        </tr>
+                        <tr th:if="${infomation.getFurniture() != '' }">
+                          <td style="color: #555;">Nội thất:</td>
+                          <td style="font-weight: bold; color: #555;"
+                            th:text="${infomation.getFurniture()}"></td>
+                        </tr>
+                        <tr th:if="${infomation.getJuridicalInfo() != '' }">
+                          <td style="color: #555;">Thông tin pháp lý:</td>
+                          <td style="font-weight: bold; color: #555;"
+                            th:text="${infomation.getJuridicalInfo()}"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="ban-do"
+                    style="border: solid 1px #ddd; padding: 5px; margin-top: 20px;">
+                    <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Bản đồ</h2>
+                    <div class="col-md-12">
+                      <div style="box-shadow: 1px 0px 10px #ddd; height: 400px" id="googleMap"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4" style="padding-top: 50px;">
+                  <!--Profile Card 3-->
+                  <div class="col-md-12">
+                    <div class="card profile-card-3">
+                      <div class="background-block">
+                        <img
+                          src="https://images.pexels.com/photos/459225/pexels-photo-459225.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+                          alt="profile-sample1" class="background" />
+                      </div>
+                      <div class="profile-thumb-block">
+                        <img src="/image/default_avt.png" alt="profile-image" class="profile" />
+                      </div>
+                      <div class="card-content">
+                        <h2 th:text="${user.getUserName()}"></h2>
+                        <small>Nhà môi giới bất động sản</small>
+                        <div class="icon-block">
+                          <a href="#"><i class="fa fa-facebook"></i></a><a href="#"> <i
+                            class="fa fa-twitter"></i></a><a href="#"> <i class="fa fa-google-plus"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div classs="list-du-an">
+                    <h4>Bất động sản lân cận</h4>
+                    <ul class="list-group list-group-flush">
+                      <li th:each="item: ${infomation.getMoreBds()}"
+                        class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                          <div>
+                            <a style="text-decoration: none; color: #333; font-weight: normal;"
+                              th:text="${item.getValue()}" th:href="${item.getValue3()}"></a>
+                          </div>
+                        </div> <span th:text="${item.getValue1()}" class="badge bg-primary rounded-pill">14</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div classs="list-danh-muc" style="margin-top: 20px">
+                    <h4>Bạn có thể quan tâm.</h4>
+                    <ul class="list-group list-group-flush" style="padding: 10px;">
+                      <li th:each="item: ${infomation.getMoreByCategory()}" class="list-group-item"><a
+                        style="color: #333; text-decoration: none;" th:text="${item.getValue()}"
+                        th:href="${item.getValue1()}"></a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div th:if="${infomation.isApproved()}">
+        <div th:if="${infomation.isHasImage()}" class="container" style="padding: 10px;">
+          <div class="row">
+            <div class="col-md-8">
+              <nav aria-label="breadcrumb" style="padding-top: 10px">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a
+                    th:text="${infomation.getBreadcrumbItems().get(0)}" href="/"></a></li>
+                  <li class="breadcrumb-item"><a
+                    th:text="${infomation.getBreadcrumbItems().get(1)}" href="/"></a></li>
+                  <li th:text="${infomation.getBreadcrumbItems().get(2)}"
+                    class="breadcrumb-item active" aria-current="page"></li>
+                </ol>
+              </nav>
+              <div th:if="${infomation.isHasImage()}" class="full-screen-show">
+                <div id="templatemo-slide-link-target" class="mb-3">
+                  <img class="img-fluid border rounded"
+                    th:src="${infomation.getImages().get(0).get(0)}" alt="Card image cap">
+                </div>
+                <div class="worksingle-slide-footer row">
+                  <div class="col-1 align-self-center">
+                    <a href="#multi-item-example" role="button" data-bs-slide="prev"> <i
+                      class='bx bxs-chevron-left bx-sm text-dark'></i>
+                    </a>
+                  </div>
+                  <div id="multi-item-example" class="col-10 carousel slide" data-bs-ride="carousel">
+                    <!--Start Slides-->
+                    <div id="slide-show_id" class="carousel-inner" role="listbox">
+                      <!--First slide-->
+                      <div th:each="listImage: ${infomation.getImages()}" class="carousel-item">
+                        <div class="row" style="height: 70px; float: left;">
+                          <div class="col" th:each="itemImage: ${listImage}">
+                            <a class="templatemo-slide-link" th:href="${itemImage}"> <img
+                              style="height: 70px" class="img-fluid border rounded"
+                              th:src="${itemImage}" alt="preview">
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-1 align-self-center text-end">
+                    <a href="#multi-item-example" role="button" data-bs-slide="next"> <i
+                      class='bx bxs-chevron-right bx-sm text-dark'></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="tieu-de" style="border: solid 1px #ddd; padding: 10px; margin-top: 20px">
+                <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line"
+                  th:text="${infomation.getTitle()}"></h2>
+                <p th:text="${infomation.getAddress()}" style="color: #333; margin-top: 20px"></p>
+                <div style="border-top: solid 1px #ddd; padding-top: 10px;">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <table class="table table-borderless" style="border-bottom: none">
+                        <thead>
+                          <tr>
+                            <td>Mức giá</td>
+                            <td>Diện tích</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td th:text="${infomation.getPrice()}"
+                              style="font-size: 20px; font-weight: bold;"></td>
+                            <td th:text="${infomation.getAcreage()}"
+                              style="font-size: 20px; font-weight: bold;"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                      <div class='like-button'>
+                        <div class='like-icon'>
+                          <div class='heart-animation-1'></div>
+                          <div class='heart-animation-2'></div>
+                        </div>
+                        Lưu tin
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-1 align-self-center text-end">
-                <a href="#multi-item-example" role="button" data-bs-slide="next"> <i
-                  class='bx bxs-chevron-right bx-sm text-dark'></i>
-                </a>
+              <div class="thong-tin-lien-he"
+                style="border: solid 1px #ddd; padding: 10px; margin-top: 20px">
+                <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Thông tin liên
+                  hệ</h2>
+                <table style="margin-top: 10px;" class="table table-borderless table_view">
+                  <tbody>
+                    <tr>
+                      <td style="color: #555;">Họ tên người liên hệ:</td>
+                      <td style="font-weight: bold; color: #555;"
+                        th:text="${infomation.getContactName()}"><div>xxx</div></td>
+                    </tr>
+                    <tr>
+                      <td style="color: #555;">Địa chỉ:</td>
+                      <td style="font-weight: bold; color: #555;"
+                        th:text="${infomation.getDiaChi()}"></td>
+                    </tr>
+                    <tr>
+                      <td style="color: #555;">Điện thoại:</td>
+                      <td style="font-weight: bold; color: #555;" th:text="${infomation.getPhone()}"></td>
+                    </tr>
+                    <tr>
+                      <td style="color: #555;">Email:</td>
+                      <td style="font-weight: bold; color: #555;" th:text="${infomation.getEmail()}"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="thong-tin-mo-ta"
+                style="border: solid 1px #ddd; padding: 10px; margin-top: 20px">
+                <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Thông tin mô
+                  tả</h2>
+                <pre th:text="${infomation.getDescription()}"
+                  style="word-wrap: break-word; font-family: Montserrat, sans-serif; font-size: 1rem; overflow: hidden; margin-top: 20px">
+          </pre>
+                <div th:if="${infomation.isHasVideoUrl()}" class="ratio ratio-16x9">
+                  <iframe class="embed-responsive-item" th:src="${infomation.getVideoUrl()}"
+                    allowfullscreen></iframe>
+                </div>
+              </div>
+              <div class="dat-diem-bds"
+                style="border: solid 1px #ddd; padding: 10px; margin-top: 20px">
+                <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Đặc điểm bất
+                  động sản</h2>
+                <table style="margin-top: 10px;" class="table table-borderless">
+                  <tbody>
+                    <tr th:if="${infomation.getProjectId() != '' }">
+                      <td style="color: #555;">Dự án:</td>
+                      <td style="font-weight: bold; color: #555;"
+                        th:text="${infomation.getProjectId()}"></td>
+                    </tr>
+                    <tr th:if="${infomation.getDirection() != '' }">
+                      <td style="color: #555;">Hướng nhà:</td>
+                      <td style="font-weight: bold; color: #555;"
+                        th:text="${infomation.getDirection()}"></td>
+                    </tr>
+                    <tr th:if="${infomation.getFrontWidth() != '' }">
+                      <td style="color: #555;">Chiều rộng mặt trước:</td>
+                      <td style="font-weight: bold; color: #555;"
+                        th:text="${infomation.getFrontWidth()}"></td>
+                    </tr>
+                    <tr th:if="${infomation.getEntranceWidth() != '' }">
+                      <td style="color: #555;">Chiều rộng lối vào:</td>
+                      <td style="font-weight: bold; color: #555;"
+                        th:text="${infomation.getEntranceWidth()}"></td>
+                    </tr>
+                    <tr th:if="${infomation.getFloorsNum() != '' }">
+                      <td style="color: #555;">Số tầng:</td>
+                      <td style="font-weight: bold; color: #555;"
+                        th:text="${infomation.getFloorsNum()}"></td>
+                    </tr>
+                    <tr th:if="${infomation.getRoomNum() != '' }">
+                      <td style="color: #555;">Số phòng ngủ:</td>
+                      <td style="font-weight: bold; color: #555;"
+                        th:text="${infomation.getRoomNum()}"></td>
+                    </tr>
+                    <tr th:if="${infomation.getToiletNum() != '' }">
+                      <td style="color: #555;">Số tolet:</td>
+                      <td style="font-weight: bold; color: #555;"
+                        th:text="${infomation.getToiletNum()}"></td>
+                    </tr>
+                    <tr th:if="${infomation.getFurniture() != '' }">
+                      <td style="color: #555;">Nội thất:</td>
+                      <td style="font-weight: bold; color: #555;"
+                        th:text="${infomation.getFurniture()}"></td>
+                    </tr>
+                    <tr th:if="${infomation.getJuridicalInfo() != '' }">
+                      <td style="color: #555;">Thông tin pháp lý:</td>
+                      <td style="font-weight: bold; color: #555;"
+                        th:text="${infomation.getJuridicalInfo()}"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="ban-do" style="border: solid 1px #ddd; padding: 5px; margin-top: 20px;">
+                <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Bản đồ</h2>
+                <div class="col-md-12">
+                  <div style="box-shadow: 1px 0px 10px #ddd; height: 400px" id="googleMap"></div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="tieu-de" style="border: solid 1px #ddd; padding: 10px; margin-top: 20px">
-            <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line"
-              th:text="${infomation.getTitle()}"></h2>
-            <p th:text="${infomation.getAddress()}" style="color: #333; margin-top: 20px"></p>
-            <div style="border-top: solid 1px #ddd; padding-top: 10px;">
-              <div class="row">
-                <div class="col-md-4">
-                  <table class="table table-borderless" style="border-bottom: none">
-                    <thead>
-                      <tr>
-                        <td>Mức giá</td>
-                        <td>Diện tích</td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td th:text="${infomation.getPrice()}"
-                          style="font-size: 20px; font-weight: bold;"></td>
-                        <td th:text="${infomation.getAcreage()}"
-                          style="font-size: 20px; font-weight: bold;"></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                  <div class='like-button'>
-                    <div class='like-icon'>
-                      <div class='heart-animation-1'></div>
-                      <div class='heart-animation-2'></div>
+            <div class="col-md-4" style="padding-top: 50px;">
+              <!--Profile Card 3-->
+              <div class="col-md-12">
+                <div class="card profile-card-3">
+                  <div class="background-block">
+                    <img
+                      src="https://images.pexels.com/photos/459225/pexels-photo-459225.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+                      alt="profile-sample1" class="background" />
+                  </div>
+                  <div class="profile-thumb-block">
+                    <img src="/image/default_avt.png" alt="profile-image" class="profile" />
+                  </div>
+                  <div class="card-content">
+                    <h2 th:text="${user.getUserName()}"></h2>
+                    <small>Nhà môi giới bất động sản</small>
+                    <div class="icon-block">
+                      <a href="#"><i class="fa fa-facebook"></i></a><a href="#"> <i
+                        class="fa fa-twitter"></i></a><a href="#"> <i class="fa fa-google-plus"></i></a>
                     </div>
-                    Lưu tin
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="thong-tin-lien-he"
-            style="border: solid 1px #ddd; padding: 10px; margin-top: 20px">
-            <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Thông tin liên hệ</h2>
-            <table style="margin-top: 10px;" class="table table-borderless table_view">
-              <tbody>
-                <tr>
-                  <td style="color: #555;">Họ tên người liên hệ:</td>
-                  <td style="font-weight: bold; color: #555;"
-                    th:text="${infomation.getContactName()}"><div>xxx</div></td>
-                </tr>
-                <tr>
-                  <td style="color: #555;">Địa chỉ:</td>
-                  <td style="font-weight: bold; color: #555;" th:text="${infomation.getDiaChi()}"></td>
-                </tr>
-                <tr>
-                  <td style="color: #555;">Điện thoại:</td>
-                  <td style="font-weight: bold; color: #555;" th:text="${infomation.getPhone()}"></td>
-                </tr>
-                <tr>
-                  <td style="color: #555;">Email:</td>
-                  <td style="font-weight: bold; color: #555;" th:text="${infomation.getEmail()}"></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="thong-tin-mo-ta"
-            style="border: solid 1px #ddd; padding: 10px; margin-top: 20px">
-            <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Thông tin mô tả</h2>
-            <pre th:text="${infomation.getDescription()}"
-              style="word-wrap: break-word; font-family: Montserrat, sans-serif; font-size: 1rem; overflow: hidden; margin-top: 20px">
-					</pre>
-            <div th:if="${infomation.isHasVideoUrl()}" class="ratio ratio-16x9">
-              <iframe class="embed-responsive-item" th:src="${infomation.getVideoUrl()}"
-                allowfullscreen></iframe>
-            </div>
-          </div>
-          <div class="dat-diem-bds" style="border: solid 1px #ddd; padding: 10px; margin-top: 20px">
-            <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Đặc điểm bất động
-              sản</h2>
-            <table style="margin-top: 10px;" class="table table-borderless">
-              <tbody>
-                <tr th:if="${infomation.getProjectId() != '' }">
-                  <td style="color: #555;">Dự án:</td>
-                  <td style="font-weight: bold; color: #555;" th:text="${infomation.getProjectId()}"></td>
-                </tr>
-                <tr th:if="${infomation.getDirection() != '' }">
-                  <td style="color: #555;">Hướng nhà:</td>
-                  <td style="font-weight: bold; color: #555;" th:text="${infomation.getDirection()}"></td>
-                </tr>
-                <tr th:if="${infomation.getFrontWidth() != '' }">
-                  <td style="color: #555;">Chiều rộng mặt trước:</td>
-                  <td style="font-weight: bold; color: #555;"
-                    th:text="${infomation.getFrontWidth()}"></td>
-                </tr>
-                <tr th:if="${infomation.getEntranceWidth() != '' }">
-                  <td style="color: #555;">Chiều rộng lối vào:</td>
-                  <td style="font-weight: bold; color: #555;"
-                    th:text="${infomation.getEntranceWidth()}"></td>
-                </tr>
-                <tr th:if="${infomation.getFloorsNum() != '' }">
-                  <td style="color: #555;">Số tầng:</td>
-                  <td style="font-weight: bold; color: #555;" th:text="${infomation.getFloorsNum()}"></td>
-                </tr>
-                <tr th:if="${infomation.getRoomNum() != '' }">
-                  <td style="color: #555;">Số phòng ngủ:</td>
-                  <td style="font-weight: bold; color: #555;" th:text="${infomation.getRoomNum()}"></td>
-                </tr>
-                <tr th:if="${infomation.getToiletNum() != '' }">
-                  <td style="color: #555;">Số tolet:</td>
-                  <td style="font-weight: bold; color: #555;" th:text="${infomation.getToiletNum()}"></td>
-                </tr>
-                <tr th:if="${infomation.getFurniture() != '' }">
-                  <td style="color: #555;">Nội thất:</td>
-                  <td style="font-weight: bold; color: #555;" th:text="${infomation.getFurniture()}"></td>
-                </tr>
-                <tr th:if="${infomation.getJuridicalInfo() != '' }">
-                  <td style="color: #555;">Thông tin pháp lý:</td>
-                  <td style="font-weight: bold; color: #555;"
-                    th:text="${infomation.getJuridicalInfo()}"></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="ban-do" style="border: solid 1px #ddd; padding: 5px; margin-top: 20px;">
-            <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Bản đồ</h2>
-            <div class="col-md-12">
-              <div style="box-shadow: 1px 0px 10px #ddd; height: 400px" id="googleMap"></div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4" style="padding-top: 50px;">
-          <!--Profile Card 3-->
-          <div class="col-md-12">
-            <div class="card profile-card-3">
-              <div class="background-block">
-                <img
-                  src="https://images.pexels.com/photos/459225/pexels-photo-459225.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
-                  alt="profile-sample1" class="background" />
+              <div classs="list-du-an">
+                <h4>Bất động sản lân cận</h4>
+                <ul class="list-group list-group-flush">
+                  <li th:each="item: ${infomation.getMoreBds()}"
+                    class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div>
+                        <a style="text-decoration: none; color: #333; font-weight: normal;"
+                          th:text="${item.getValue()}" th:href="${item.getValue3()}"></a>
+                      </div>
+                    </div> <span th:text="${item.getValue1()}" class="badge bg-primary rounded-pill">14</span>
+                  </li>
+                </ul>
               </div>
-              <div class="profile-thumb-block">
-                <img src="/image/default_avt.png" alt="profile-image" class="profile" />
-              </div>
-              <div class="card-content">
-                <h2 th:text="${user.getUserName()}"></h2>
-                <small>Nhà môi giới bất động sản</small>
-                <div class="icon-block">
-                  <a href="#"><i class="fa fa-facebook"></i></a><a href="#"> <i
-                    class="fa fa-twitter"></i></a><a href="#"> <i class="fa fa-google-plus"></i></a>
-                </div>
+              <div classs="list-danh-muc" style="margin-top: 20px">
+                <h4>Bạn có thể quan tâm.</h4>
+                <ul class="list-group list-group-flush" style="padding: 10px;">
+                  <li th:each="item: ${infomation.getMoreByCategory()}" class="list-group-item"><a
+                    style="color: #333; text-decoration: none;" th:text="${item.getValue()}"
+                    th:href="${item.getValue1()}"></a></li>
+                </ul>
               </div>
             </div>
-          </div>
-          <div classs="list-du-an">
-            <h4>Bất động sản lân cận</h4>
-            <ul class="list-group list-group-flush">
-              <li th:each="item: ${infomation.getMoreBds()}"
-                class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                  <div>
-                    <a style="text-decoration: none; color: #333; font-weight: normal;"
-                      th:text="${item.getValue()}" th:href="${item.getValue3()}"></a>
-                  </div>
-                </div> <span th:text="${item.getValue1()}" class="badge bg-primary rounded-pill">14</span>
-              </li>
-            </ul>
-          </div>
-          <div classs="list-danh-muc" style="margin-top: 20px">
-            <h4>Bạn có thể quan tâm.</h4>
-            <ul class="list-group list-group-flush" style="padding: 10px;">
-              <li th:each="item: ${infomation.getMoreByCategory()}" class="list-group-item"><a
-                style="color: #333; text-decoration: none;" th:text="${item.getValue()}"
-                th:href="${item.getValue1()}"></a></li>
-            </ul>
           </div>
         </div>
       </div>
