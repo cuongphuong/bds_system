@@ -14,14 +14,12 @@ function init() {
 
 	var widthH = window.innerWidth;
 	if (widthH < 850) {
-		console.log("hide");
 		$("#search_condition_id").hide();
 	}
 
 	window.addEventListener('resize', function(event) {
 		var widthH = window.innerWidth;
 		if (widthH < 850) {
-			console.log("hide");
 			$("#search_condition_id").hide();
 		} else {
 			$("#search_condition_id").show();
@@ -31,10 +29,9 @@ function init() {
 	$(document).bind(
 		'click',
 		function(e) {
-			//
-			if ($(e.target).parents(".popup_tab_block").length == 0
-				&& !$(e.target).attr('class').includes("close_popup_check")) {
+			if ($(e.target).parents(".popup_tab_block").length == 0 && (!$(e.target).attr('class') || !$(e.target).attr('class').includes("close_popup_check"))) {
 				hideAnimation($(".popup_tab_block"));
+				countLocThem();
 			}
 		});
 }
@@ -112,66 +109,10 @@ function initSelectBox() {
 	pickUpCaterory(function() { });
 	pickUpPriceScope(function() { });
 	pickUpAcreageScope(function() { });
-
-	ajaxRequest("/util/get-front-width-scope-la_va", "GET", null, function(data) {
-		VirtualSelect.init({
-			ele: "#selectbox_font-width_id",
-			options: data,
-			multiple: true,
-		});
-	});
-
-	VirtualSelect.init({
-		ele: '#selectbox_room_id',
-		options: [
-			{ label: '1 phòng', value: '1' },
-			{ label: '2 phòng', value: '2' },
-			{ label: '3 phòng', value: '3' },
-			{ label: '4 phòng', value: '4' },
-			{ label: '5 phòng', value: '5' },
-			{ label: '6 phòng', value: '6' },
-			{ label: '7 phòng', value: '7' },
-			{ label: '8 phòng', value: '8' },
-			{ label: '9 phòng', value: '9' },
-			{ label: '10 phòng', value: '10' },
-			{ label: 'Lớn hơn 10 phòng', value: '-1' },
-		],
-		multiple: true
-	});
-
-	VirtualSelect.init({
-		ele: '#selectbox_floor_id',
-		options: [
-			{ label: '1 tầng', value: '1' },
-			{ label: '2 tầng', value: '2' },
-			{ label: '3 tầng', value: '3' },
-			{ label: '4 tầng', value: '4' },
-			{ label: '5 tầng', value: '5' },
-			{ label: '6 tầng', value: '6' },
-			{ label: '7 tầng', value: '7' },
-			{ label: '8 tầng', value: '8' },
-			{ label: '9 tầng', value: '9' },
-			{ label: '10 tầng', value: '10' },
-			{ label: 'Lớn hơn 10 tầng', value: '-1' },
-		],
-		multiple: true
-	});
-
-	VirtualSelect.init({
-		ele: '#selectbox_way_id',
-		options: [
-			{ label: 'Mặt phố - Mặt đường', value: '10' },
-			{ label: 'Ngõ ngách', value: '1' },
-			{ label: 'Ngõ ô tô đỗ cửa', value: '4' },
-			{ label: 'Ngõ 1 ô tô', value: '3' },
-			{ label: 'Ngõ 2 ô tô tránh', value: '5' },
-			{ label: 'Ngõ 3 ô tô tránh', value: '6' },
-			{ label: 'Ngõ 4 ô tô tránh', value: '7' },
-			{ label: 'Ngõ 4 ô tô trở lên', value: '8' },
-		],
-		multiple: true
-	});
-
+	loadFrontWidth(function() { });
+	loadFloorNumList(function() { });
+	loadRoomList(function() { });
+	loadWayList(function() { });
 	onLoadProvince(function() { });
 }
 
@@ -363,17 +304,18 @@ function categoryOnShowMore(obj) {
 }
 
 function makeUrlFromForm() {
+	countLocThem();
 	var urlParamater = [];
 
 	// MAKE FORMALITY
 	var fomalityValues = document.querySelector('#selectbox_hinhthuc_id').value;
-	if (fomalityValues.length > 0) {
+	if (fomalityValues && fomalityValues.length > 0) {
 		urlParamater.push("formality=" + fomalityValues.join("_"));
 	}
 
 	// MAKE CATEGORY
 	var categoryValues = document.querySelector('#selectbox_category_id').value;
-	if (categoryValues.length > 0) {
+	if (categoryValues && categoryValues.length > 0) {
 		urlParamater.push("category=" + categoryValues.join("t"));
 	}
 
@@ -388,7 +330,7 @@ function makeUrlFromForm() {
 	$.each($("input[name='district_checkbox']:checked"), function(K, V) {
 		districts.push(V.value);
 	});
-	if (districts.length != 0) {
+	if (districts && districts.length != 0) {
 		urlParamater.push("district=" + districts.join("t"));
 	}
 
@@ -397,7 +339,7 @@ function makeUrlFromForm() {
 	$.each($("input[name='ward_checkbox']:checked"), function(K, V) {
 		wards.push(V.value);
 	});
-	if (wards.length != 0) {
+	if (wards && wards.length != 0) {
 		urlParamater.push("ward=" + wards.join("t"));
 	}
 
@@ -406,7 +348,7 @@ function makeUrlFromForm() {
 	$.each($("input[name='street_checkbox']:checked"), function(K, V) {
 		streets.push(V.value);
 	});
-	if (wards.length != 0) {
+	if (streets && streets.length != 0) {
 		urlParamater.push("street=" + streets.join("t"));
 	}
 
@@ -418,21 +360,44 @@ function makeUrlFromForm() {
 
 	// MAKE MỨC GIÁ
 	var priceValues = document.querySelector('#selectbox_price_id').value;
-	if (priceValues.length > 0) {
+	if (priceValues && priceValues.length > 0) {
 		urlParamater.push("price=" + priceValues);
 	}
 
 	// MAKE DIỆN TÍCH
 	var acreageValues = document.querySelector('#selectbox_dientich_id').value;
-	if (acreageValues.length > 0) {
+	if (acreageValues && acreageValues.length > 0) {
 		urlParamater.push("acreage=" + acreageValues);
 	}
 
-
 	// MAKE TỪ KHÓA
 	const keywordValue = $("#keyword_id").val();
-	if (keywordValue.length > 0) {
+	if (keywordValue && keywordValue.length > 0) {
 		urlParamater.push("keyword=" + keywordValue);
+	}
+
+	// MAKE ĐỘ RỘNG MẶT TIỀN
+	var frontWidth = document.querySelector('#selectbox_font-width_id').value;
+	if (frontWidth && frontWidth.length > 0) {
+		urlParamater.push("front=" + frontWidth.join("t"));
+	}
+
+	// MAKE ĐỘ SỐ TẦNG
+	var floorNum = document.querySelector('#selectbox_floor_id').value;
+	if (floorNum && floorNum.length > 0) {
+		urlParamater.push("floor=" + floorNum.join("t"));
+	}
+
+	// MAKE SỐ PHÒNG NGỦ
+	var roomNum = document.querySelector('#selectbox_room_id').value;
+	if (roomNum && roomNum.length > 0) {
+		urlParamater.push("room=" + roomNum.join("t"));
+	}
+
+	// MAKE CHIỀU RỘNG ĐƯỜNG ĐI
+	var wayWith = document.querySelector('#selectbox_way_id').value;
+	if (wayWith && wayWith.length > 0) {
+		urlParamater.push("way=" + wayWith.join("t"));
 	}
 
 	window.history.replaceState(null, null, "?" + urlParamater.join("&"));
@@ -453,6 +418,7 @@ function onSearch(url) {
 					let rendered = Mustache.render(tmplPost, item);
 					$("#content_search_result > .row").append(rendered);
 				});
+				setLike();
 				$("#ladding_layer_id").hide(500);
 			}, 1000);
 		}
@@ -559,7 +525,7 @@ function pickUpDuAn(urlParams, districtList) {
 		} else {
 			pickUpMucGia(urlParams);
 		}
-		
+
 	});
 }
 
@@ -588,8 +554,8 @@ function pickUpMucGia(urlParams) {
 		var priceList = priceParamater.split("t");
 		pickUpPriceScope(function() {
 			document.querySelector('#selectbox_price_id').setValue(priceList);
+			pickUpDienTich(urlParams);
 		});
-		pickUpDienTich(urlParams);
 	} else {
 		pickUpDienTich(urlParams);
 	}
@@ -602,8 +568,8 @@ function pickUpDienTich(urlParams) {
 		var acreageList = acreageParamater.split("t");
 		pickUpAcreageScope(function() {
 			document.querySelector('#selectbox_dientich_id').setValue(acreageList);
+			pickUpTuKhoa(urlParams);
 		});
-		pickUpTuKhoa(urlParams);
 	} else {
 		pickUpTuKhoa(urlParams);
 	}
@@ -616,8 +582,173 @@ function pickUpTuKhoa(urlParams) {
 	if (keywordParamater != null) {
 		$("#keyword_id").val(keywordParamater);
 	}
+	pickUpFrontWidth(urlParams);
+}
+
+function pickUpFrontWidth(urlParams) {
+	// PICKUP FRONT WIDTH
+	const frontWidthParamater = urlParams.get('front');
+
+	if (frontWidthParamater != null) {
+		var fontWidthList = frontWidthParamater.split("t");
+		loadFrontWidth(function() {
+			document.querySelector('#selectbox_font-width_id').setValue(fontWidthList);
+			pickUpSoTang(urlParams);
+		});
+	} else {
+		pickUpSoTang(urlParams);
+	}
+}
+
+function pickUpSoTang(urlParams) {
+	// PICKUP SỐ TẦNG
+	const floorNumParamater = urlParams.get('floor');
+
+	if (floorNumParamater != null) {
+		var floorList = floorNumParamater.split("t");
+		loadFloorNumList(function() {
+			document.querySelector('#selectbox_floor_id').setValue(floorList);
+			pickUpSoPhong(urlParams);
+		});
+	} else {
+		pickUpSoPhong(urlParams);
+	}
+}
+
+function pickUpSoPhong(urlParams) {
+	// PICKUP SỐ PHÒNG
+	const roomNumParamater = urlParams.get('room');
+
+	if (roomNumParamater != null) {
+		var roomList = roomNumParamater.split("t");
+		loadRoomList(function() {
+			document.querySelector('#selectbox_room_id').setValue(roomList);
+			pickUpDuongDi(urlParams);
+		});
+	} else {
+		pickUpDuongDi(urlParams);
+	}
+}
+
+function pickUpDuongDi(urlParams) {
+	// PICKUP CHIỀU RỘNG ĐƯỜNG ĐI
+	const wayParamater = urlParams.get('way');
+	if (wayParamater != null) {
+		var wayList = wayParamater.split("t");
+		loadWayList(function() {
+			document.querySelector('#selectbox_way_id').setValue(wayList);
+			// pickup xong form load ngược lại form lên request và gửi lên server
+			makeUrlFromForm();
+		});
+	}
 	makeUrlFromForm();
 }
+
+function loadWayList(doneAction) {
+	VirtualSelect.init({
+		ele: '#selectbox_way_id',
+		options: [
+			{ label: 'Mặt phố - Mặt đường', value: '10' },
+			{ label: 'Ngõ ngách', value: '1' },
+			{ label: 'Ngõ ô tô đỗ cửa', value: '4' },
+			{ label: 'Ngõ 1 ô tô', value: '3' },
+			{ label: 'Ngõ 2 ô tô tránh', value: '5' },
+			{ label: 'Ngõ 3 ô tô tránh', value: '6' },
+			{ label: 'Ngõ 4 ô tô tránh', value: '7' },
+			{ label: 'Ngõ 4 ô tô trở lên', value: '8' },
+		],
+		multiple: true
+	});
+	doneAction();
+}
+
+function loadRoomList(doneAction) {
+	VirtualSelect.init({
+		ele: '#selectbox_room_id',
+		options: [
+			{ label: '5 phòng', value: '5' },
+			{ label: '1 phòng', value: '1' },
+			{ label: '2 phòng', value: '2' },
+			{ label: '3 phòng', value: '3' },
+			{ label: '4 phòng', value: '4' },
+			{ label: '6 phòng', value: '6' },
+			{ label: '7 phòng', value: '7' },
+			{ label: '8 phòng', value: '8' },
+			{ label: '9 phòng', value: '9' },
+			{ label: '10 phòng', value: '10' },
+			{ label: 'Lớn hơn 10 phòng', value: '-1' },
+		],
+		multiple: true
+	});
+	doneAction();
+}
+
+function loadFloorNumList(doneAction) {
+	VirtualSelect.init({
+		ele: '#selectbox_floor_id',
+		options: [
+			{ label: '1 tầng', value: '1' },
+			{ label: '2 tầng', value: '2' },
+			{ label: '3 tầng', value: '3' },
+			{ label: '4 tầng', value: '4' },
+			{ label: '5 tầng', value: '5' },
+			{ label: '6 tầng', value: '6' },
+			{ label: '7 tầng', value: '7' },
+			{ label: '8 tầng', value: '8' },
+			{ label: '9 tầng', value: '9' },
+			{ label: '10 tầng', value: '10' },
+			{ label: 'Lớn hơn 10 tầng', value: '-1' },
+		],
+		multiple: true
+	});
+	doneAction();
+}
+
+function loadFrontWidth(doneAction) {
+	ajaxRequest("/util/get-front-width-scope-la_va", "GET", null, function(data) {
+		VirtualSelect.init({
+			ele: "#selectbox_font-width_id",
+			options: data,
+			multiple: true,
+		});
+		doneAction();
+	});
+}
+
+function countLocThem() {
+	var i = 0;
+	
+	// COUNT ĐỘ RỘNG MẶT TIỀN
+	var frontWidth = document.querySelector('#selectbox_font-width_id').value;
+	if (frontWidth && frontWidth.length > 0) {
+		i = i + 1;
+	}
+
+	// COUNT ĐỘ SỐ TẦNG
+	var floorNum = document.querySelector('#selectbox_floor_id').value;
+	if (floorNum && floorNum.length > 0) {
+		i = i + 1;
+	}
+
+	// COUNT SỐ PHÒNG NGỦ
+	var roomNum = document.querySelector('#selectbox_room_id').value;
+	if (roomNum && roomNum.length > 0) {
+		i = i + 1;
+	}
+
+	// COUNT CHIỀU RỘNG ĐƯỜNG ĐI
+	var wayWith = document.querySelector('#selectbox_way_id').value;
+	if (wayWith && wayWith.length > 0) {
+		i = i + 1;
+	}
+	
+	if (i > 0) {
+		$("#count_fillter_id").text(i + " điều kiện");
+	} else {
+		$("#count_fillter_id").text("");
+	}
+}
+
 
 function pickupFromUrl() {
 	var urlParams = getUrlParamt();

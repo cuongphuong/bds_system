@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sys.pp.constant.GemRealtyConst;
 import com.sys.pp.constant.GemRealtyConst.AcreageScope;
+import com.sys.pp.constant.GemRealtyConst.FontWidth;
 import com.sys.pp.constant.GemRealtyConst.PriceScope;
 import com.sys.pp.constant.GemRealtyService;
 import com.sys.pp.controller.custommodel.KeyValue;
@@ -64,7 +65,6 @@ public class SearchController {
 	 */
 	@RequestMapping(path = "")
 	public String view(Model model, Principal principal) {
-		// String email = principal.getName();
 		model.addAttribute("categorys", this.getRealEstateByCategory());
 		model.addAttribute("provinces", this.makeProvinceList());
 
@@ -101,8 +101,8 @@ public class SearchController {
 		try {
 			SearchCondition searchCondition = this.makeSearchCondition(allRequestParams);
 			List<BdsNew> data = service.searchData(searchCondition);
-			result.put("data", GemRealtyService.makePostCardList(userId, favouriteRepository, data,
-					districtRepository, provinceRepository));
+			result.put("data", GemRealtyService.makePostCardList(userId, favouriteRepository, data, districtRepository,
+					provinceRepository, categoryRepository));
 
 			return result;
 		} catch (Exception e) {
@@ -142,7 +142,7 @@ public class SearchController {
 			String[] districts = allRequestParams.get("district").split("t");
 			List<Integer> districtsList = Arrays.asList(districts).stream().map(Integer::valueOf)
 					.collect(Collectors.toList());
-			searchCondition.setCategoryList(districtsList);
+			searchCondition.setDistrictList(districtsList);
 		}
 
 		if (allRequestParams.get("ward") != null) {
@@ -177,6 +177,30 @@ public class SearchController {
 			searchCondition.setAcreage(acreageScope);
 		}
 
+		if (allRequestParams.get("front") != null) {
+			String[] fonts = allRequestParams.get("front").split("t");
+			List<FontWidth> fontWidthList = Arrays.asList(fonts).stream()
+					.map(p -> GemRealtyConst.getFontWidthFromId(Integer.valueOf(p))).collect(Collectors.toList());
+			searchCondition.setFrontWidthList(fontWidthList);
+		}
+
+		if (allRequestParams.get("floor") != null) {
+			String[] floors = allRequestParams.get("floor").split("t");
+			searchCondition.setFloorList(
+					Arrays.asList(floors).stream().map(p -> Integer.valueOf(p)).collect(Collectors.toList()));
+		}
+
+		if (allRequestParams.get("room") != null) {
+			String[] rooms = allRequestParams.get("room").split("t");
+			searchCondition.setRoomList(
+					Arrays.asList(rooms).stream().map(p -> Integer.valueOf(p)).collect(Collectors.toList()));
+		}
+
+		if (allRequestParams.get("way") != null) {
+			String[] ways = allRequestParams.get("way").split("t");
+			searchCondition.setWayList(
+					Arrays.asList(ways).stream().map(p -> Integer.valueOf(p)).collect(Collectors.toList()));
+		}
 		return searchCondition;
 	}
 

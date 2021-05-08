@@ -43,27 +43,34 @@
     <script src="/list-pickup/virtual-select.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
     <script id="post-result-template" type="x-tmpl-mustache">
-    <div class="col-xs-12 col-sm-4">
-      <div style="height: 320px; border-radius: 15px;" class="card">
-        <a class="img-card" href="{{urlPost}}"> <img src="{{thumnail}}">
-        </a>
-        <div class="card-content">
-          <h5 class="card-title" style="font-size: 0.8rem; height: 25px;">
-          <a data-bs-toggle="tooltip" data-bs-placement="top" title="{{title}}" class="trunc_string"
-          style="font-weight: bold; color: #333; line-height: 1.5; text-transform: uppercase;"
-          href="{{urlPost}}">{{title}}</a>
-        </h5>
-        <div style="padding: 6px 0; margin: 0px;">
-            <small data-bs-toggle="tooltip" data-bs-placement="top"
-              title="{{address}}" class="article-info-location">{{address}}</small>
-        </div>
-        <small class="article-price">{{description}}</small>
-        <div style="position: absolute; top: 7px; right: 10px; cursor: pointer;">
-          <i onclick="onSavePost($(this), '{{title}}', '{{urlPost}}', '{{thumnail}}', '{{description}}', '{{address}}');" class="bx bx-bell bx-sm bx-heart text-primary"></i>
-        </div>
-        </div>
-      </div>
-    </div>
+		<div class="col-xs-12 col-sm-4">
+			<div style="height: 350px; border-radius: 15px;" class="card">
+			  <a class="img-card" href="{{urlPost}}"> <img src="{{thumnail}}">
+			  </a>
+			  <div class="card-content">
+			    <h5 class="card-title" style="font-size: 0.8rem;">
+					<a data-bs-toggle="tooltip" data-bs-placement="top" title="{{title}}" class="trunc_string"
+					style="font-weight: bold; color: #333; line-height: 1.5; text-transform: uppercase;"
+					href="{{urlPost}}">{{title}}</a>
+				</h5>
+                <div style="padding: 3px 0; margin-top: 3px; font-size: 1.5rem">
+                    <small data-bs-toggle="tooltip" data-bs-placement="top" 
+						class="category-info-location">&#128500; {{category}}</small>
+                </div>
+				<div style="padding: 6px 0; margin: 0px;">
+				    <small data-bs-toggle="tooltip" data-bs-placement="top"
+				      title="{{address}}" class="article-info-location">&#128500; {{address}}</small>
+				</div>
+				<small class="article-price">&#128500; {{description}}</small>
+                <div class="category_card_show2">
+                    <label>{{format}}</label>
+                </div>
+				<div style="position: absolute; top: 7px; right: 10px; cursor: pointer;">
+				  <i th-data="{{urlPost}}" onclick="onSavePost($(this), '{{title}}', '{{urlPost}}', '{{thumnail}}', '{{description}}', '{{address}}', '{{format}}', '{{category}}', {{newsId}});" class="checked_like liked_{{newsId}} bx bx-bell bx-sm bx-heart text-danger"></i>
+				</div>
+			  </div>
+			</div>
+		</div>
     </script>
     <script>
   	let tmplPost = $('#post-result-template').html();
@@ -76,6 +83,7 @@
   			let rendered = Mustache.render(tmplPost, item);
   			$("#content_show_like_id > .row").append(rendered);
   		});
+  		setLike();
   	}
     </script>
   </th:block>

@@ -101,13 +101,14 @@ public class GemRealtyService {
 	}
 
 	public static List<List<PostInfomation>> makeHighlightPost(String userId, FavouriteRepository favouriteRepository,
-			List<BdsNew> posts, DistrictRepository districtRepository, ProvinceRepository provinceRepository) {
+			List<BdsNew> posts, DistrictRepository districtRepository, ProvinceRepository provinceRepository,
+			CategoryRepository categoryRepository) {
 		DecimalFormat formatter = new DecimalFormat("###,###,###");
 		List<List<PostInfomation>> results = new ArrayList<>();
 		List<PostInfomation> tmpList = new ArrayList<>();
 		for (BdsNew item : posts) {
 			PostInfomation post = makeAnItem(userId, favouriteRepository, item, formatter, districtRepository,
-					provinceRepository);
+					provinceRepository, categoryRepository);
 			tmpList.add(post);
 
 			if (tmpList.size() == 4) {
@@ -121,20 +122,22 @@ public class GemRealtyService {
 	}
 
 	public static List<PostInfomation> makePostCardList(String userId, FavouriteRepository favouriteRepository,
-			List<BdsNew> posts, DistrictRepository districtRepository, ProvinceRepository provinceRepository) {
+			List<BdsNew> posts, DistrictRepository districtRepository, ProvinceRepository provinceRepository,
+			CategoryRepository categoryRepository) {
 		DecimalFormat formatter = new DecimalFormat("###,###,###");
 		List<PostInfomation> results = new ArrayList<>();
 
 		for (BdsNew item : posts) {
 			PostInfomation post = makeAnItem(userId, favouriteRepository, item, formatter, districtRepository,
-					provinceRepository);
+					provinceRepository, categoryRepository);
 			results.add(post);
 		}
 		return results;
 	}
 
 	private static PostInfomation makeAnItem(String userId, FavouriteRepository favouriteRepository, BdsNew item,
-			DecimalFormat formatter, DistrictRepository districtRepository, ProvinceRepository provinceRepository) {
+			DecimalFormat formatter, DistrictRepository districtRepository, ProvinceRepository provinceRepository,
+			CategoryRepository categoryRepository) {
 		PostInfomation post = new PostInfomation();
 
 		// Title
@@ -174,6 +177,9 @@ public class GemRealtyService {
 				StringUtils.toSlug(item.getTitle()));
 		post.setUrlPost(url);
 		post.setLevel(item.getLevel());
+		post.setNewsId(String.valueOf(item.getNewsId()));
+		post.setFormality(GemRealtyConst.getFormalityFromId(item.getDetailNew().getFormality()));
+		post.setCategoryId(categoryRepository.findById(item.getCategoryId()).get().getCategoryName());
 
 		if (userId != null && favouriteRepository != null) {
 			Optional<Favourite> liked = favouriteRepository.findById(new FavouritePK(userId, item.getNewsId()));

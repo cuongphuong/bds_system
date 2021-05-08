@@ -45,13 +45,11 @@
 </head>
 <body>
   <th:block id="products-main-content">
-    <span th:text="${isAdmin}"></span>
     <div th:if="${!infomation.isCanceled()}">
       <div th:if="${!infomation.isApproved()}">
         <div sec:authorize="isFullyAuthenticated()">
-          <div
-            th:if="${infomation.isAccessByOwner() OR #strings.contains(#authentication.principal.authorities,'ROLE_ADMIN')}">
-            <div th:if="${infomation.isHasImage()}" class="container" style="padding: 10px;">
+          <div th:if="${infomation.isAccessByOwner() OR #strings.contains(#authentication.principal.authorities,'ROLE_ADMIN')}">
+            <div class="container" style="padding: 10px;">
               <div class="row">
                 <div class="col-md-8">
                   <nav aria-label="breadcrumb" style="padding-top: 10px">
@@ -292,7 +290,7 @@
         </div>
       </div>
       <div th:if="${infomation.isApproved()}">
-        <div th:if="${infomation.isHasImage()}" class="container" style="padding: 10px;">
+        <div class="container" style="padding: 10px;">
           <div class="row">
             <div class="col-md-8">
               <nav aria-label="breadcrumb" style="padding-top: 10px">

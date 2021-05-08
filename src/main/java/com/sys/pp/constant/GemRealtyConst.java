@@ -124,14 +124,14 @@ public class GemRealtyConst {
 
 	public enum PriceScope {
 		NONE(0, 0, 0, "Thỏa thuận"), //
-		_50(1, -1, 50, "<= 50 triệu"), //
-		_50_100(2, 51, 100, "50 - 100 triệu"), //
+		_50(1, 1, 50, "<= 50 triệu"), //
+		_50_100(2, 50, 100, "50 - 100 triệu"), //
 		_100_200(3, 100, 200, "100 - 200 triệu"), //
-		_200_500(4, 201, 500, "200 - 500 triệu"), //
+		_200_500(4, 200, 500, "200 - 500 triệu"), //
 		_500_1M(5, 500, 1000, "500 triệu - 1 tỷ"), //
-		_1M_2M(6, 1001, 2000, "1 - 2 tỷ"), //
-		_2M_5M(7, 2001, 5000, "2 - 5 tỷ"), //
-		_THAN_5M(8, 5001, -1, "> 5 tỷ"); //
+		_1M_2M(6, 1000, 2000, "1 - 2 tỷ"), //
+		_2M_5M(7, 2000, 5000, "2 - 5 tỷ"), //
+		_THAN_5M(8, 5000, -1, "> 5 tỷ"); //
 
 		int id;
 		int start;
@@ -234,30 +234,30 @@ public class GemRealtyConst {
 	}
 
 	public enum FontWidth {
-		LESS_3(1, 0, 0, "< 3 m"), //
-		_3_4(2, 0, 0, "3 - 4 m"), //
-		_4_5(3, 0, 0, "4 - 5 m"), //
-		_5_6(4, 0, 0, "5 - 6 m"), //
-		_6_7(5, 0, 0, "6 - 7 m"), //
-		_7_8(6, 0, 0, "7 - 8 m"), //
-		_8_9(7, 0, 0, "8 - 9 m"), //
-		_9_10(8, 0, 0, "9 - 10 m"), //
-		_10_15(9, 0, 0, "10 - 15 m"), //
-		_15_20(10, 0, 0, "15 - 20 m"), //
-		_20_30(11, 0, 0, "20 - 30 m"), //
-		_30_50(12, 0, 0, "30 - 50 m"), //
-		_50_100(13, 0, 0, "50 - 100 m"), //
-		THAN_100(14, 0, 0, ">= 100 m");//
+		LESS_3(1, 0, 2, "< 3 m"), //
+		_3_4(2, 3, 4, "3 - 4 m"), //
+		_4_5(3, 4, 5, "4 - 5 m"), //
+		_5_6(4, 5, 6, "5 - 6 m"), //
+		_6_7(5, 6, 7, "6 - 7 m"), //
+		_7_8(6, 7, 8, "7 - 8 m"), //
+		_8_9(7, 8, 9, "8 - 9 m"), //
+		_9_10(8, 9, 10, "9 - 10 m"), //
+		_10_15(9, 10, 15, "10 - 15 m"), //
+		_15_20(10, 15, 20, "15 - 20 m"), //
+		_20_30(11, 20, 30, "20 - 30 m"), //
+		_30_50(12, 30, 50, "30 - 50 m"), //
+		_50_100(13, 50, 100, "50 - 100 m"), //
+		THAN_100(14, 100, 99999999, ">= 100 m");//
 
 		int id;
-		BigDecimal start;
-		BigDecimal end;
+		int start;
+		int end;
 		String lable;
 
 		FontWidth(int id, int start, int end, String lable) {
 			this.id = id;
-			this.start = BigDecimal.valueOf(start);
-			this.end = BigDecimal.valueOf(end);
+			this.start = start;
+			this.end = end;
 			;
 			this.lable = lable;
 		}
@@ -266,17 +266,21 @@ public class GemRealtyConst {
 			return id;
 		}
 
-		public BigDecimal getStart() {
+		public int getStart() {
 			return start;
 		}
 
-		public BigDecimal getEnd() {
+		public int getEnd() {
 			return end;
 		}
 
 		public String getLable() {
 			return lable;
 		}
+	}
+
+	public static FontWidth getFontWidthFromId(int id) {
+		return Arrays.asList(FontWidth.values()).stream().filter(x -> x.getId() == id).findFirst().orElse(null);
 	}
 
 	public static List<LabelValue> getPriceScope() {

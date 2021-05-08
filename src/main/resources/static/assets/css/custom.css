@@ -7,7 +7,7 @@ https://templatemo.com/tm-561-purple-buzz
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,100,900);
 */
 html, body {
-  font-family: "Montserrat", sans-serif !important;
+  /*font-family: "Montserrat", sans-serif !important;*/
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   height: 100%;
@@ -349,11 +349,22 @@ a.trunc_string {
 
 .article-info-location {
   display: block;
-  margin-top: 10px;
   line-height: 1.5;
   letter-spacing: normal;
   color: #2b2b2b;
-  font-size: 12px;
+  font-size: 13px;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.category-info-location {
+  display: block;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: #2b2b2b;
+  font-size: 13px;
   align-items: center;
   overflow: hidden;
   white-space: nowrap;
@@ -361,7 +372,7 @@ a.trunc_string {
 }
 
 .article-price {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   line-height: 1.71;
   letter-spacing: normal;
@@ -703,12 +714,50 @@ a.trunc_string {
 }
 
 .recent-work .recent-work-vertical:hover {
-  background-position: 0% 100%! important;
+  background-position: 0% 100% ! important;
   color: #fff;
   background-color: none;
 }
 
 .recent-work .recent-work-vertical h3, .recent-work .recent-work-vertical p
   {
+  color: #fff;
+}
+
+.category_card_show1 {
+  position: absolute;
+  top: 5px;
+  left: -5px;
+  background: #ddd;
+  height: 40px;
+  line-height: 40px;
+  min-width: 33.3%;
+  text-align: left;
+  opacity: 0.8;
+  box-sizing: border-box;
+  padding-left: 10px;
+  border-bottom-left-radius: 5px;
+  border-radius: 10%;
+  color: #333;
+}
+
+.category_card_show2 {
+  position: absolute;
+  top: 5px;
+  left: -5px;
+  background: #1a4bb7;
+  height: 40px;
+  line-height: 40px;
+  min-width: 30%;
+  text-align: left;
+  font-weight: bold;
+  opacity: 0.8;
+  box-sizing: border-box;
+  padding-left: 10px;
+  border-bottom-left-radius: 5px;
+    
+}
+
+.category_card_show2>label {
   color: #fff;
 }

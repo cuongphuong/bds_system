@@ -104,6 +104,92 @@ public class PostController {
 		model.addAttribute("actionUpload", this.makeUploadAction());
 		return "layouts/user/post-news";
 	}
+	
+
+	
+	
+	
+	
+	@ResponseBody
+	@RequestMapping(path = "/preview", method = RequestMethod.POST)
+	public Map<String, Object> preview(Principal principal, @RequestBody Map<String, String> paramater) {
+		Map<String, Object> result = new HashMap<>();
+		result.put("status", true);
+
+		// Save image upload
+		String destFolderPath = this.createImageFolderPath(paramater.get("image"));
+		File destFolder = new File(destFolderPath);
+		try {
+			FileUtils.forceMkdir(destFolder);
+
+			// move file from tmp to upload folder
+			String tmpFolderStr = this.makeTmpFolder(paramater.get("image"));
+			File tmpFolder = new File(tmpFolderStr);
+
+			File folderCheck = new File(tmpFolderStr);
+
+			if (folderCheck.exists() && folderCheck.isDirectory()) {
+				if (!FileUtil.isEmpty(Path.of(tmpFolderStr))) {
+					org.apache.commons.io.FileUtils.copyDirectory(tmpFolder, destFolder);
+				}
+			}
+		} catch (IOException e) {
+			LOGGER.error("UPLOAD IMAGES FAIL", e);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Upload hình ảnh lỗi");
+		}
+
+		Contact contact = null;
+		try {
+			// create contact
+			String email = principal.getName();
+			Users user = userRepository.findByEmailAddress(email);
+			if ("new".equals(paramater.get("contact_method"))) {
+				contact = this.createContact(paramater);
+				ContactPK pk = new ContactPK();
+				pk.setUserId(user.getUserId());
+				pk.setInd(contactService.registNewInd(user.getUserId()));
+				contact.setId(pk);
+			} else {
+				ContactPK pk = new ContactPK();
+				pk.setUserId(user.getUserId());
+				pk.setInd(Integer.valueOf(paramater.get("contact_ind").substring(5)));
+				Optional<Contact> contactOpt = contactRepository.findById(pk);
+				if (contactOpt.isPresent()) {
+					contact = contactOpt.get();
+				}
+			}
+
+			// Tạo tin
+			BdsNew bdsNew = this.createNews(paramater, user.getUserId());
+
+			// Tạo chi tiết tin
+			DetailNew detail = this.createDetailNew(paramater);
+			detail.setNewsId(bdsNew.getNewsId());
+			detail.setContactInd(contact.getId().getInd());
+
+			String finishUrl = String.format(GemRealtyConst.BASE_FINISH_URL, bdsNew.getNewsId(),
+					StringUtils.toSlug(bdsNew.getTitle()));
+			
+			
+
+			
+			
+			
+			
+			result.put("data", finishUrl);
+			return result;
+		} catch (Exception ex) {
+			LOGGER.error("SAVE NEWS ERROR", ex);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lưu thông tin lỗi");
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
 
 	@ResponseBody
 	@RequestMapping(path = "/validate", method = RequestMethod.POST)
@@ -246,6 +332,7 @@ public class PostController {
 		bdsNew.setCreateBy(userId);
 		bdsNew.setStatusFlg(Names.FLAG_OFF);
 		bdsNew.setDeleteFlg(Names.FLAG_OFF);
+		bdsNew.setLevel(Integer.valueOf(paramater.get("newsType")));
 
 		bdsNew.setPrice(GemRealtyService.getPriceByCategory(newsTypeRepository,
 				Integer.valueOf(paramater.get("newsType")), DateUtil.convertFromString(paramater.get("startDate")),

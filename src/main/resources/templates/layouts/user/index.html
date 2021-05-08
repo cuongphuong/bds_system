@@ -141,33 +141,46 @@
             <div th:each="posts: ${highlight_posts}" class="carousel-item ">
               <div class="row">
                 <div th:each="item: ${posts}" class="col-xs-12 col-sm-3">
-                  <div style="height: 320px; border-radius: 10px;" class="card">
+                  <div style="height: 350px; border-radius: 10px; position: relative;" class="card">
                     <a class="img-card" th:href="${item.getUrlPost()}"> <img
                       th:src="${item.getThumnail()}" />
                     </a>
                     <div class="card-content">
                       <h5 th:if="${item.getLevel() == 3 }" class="card-title"
-                        style="font-size: 0.8rem; height: 25px;">
+                        style="font-size: 0.8rem;">
                         <a data-bs-toggle="tooltip" data-bs-placement="top"
                           th:title="${item.getTitle()}" class="trunc_string"
                           style="font-weight: bold; color: rgb(206, 0, 0); line-height: 1.5; text-transform: uppercase;"
                           th:href="${item.getUrlPost()}" th:text="${item.getTitle()}"></a>
                       </h5>
                       <h5 th:if="${item.getLevel() != 3 }" class="card-title"
-                        style="font-size: 0.8rem; height: 25px;">
+                        style="font-size: 0.8rem;">
                         <a data-bs-toggle="tooltip" data-bs-placement="top"
                           th:title="${item.getTitle()}" class="trunc_string"
                           style="font-weight: bold; color: #333; line-height: 1.5; text-transform: uppercase;"
                           th:href="${item.getUrlPost()}" th:text="${item.getTitle()}"></a>
                       </h5>
+                      <div style="padding: 3px 0; margin-top: 3px; font-size: 1.5rem">
+                        <small data-bs-toggle="tooltip" data-bs-placement="top"
+                          th:title="${item.getAddress()}" class="category-info-location"
+                          th:text="'&#128500; ' + ${item.getCategoryId()}"></small>
+                      </div>
                       <div style="padding: 6px 0; margin: 0px;">
                         <small data-bs-toggle="tooltip" data-bs-placement="top"
                           th:title="${item.getAddress()}" class="article-info-location"
-                          th:text="${item.getAddress()}"></small>
+                          th:text="'&#128500; ' + ${item.getAddress()}"></small>
                       </div>
-                      <small class="article-price" th:text="${item.getDescription()}"></small>
+                      <small class="article-price" th:text="'&#128500; ' + ${item.getDescription()}"></small>
+                      <div class="category_card_show2">
+                        <label th:text="${item.getFormality()}"></label>
+                      </div>
                       <div style="position: absolute; top: 7px; right: 10px; cursor: pointer;">
-                        <i class="bx bx-bell bx-sm bx-heart text-primary"></i>
+                        <i th:if="${item.isLiked()}"
+                          th:attr="onclick=|onSavePost($(this), '${item.getTitle()}', '${item.getUrlPost()}', '${item.getThumnail()}', '${item.getDescription()}', '${item.getAddress()}', '${item.getFormality()}', '${item.getCategoryId()}', '${item.getNewsId()}')|"
+                          th:class="'checked_like bx bx-bell bx-sm text-danger bxs-heart liked_' + ${item.getNewsId()}"></i>
+                        <i th:if="${!item.isLiked()}" th:th-data="${item.getUrlPost()}"
+                          th:attr="onclick=|onSavePost($(this), '${item.getTitle()}', '${item.getUrlPost()}', '${item.getThumnail()}', '${item.getDescription()}', '${item.getAddress()}', '${item.getFormality()}', '${item.getCategoryId()}', '${item.getNewsId()}')|"
+                          th:class="'checked_like bx bx-bell bx-sm bx-heart text-danger liked_' + ${item.getNewsId()}"></i>
                       </div>
                     </div>
                   </div>
@@ -298,42 +311,55 @@
             </div>
             <div class="row">
               <div th:each="item: ${posts}" class="col-xs-12 col-sm-3">
-                <div style="height: 320px; border-radius: 15px;" class="card">
+                <div style="height: 350px; border-radius: 15px;" class="card">
                   <a class="img-card" th:href="${item.getUrlPost()}"> <img
                     th:src="${item.getThumnail()}" />
                   </a>
-                  <div class="card-content">
+                  <div class="card-content" style="position: relative;">
                     <h5 th:if="${item.getLevel() == 3 }" class="card-title"
-                      style="font-size: 0.8rem; height: 25px;">
+                      style="font-size: 0.8rem;">
                       <a data-bs-toggle="tooltip" data-bs-placement="top"
                         th:title="${item.getTitle()}" class="trunc_string"
                         style="font-weight: bold; color: rgb(206, 0, 0); line-height: 1.5; text-transform: uppercase;"
                         th:href="${item.getUrlPost()}" th:text="${item.getTitle()}"></a>
                     </h5>
                     <h5 th:if="${item.getLevel() != 3 }" class="card-title"
-                      style="font-size: 0.8rem; height: 25px;">
+                      style="font-size: 0.8rem;">
                       <a data-bs-toggle="tooltip" data-bs-placement="top"
                         th:title="${item.getTitle()}" class="trunc_string"
                         style="font-weight: bold; color: #333; line-height: 1.5; text-transform: uppercase;"
                         th:href="${item.getUrlPost()}" th:text="${item.getTitle()}"></a>
                     </h5>
+                    <div style="padding: 3px 0; margin-top: 3px; font-size: 1.5rem">
+                      <small data-bs-toggle="tooltip" data-bs-placement="top"
+                        th:title="${item.getAddress()}" class="category-info-location"
+                        th:text="'&#128500; ' + ${item.getCategoryId()}"></small>
+                    </div>
                     <div style="padding: 6px 0; margin: 0px;">
                       <small data-bs-toggle="tooltip" data-bs-placement="top"
                         th:title="${item.getAddress()}" class="article-info-location"
-                        th:text="${item.getAddress()}"></small>
+                        th:text="'&#128500; ' + ${item.getAddress()}"></small>
                     </div>
-                    <small class="article-price" th:text="${item.getDescription()}"></small>
-                    <div style="position: absolute; top: 7px; right: 10px; cursor: pointer;">
-                      <i class="bx bx-bell bx-sm bx-heart text-primary"></i>
-                    </div>
+                    <small class="article-price" th:text="'&#128500; ' + ${item.getDescription()}"></small>
+                  </div>
+                  <div class="category_card_show2">
+                    <label th:text="${item.getFormality()}"></label>
+                  </div>
+                  <div style="position: absolute; top: 7px; right: 10px; cursor: pointer;">
+                    <i th:if="${item.isLiked()}"
+                      th:attr="onclick=|onSavePost($(this), '${item.getTitle()}', '${item.getUrlPost()}', '${item.getThumnail()}', '${item.getDescription()}', '${item.getAddress()}', '${item.getFormality()}', '${item.getCategoryId()}', '${item.getNewsId()}')|"
+                      th:class="'checked_like bx bx-bell bx-sm text-danger bxs-heart liked_' + ${item.getNewsId()}"></i>
+                    <i th:if="${!item.isLiked()}" th:th-data="${item.getUrlPost()}"
+                      th:attr="onclick=|onSavePost($(this), '${item.getTitle()}', '${item.getUrlPost()}', '${item.getThumnail()}', '${item.getDescription()}', '${item.getAddress()}', '${item.getFormality()}', '${item.getCategoryId()}', '${item.getNewsId()}')|"
+                      th:class="'checked_like bx bx-bell bx-sm bx-heart text-danger liked_' + ${item.getNewsId()}"></i>
                   </div>
                 </div>
               </div>
-            </div>
-            <div>
-              <button type="button"
-                onclick="window.location.href = '/search?formality=SELL_LEASE_BUY_RENT';"
-                class="btn btn-outline-primary">Xem tất cả</button>
+              <div>
+                <button type="button"
+                  onclick="window.location.href = '/search?formality=SELL_LEASE_BUY_RENT';"
+                  class="btn btn-outline-primary">Xem tất cả</button>
+              </div>
             </div>
           </div>
         </div>
@@ -351,23 +377,22 @@
             <!-- Gallery -->
             <div class="row">
               <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-                <img
-                  src="/image/city/hanoi.png"
-                  class="w-100 shadow-1-strong rounded mb-4" alt="" /> <img
-                  src="/image/city/danang.png"
-                  class="w-100 shadow-1-strong rounded mb-4" alt="" />
+                <img style="cursor: pointer;" onclick="location.replace('/search?location=2')"
+                  src="/image/city/hanoi.png" class="w-100 shadow-1-strong rounded mb-4" /> <img
+                  style="cursor: pointer;" onclick="location.replace('/search?location=1')"
+                  src="/image/city/danang.png" class="w-100 shadow-1-strong rounded mb-4" />
               </div>
               <div class="col-lg-4 mb-4 mb-lg-0">
-                <img src="/image/city/hochiminh.png"
-                  class="w-100 shadow-1-strong rounded mb-4" alt="" /> <img
-                  src="/image/city/cantho.png"
-                  class="w-100 shadow-1-strong rounded mb-4" alt="" />
+                <img style="cursor: pointer;" onclick="location.replace('/search?location=3')"
+                  src="/image/city/hochiminh.png" class="w-100 shadow-1-strong rounded mb-4" />
+                <img style="cursor: pointer;" onclick="location.replace('/search?location=12')"
+                  src="/image/city/cantho.png" class="w-100 shadow-1-strong rounded mb-4" alt="" />
               </div>
               <div class="col-lg-4 mb-4 mb-lg-0">
-                <img src="/image/city/binhduong.png"
-                  class="w-100 shadow-1-strong rounded mb-4" alt="" /> <img
-                  src="/image/city/haiphong.png"
-                  class="w-100 shadow-1-strong rounded mb-4" alt="" />
+                <img style="cursor: pointer;" onclick="location.replace('/search?location=4')"
+                  src="/image/city/binhduong.png" class="w-100 shadow-1-strong rounded mb-4" alt="" />
+                <img style="cursor: pointer;" onclick="location.replace('/search?location=7')"
+                  src="/image/city/haiphong.png" class="w-100 shadow-1-strong rounded mb-4" alt="" />
               </div>
             </div>
             <!-- Gallery -->
@@ -509,6 +534,7 @@
             // End Slide
             var x = $('#tin_noi_bat_id > .carousel-inner > .carousel-item')[0];
             x.classList.add("active");
+            setLike();
           });
 
           function scrollToContent() {

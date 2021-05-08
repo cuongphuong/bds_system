@@ -1,10 +1,10 @@
 package com.sys.pp.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.util.ListUtils;
 
 import com.sys.pp.constant.GemRealtyConst.AcreageScope;
+import com.sys.pp.constant.GemRealtyConst.FontWidth;
 import com.sys.pp.constant.GemRealtyConst.PriceScope;
 import com.sys.pp.controller.custommodel.SearchCondition;
 import com.sys.pp.model.BdsNew;
@@ -53,10 +54,9 @@ public class SearchService {
 			}
 			if (searchCondition.getPrice() != null) {
 				PriceScope price = searchCondition.getPrice();
-				if (price.getStart() >= 0) {
+
+				if (price.getId() != 0) {
 					query.setParameter("priceFrom", price.getStart());
-				}
-				if (price.getEnd() >= 0) {
 					query.setParameter("priceTo", price.getEnd());
 				}
 			}
@@ -69,10 +69,33 @@ public class SearchService {
 					query.setParameter("acreageTo", acreage.getEnd());
 				}
 			}
+			if (searchCondition.getFrontWidthList() != null) {
+				for (int i = 0; i < searchCondition.getFrontWidthList().size(); i++) {
+					FontWidth item = searchCondition.getFrontWidthList().get(0);
+					query.setParameter(String.format("frontFrom%s", i), item.getStart());
+					query.setParameter(String.format("frontTo%s", i), item.getEnd());
+				}
+			}
+			if (searchCondition.getFloorList() != null) {
+				for (int i = 0; i < searchCondition.getFloorList().size(); i++) {
+					query.setParameter(String.format("floor%s", i), searchCondition.getFloorList().get(i));
+				}
+			}
+			if (searchCondition.getRoomList() != null) {
+				for (int i = 0; i < searchCondition.getRoomList().size(); i++) {
+					query.setParameter(String.format("room%s", i), searchCondition.getRoomList().get(i));
+				}
+			}
+			if (searchCondition.getWayList() != null) {
+				for (int i = 0; i < searchCondition.getWayList().size(); i++) {
+					query.setParameter(String.format("way%s", i), searchCondition.getWayList().get(i));
+				}
+			}
+
 			List<BdsNew> results = (List<BdsNew>) query.getResultList();
 			return results;
-		} catch (NoResultException e) {
-			return null;
+		} catch (Exception e) {
+			return new ArrayList<BdsNew>();
 		} finally {
 			if (session.isOpen())
 				session.close();
@@ -85,6 +108,8 @@ public class SearchService {
 		sql.append(" FROM `bds_ news` bds ");
 		sql.append(" INNER JOIN detail_news dt ON bds.news_id = dt.news_id ");
 		sql.append(" WHERE bds.title like :keyword ");
+		sql.append("   AND bds.status_flg = 1 ");
+		sql.append("   AND bds.delete_flg <> 1 ");
 
 		if (!ListUtils.isEmpty(searchCondition.getFormalityList())) {
 			sql.append("   AND dt.formality in (:formality) ");
@@ -109,13 +134,14 @@ public class SearchService {
 		}
 		if (searchCondition.getPrice() != null) {
 			PriceScope price = searchCondition.getPrice();
-			if (price.getStart() >= 0) {
+
+			if (price.getId() == 0) {
+				sql.append("   AND dt.price is null ");
+			} else {
 				sql.append("   AND (CASE ");
 				sql.append("            WHEN dt.unit = 1 THEN dt.price * 1000 ");
 				sql.append("            ELSE dt.price ");
 				sql.append("        END) >= :priceFrom ");
-			}
-			if (price.getEnd() >= 0) {
 				sql.append("   AND (CASE ");
 				sql.append("            WHEN dt.unit = 1 THEN dt.price * 1000 ");
 				sql.append("            ELSE dt.price ");
@@ -131,7 +157,42 @@ public class SearchService {
 				sql.append("   AND dt.acreage <= :acreageTo ");
 			}
 		}
-
+		if (searchCondition.getFrontWidthList() != null) {
+			List<String> subs = new ArrayList<String>();
+			for (int i = 0; i < searchCondition.getFrontWidthList().size(); i++) {
+				subs.add(String.format(" (dt.front_width >= :frontFrom%s AND dt.front_width <= :frontTo%s) ", i, i));
+			}
+			sql.append(" AND ( ");
+			sql.append(String.join("OR", subs));
+			sql.append(" )");
+		}
+		if (searchCondition.getFloorList() != null) {
+			List<String> subs = new ArrayList<String>();
+			for (int i = 0; i < searchCondition.getFloorList().size(); i++) {
+				subs.add(String.format(" (dt.floors_num = :floor%s) ", i));
+			}
+			sql.append(" AND ( ");
+			sql.append(String.join("OR", subs));
+			sql.append(" )");
+		}
+		if (searchCondition.getRoomList() != null) {
+			List<String> subs = new ArrayList<String>();
+			for (int i = 0; i < searchCondition.getRoomList().size(); i++) {
+				subs.add(String.format(" (dt.room_num = :room%s) ", i));
+			}
+			sql.append(" AND ( ");
+			sql.append(String.join("OR", subs));
+			sql.append(" )");
+		}
+		if (searchCondition.getWayList() != null) {
+			List<String> subs = new ArrayList<String>();
+			for (int i = 0; i < searchCondition.getWayList().size(); i++) {
+				subs.add(String.format(" (dt.entrance_width > :way%s) ", i));
+			}
+			sql.append(" AND ( ");
+			sql.append(String.join("OR", subs));
+			sql.append(" )");
+		}
 		return sql.toString();
 	}
 }

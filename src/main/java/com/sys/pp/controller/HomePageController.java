@@ -126,7 +126,7 @@ public class HomePageController {
 		}
 
 		List<PostInfomation> results = GemRealtyService.makePostCardList(userId, favouriteRepository, posts,
-				districtRepository, provinceRepository);
+				districtRepository, provinceRepository, categoryRepository);
 		return results;
 	}
 
@@ -139,7 +139,7 @@ public class HomePageController {
 
 		List<BdsNew> posts = bDSNewRepository.findHighlightPost();
 		List<List<PostInfomation>> results = GemRealtyService.makeHighlightPost(userId, favouriteRepository, posts,
-				districtRepository, provinceRepository);
+				districtRepository, provinceRepository, categoryRepository);
 		return results;
 	}
 }

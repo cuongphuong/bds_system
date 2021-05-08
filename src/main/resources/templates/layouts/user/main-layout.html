@@ -50,16 +50,16 @@
         <div class="navbar align-self-center d-flex" style="position: relative;">
           <a data-bs-toggle="tooltip" data-bs-placement="left" title="Đăng bài" class="nav-link"
             href="/post"><i class='bx bx-upload bx-sm text-primary'></i></a> <a
-            onclick="$('#favorite_show_id').toggle(200)" class="nav-link" href="#"><i
-            class='bx bx-bell bx-sm bx-heart text-primary'></i></a> <a
+            style="position: relative;" onclick="$('#favorite_show_id').toggle(200)"
+            class="nav-link" href="#"><i class='bx bx-bell bx-sm bx-heart text-primary'></i><span
+            id="number_of_like_id" class="badge rounded-pill bg-primary"
+            style="position: absolute; top: 0; left: 5px; display: none;">0</span></a> <a
             sec:authorize="isFullyAuthenticated()" class="nav-link" href="#"><i
             class='bx bx-cog bx-sm text-primary'></i></a> <a onclick="$('#user_show_id').toggle(200)"
             class="nav-link" href="#"><i class='bx bx-user-circle bx-sm text-primary'></i></a>
           <div id="favorite_show_id"
-            style="overflow: scroll;display: block; position: absolute; background: #fff; z-index: 2; border: solid 1px #ddd; width: 400px; height: 320px; right: 130px; top: 50px; display: none;">
-            <div class="list-group" id="like_mini_box_id">
-              
-            </div>
+            style="overflow: scroll; display: block; position: absolute; background: #fff; z-index: 2; border: solid 1px #ddd; width: 400px; height: 320px; right: 90px; top: 50px; display: none;">
+            <div class="list-group" id="like_mini_box_id"></div>
             <div style="text-align: center; margin-top: 5px;">
               <a href="/favourite"><b>Xem tất cả</b></a>
             </div>
@@ -88,6 +88,7 @@
   <div>
     <th:block th:replace="${mainContent} ?: ~{}"></th:block>
   </div>
+  
   <!-- Start Footer -->
   <footer class="bg-secondary pt-4" style="margin-top: 20px;">
     <div class="container">
@@ -96,7 +97,8 @@
           <a class="navbar-brand" href="index.html"> <i class='bx bx-buildings bx-sm text-light'></i>
             <span class="text-light h5">Gem</span> <span class="text-light h5 semi-bold-600">Realty</span>
           </a>
-          <p class="text-light my-lg-4 my-2">GemRealty.com là sàn thông tin bất động sản thuộc hệ sinh thái GemRealty. </p>
+          <p class="text-light my-lg-4 my-2">GemRealty.com là sàn thông tin bất động sản thuộc
+            hệ sinh thái GemRealty.</p>
           <ul class="list-inline footer-icons light-300">
             <li class="list-inline-item m-0"><a class="text-light" target="_blank"
               href="http://facebook.com/"> <i class='bx bxl-facebook-square bx-md'></i>
@@ -114,9 +116,11 @@
               <li class="pb-2"><i class='bx-fw bx bxs-chevron-right bx-xs'></i><a
                 class="text-decoration-none text-light" href="index.html">Chi nhánh Miền Bắc</a></li>
               <li class="pb-2"><i class='bx-fw bx bxs-chevron-right bx-xs'></i><a
-                class="text-decoration-none text-light py-1" href="about.html">Chi nhánh Miền Nam</a></li>
+                class="text-decoration-none text-light py-1" href="about.html">Chi nhánh Miền
+                  Nam</a></li>
               <li class="pb-2"><i class='bx-fw bx bxs-chevron-right bx-xs'></i><a
-                class="text-decoration-none text-light py-1" href="work.html">Chi nhánh miền trung</a></li>
+                class="text-decoration-none text-light py-1" href="work.html">Chi nhánh miền
+                  trung</a></li>
             </ul>
         </div>
         <div class="col-lg-3 col-md-4 my-sm-0 mt-4">
@@ -145,10 +149,10 @@
       <div class="container">
         <div class="row pt-2">
           <div class="col-lg-6 col-sm-12">
-            <p class="text-lg-start text-center text-light light-300">© Copyright 2021 Gem Realty Company. All Rights Reserved.</p>
+            <p class="text-lg-start text-center text-light light-300">© Copyright 2021 Gem
+              Realty Company. All Rights Reserved.</p>
           </div>
-          <div class="col-lg-6 col-sm-12">
-          </div>
+          <div class="col-lg-6 col-sm-12"></div>
         </div>
       </div>
     </div>
@@ -175,6 +179,7 @@
           $(this).addClass("shadow");
           return false;
         });
+        setNoficationNumber();
       });
     </script>
   <script src="/assets/js/templatemo.js"></script>

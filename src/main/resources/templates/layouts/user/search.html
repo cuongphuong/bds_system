@@ -165,6 +165,10 @@
                       id="selectbox_way_id" class="box_selected"></div>
                   </div>
                 </div>
+
+                <span
+                  style="position: absolute; top: 5px; font-size: 10px; color: red; padding-left: 15px;"
+                  id="count_fillter_id"></span>
               </div>
             </div>
             <div class="col-md-2">
@@ -214,7 +218,8 @@
             <div class="sort_search" style="border-bottom: solid 1px #ddd">
               <div class="row">
                 <div class="col-md-6">
-                  <div id="count_result_id" style="margin-top: 15px;">Nhấn "Tìm kiếm" để lấy kết quả.</div>
+                  <div id="count_result_id" style="margin-top: 15px;">Nhấn "Tìm kiếm" để lấy
+                    kết quả.</div>
                 </div>
                 <div class="col-md-4">
                   <div class="vscomp-search-wrapper">
@@ -276,22 +281,29 @@
     </script>
     <script id="post-result-template" type="x-tmpl-mustache">
 		<div class="col-xs-12 col-sm-4">
-			<div style="height: 320px; border-radius: 15px;" class="card">
+			<div style="height: 350px; border-radius: 15px;" class="card">
 			  <a class="img-card" href="{{urlPost}}"> <img src="{{thumnail}}">
 			  </a>
 			  <div class="card-content">
-			    <h5 class="card-title" style="font-size: 0.8rem; height: 25px;">
+			    <h5 class="card-title" style="font-size: 0.8rem;">
 					<a data-bs-toggle="tooltip" data-bs-placement="top" title="{{title}}" class="trunc_string"
 					style="font-weight: bold; color: #333; line-height: 1.5; text-transform: uppercase;"
 					href="{{urlPost}}">{{title}}</a>
 				</h5>
+                <div style="padding: 3px 0; margin-top: 3px; font-size: 1.5rem">
+                    <small data-bs-toggle="tooltip" data-bs-placement="top" 
+						class="category-info-location">&#128500; {{categoryId}}</small>
+                </div>
 				<div style="padding: 6px 0; margin: 0px;">
 				    <small data-bs-toggle="tooltip" data-bs-placement="top"
-				      title="{{address}}" class="article-info-location">{{address}}</small>
+				      title="{{address}}" class="article-info-location">&#128500; {{address}}</small>
 				</div>
-				<small class="article-price">{{description}}</small>
+				<small class="article-price">&#128500; {{description}}</small>
+                <div class="category_card_show2">
+                    <label>{{formality}}</label>
+                </div>
 				<div style="position: absolute; top: 7px; right: 10px; cursor: pointer;">
-				  <i onclick="onSavePost($(this), '{{title}}', '{{urlPost}}', '{{thumnail}}', '{{description}}', '{{address}}');" class="bx bx-bell bx-sm bx-heart text-primary"></i>
+				  <i th-data="{{urlPost}}" onclick="onSavePost($(this), '{{title}}', '{{urlPost}}', '{{thumnail}}', '{{description}}', '{{address}}', '{{formality}}', '{{categoryId}}', {{newsId}});" class="checked_like liked_{{newsId}} bx bx-bell bx-sm bx-heart text-danger"></i>
 				</div>
 			  </div>
 			</div>

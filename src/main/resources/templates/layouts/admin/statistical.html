@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{layouts/admin/main-layout::main-fragment(  
+                ~{::title},
+                ~{:: #products-static-resources},
+                ~{:: #home-nav},
+                ~{:: #products-main-content},  
+                ~{:: #resources-footer},
+               )}">
+<head>
+<title>Thống kê</title>
+<th:block id="products-static-resources">
+  <link rel="stylesheet" href="/list-pickup/virtual-select.min.css">
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <script src="/assets/js/statistical.html.js" type="text/javascript"></script>
+</th:block>
+</head>
+<body>
+  <th:block id="products-main-content">
+    <div id="fixed_condition">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3" style="border-right: solid 1px #ddd">
+            <div style="padding: 2px 0 0 9px; margin: 0;"
+              class="title_fixed_condition trucncate_inline">Hình thức</div>
+            <div id="selectbox_hinhthuc_id" class="box_selected"></div>
+          </div>
+          <div class="col-md-3" style="border-right: solid 1px #ddd">
+            <div style="padding: 2px 0 0 9px; margin: 0;"
+              class="title_fixed_condition trucncate_inline">Danh mục</div>
+            <div id="selectbox_category_id" class="box_selected"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="container px-1 px-sm-5 mx-auto">
+              <form autocomplete="off">
+                <div class="flex-row d-flex justify-content-center">
+                  <div class="col-xl-5 col-lg-6 col-11 px-1">
+                    <div class="input-group input-daterange">
+                      <label class="">Select Date Range :</label> <input type="text"
+                        name="daterange" value="01/01/2018 - 01/15/2018" readonly />
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </th:block>
+  <th:block id="resources-footer">
+    <script src="/list-pickup/virtual-select.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+      href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script>
+          $(document).ready(function() {
+            $(function() {
+              $('input[name="daterange"]').daterangepicker({
+                "startDate" : "01/01/2020",
+                "endDate" : "17/01/2020",
+                opens : 'center',
+                locale : {
+                  format : 'DD/MM/YYYY'
+                }
+              });
+            });
+            initSelectBox();
+          });
+
+          function ajaxRequest(url, method, data, calBackFuntion) {
+            var config = {
+              method : method,
+              url : url,
+              context : document.body,
+            };
+
+            if (data) {
+              config.data = data;
+              config.contentType = "application/json; charset=utf-8";
+            }
+
+            $.ajax(config).done(function(data) {
+              calBackFuntion(data);
+            });
+          }
+        </script>
+  </th:block>
+</body>
+</html>

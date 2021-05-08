@@ -28,6 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		 http.authorizeRequests().antMatchers("/post").access("hasAnyRole('ROLE_USER')");
 
 		// admin page requires login as ROLE_ADMIN.
+		http.authorizeRequests().antMatchers("/admin").access("hasAnyRole('ROLE_ADMIN')");
 		http.authorizeRequests().antMatchers("/admin/*").access("hasAnyRole('ROLE_ADMIN')");
 
 		// Config for Login Form

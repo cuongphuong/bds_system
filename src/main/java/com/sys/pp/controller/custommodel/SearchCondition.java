@@ -3,6 +3,7 @@ package com.sys.pp.controller.custommodel;
 import java.util.List;
 
 import com.sys.pp.constant.GemRealtyConst.AcreageScope;
+import com.sys.pp.constant.GemRealtyConst.FontWidth;
 import com.sys.pp.constant.GemRealtyConst.PriceScope;
 
 public class SearchCondition {
@@ -16,9 +17,45 @@ public class SearchCondition {
 	private List<Integer> projectList;
 	private PriceScope price;
 	private AcreageScope acreage;
+	private List<FontWidth> frontWidthList;
+	private List<Integer> floorList;
+	private List<Integer> roomList;
+	private List<Integer> wayList;
 
 	public String getKeyword() {
 		return keyword;
+	}
+
+	public List<FontWidth> getFrontWidthList() {
+		return frontWidthList;
+	}
+
+	public void setFrontWidthList(List<FontWidth> frontWidthList) {
+		this.frontWidthList = frontWidthList;
+	}
+
+	public List<Integer> getFloorList() {
+		return floorList;
+	}
+
+	public void setFloorList(List<Integer> floorList) {
+		this.floorList = floorList;
+	}
+
+	public List<Integer> getRoomList() {
+		return roomList;
+	}
+
+	public void setRoomList(List<Integer> roomList) {
+		this.roomList = roomList;
+	}
+
+	public List<Integer> getWayList() {
+		return wayList;
+	}
+
+	public void setWayList(List<Integer> wayList) {
+		this.wayList = wayList;
 	}
 
 	public void setKeyword(String keyword) {
