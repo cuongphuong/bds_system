@@ -120,11 +120,11 @@ function makeChart(label, data) {
 }
 
 function init() {
-	//ajaxRequest("/admin/chart-data", "GET", null, function(res) {
-		
-	//});
-	//makeChart(res.label, res.data);
-	makeChart(["2021-05-02","2021-05-03","2021-05-04","2021-05-05","2021-05-06","2021-05-07","2021-05-08"], [0,0,0,0,0,24360000,1470000]);
+	ajaxRequest("/admin/chart-data", "GET", null, function(res) {
+		makeChart(res.label, res.data);
+	});
+	
+	//makeChart(["2021-05-02","2021-05-03","2021-05-04","2021-05-05","2021-05-06","2021-05-07","2021-05-08"], [0,0,0,0,0,24360000,1470000]);
 }
 
 function ajaxRequest(url, mt, data, calBackFuntion) {
