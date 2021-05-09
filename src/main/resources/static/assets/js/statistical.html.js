@@ -167,10 +167,10 @@ function makeData(data) {
 	return dataList;
 }
 
-function ajaxRequest(url, method, data, calBackFuntion) {
+function ajaxRequest(url, mt, data, calBackFuntion) {
 	var config = {
-		method: method,
-			url: url,
+		method: mt,
+		url: url,
 		context: document.body,
 	};
 
