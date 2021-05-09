@@ -25,6 +25,16 @@ public class DateUtil {
 		return date;
 	}
 	
+	public static Date convertFromString(String strDate, String format) {
+		Date date;
+		try {
+			date = new SimpleDateFormat(format).parse(strDate);
+		} catch (Exception e) {
+			return null;
+		}
+		return date;
+	}
+	
 	public static String convertDDMMYYYYString(Date date) {
 		SimpleDateFormat formatter = new SimpleDateFormat(DDMMYYYY_FORMAT);
 		String strDate = formatter.format(date);

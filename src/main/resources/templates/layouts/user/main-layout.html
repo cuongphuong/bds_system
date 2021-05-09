@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="http://www.thymeleaf.org"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org"
   th:fragment="main-fragment (title, otherStaticResources, mainContent, resourceFooter)">
 <head>
 <title th:replace="${title}">Hệ thống bất động sản</title>
@@ -10,53 +9,43 @@
 <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
 <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
 <link href="/assets/css/boxicon.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap"
-  rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/templatemo.css">
 <link rel="stylesheet" href="/assets/css/custom.css">
 <link rel="stylesheet" href="/assets/css/button.css">
 <script src="/assets/js/like.js" type="text/javascript"></script>
 <script src="/assets/js/time-ago.js" type="text/javascript"></script>
+<style type="text/css">
+html, body {
+  font-family: "Montserrat", sans-serif !important;
+}
+</style>
 <th:block th:replace="${otherStaticResources} ?: ~{}"></th:block>
 </head>
 <body>
   <nav id="main_nav" class="navbar navbar-expand-lg navbar-light bg-white shadow">
     <div class="container d-flex justify-content-between align-items-center">
-      <a class="navbar-brand h1" href="/"> <i class='bx bx-buildings bx-sm text-dark'></i> <span
-        class="text-dark h4">Gem</span> <span class="text-primary h4">Realty</span>
+      <a class="navbar-brand h1" href="/"> <i class='bx bx-buildings bx-sm text-dark'></i> <span class="text-dark h4">Gem</span> <span class="text-primary h4">Realty</span>
       </a>
-      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
-        data-bs-target="#navbar-toggler-success" aria-controls="navbarSupportedContent"
-        aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler-success" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div
-        class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between"
-        id="navbar-toggler-success">
+      <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="navbar-toggler-success">
         <div class="flex-fill mx-xl-5 mb-2">
           <ul class="nav navbar-nav d-flex justify-content-between mx-xl-5 text-center text-dark">
-            <li class="nav-item"><a class="nav-link btn-outline-primary rounded-pill px-3"
-              href="/">Trang chủ</a></li>
-            <li class="nav-item"><a class="nav-link btn-outline-primary rounded-pill px-3"
-              href="/search?formality=SELL_BUY">Mua & bán</a></li>
-            <li class="nav-item"><a class="nav-link btn-outline-primary rounded-pill px-3"
-              href="/search?formality=LEASE_RENT">Thuê & cho thuê</a></li>
-            <li class="nav-item"><a class="nav-link btn-outline-primary rounded-pill px-3"
-              href="/about">Giới thiệu</a></li>
-            <li class="nav-item"><a class="nav-link btn-outline-primary rounded-pill px-3"
-              href="/contact">Liên hệ</a></li>
+            <li class="nav-item"><a class="nav-link btn-outline-primary rounded-pill px-3" href="/">Trang chủ</a></li>
+            <li class="nav-item"><a class="nav-link btn-outline-primary rounded-pill px-3" href="/search?formality=SELL_BUY">Mua & bán</a></li>
+            <li class="nav-item"><a class="nav-link btn-outline-primary rounded-pill px-3" href="/search?formality=LEASE_RENT">Thuê & cho thuê</a></li>
+            <li class="nav-item"><a class="nav-link btn-outline-primary rounded-pill px-3" href="/about">Giới thiệu</a></li>
+            <li class="nav-item"><a class="nav-link btn-outline-primary rounded-pill px-3" href="/contact">Liên hệ</a></li>
           </ul>
         </div>
         <div class="navbar align-self-center d-flex" style="position: relative;">
-          <a data-bs-toggle="tooltip" data-bs-placement="left" title="Đăng bài" class="nav-link"
-            href="/post"><i class='bx bx-upload bx-sm text-primary'></i></a> <a
-            style="position: relative;" onclick="$('#favorite_show_id').toggle(200)"
-            class="nav-link" href="#"><i class='bx bx-bell bx-sm bx-heart text-primary'></i><span
-            id="number_of_like_id" class="badge rounded-pill bg-primary"
-            style="position: absolute; top: 0; left: 5px; display: none;">0</span></a> <a
-            sec:authorize="isFullyAuthenticated()" class="nav-link" href="#"><i
-            class='bx bx-cog bx-sm text-primary'></i></a> <a onclick="$('#user_show_id').toggle(200)"
-            class="nav-link" href="#"><i class='bx bx-user-circle bx-sm text-primary'></i></a>
+          <a data-bs-toggle="tooltip" data-bs-placement="left" title="Đăng bài" class="nav-link" href="/post"><i class='bx bx-upload bx-sm text-primary'></i></a> <a style="position: relative;"
+            onclick="$('#favorite_show_id').toggle(200)" class="nav-link" href="#"><i class='bx bx-bell bx-sm bx-heart text-primary'></i><span id="number_of_like_id"
+            class="badge rounded-pill bg-primary" style="position: absolute; top: 0; left: 5px; display: none;">0</span></a> <a sec:authorize="isFullyAuthenticated()" class="nav-link" href="#"><i
+            class='bx bx-cog bx-sm text-primary'></i></a> <a onclick="$('#user_show_id').toggle(200)" class="nav-link" href="#"><i class='bx bx-user-circle bx-sm text-primary'></i></a>
           <div id="favorite_show_id"
             style="overflow: scroll; display: block; position: absolute; background: #fff; z-index: 2; border: solid 1px #ddd; width: 400px; height: 320px; right: 90px; top: 50px; display: none;">
             <div class="list-group" id="like_mini_box_id"></div>
@@ -64,21 +53,12 @@
               <a href="/favourite"><b>Xem tất cả</b></a>
             </div>
           </div>
-          <div id="user_show_id"
-            style="display: block; position: absolute; background: #fff; z-index: 2; width: 250px; top: 50px; display: none;">
+          <div id="user_show_id" style="display: block; position: absolute; background: #fff; z-index: 2; width: 250px; top: 50px; display: none;">
             <div class="list-group">
-              <button sec:authorize="!isFullyAuthenticated()" type="button"
-                onclick=" window.location.href='/login';"
-                class="list-group-item list-group-item-action">Đăng nhập</button>
-              <button sec:authorize="!isFullyAuthenticated()" type="button"
-                onclick=" window.location.href='/regist';"
-                class="list-group-item list-group-item-action">Đăng ký</button>
-              <button sec:authorize="isFullyAuthenticated()" type="button"
-                onclick=" window.location.href='/logout';"
-                class="list-group-item list-group-item-action">Danh sách bài đăng của bạn</button>
-              <button sec:authorize="isFullyAuthenticated()"
-                onclick=" window.location.href='/logout';" type="button"
-                class="list-group-item list-group-item-action">Đăng xuất</button>
+              <button sec:authorize="!isFullyAuthenticated()" type="button" onclick=" window.location.href='/login';" class="list-group-item list-group-item-action">Đăng nhập</button>
+              <button sec:authorize="!isFullyAuthenticated()" type="button" onclick=" window.location.href='/regist';" class="list-group-item list-group-item-action">Đăng ký</button>
+              <button sec:authorize="isFullyAuthenticated()" type="button" onclick=" window.location.href='/logout';" class="list-group-item list-group-item-action">Danh sách bài đăng của bạn</button>
+              <button sec:authorize="isFullyAuthenticated()" onclick=" window.location.href='/logout';" type="button" class="list-group-item list-group-item-action">Đăng xuất</button>
             </div>
           </div>
         </div>
@@ -88,23 +68,18 @@
   <div>
     <th:block th:replace="${mainContent} ?: ~{}"></th:block>
   </div>
-  
   <!-- Start Footer -->
   <footer class="bg-secondary pt-4" style="margin-top: 20px;">
     <div class="container">
       <div class="row py-4">
         <div class="col-lg-3 col-12 align-left">
-          <a class="navbar-brand" href="index.html"> <i class='bx bx-buildings bx-sm text-light'></i>
-            <span class="text-light h5">Gem</span> <span class="text-light h5 semi-bold-600">Realty</span>
+          <a class="navbar-brand" href="index.html"> <i class='bx bx-buildings bx-sm text-light'></i> <span class="text-light h5">Gem</span> <span class="text-light h5 semi-bold-600">Realty</span>
           </a>
-          <p class="text-light my-lg-4 my-2">GemRealty.com là sàn thông tin bất động sản thuộc
-            hệ sinh thái GemRealty.</p>
+          <p class="text-light my-lg-4 my-2">GemRealty.com là sàn thông tin bất động sản thuộc hệ sinh thái GemRealty.</p>
           <ul class="list-inline footer-icons light-300">
-            <li class="list-inline-item m-0"><a class="text-light" target="_blank"
-              href="http://facebook.com/"> <i class='bx bxl-facebook-square bx-md'></i>
+            <li class="list-inline-item m-0"><a class="text-light" target="_blank" href="http://facebook.com/"> <i class='bx bxl-facebook-square bx-md'></i>
             </a></li>
-            <li class="list-inline-item m-0"><a class="text-light" target="_blank"
-              href="https://www.linkedin.com/"> <i class='bx bxl-linkedin-square bx-md'></i>
+            <li class="list-inline-item m-0"><a class="text-light" target="_blank" href="https://www.linkedin.com/"> <i class='bx bxl-linkedin-square bx-md'></i>
             </a></li>
           </ul>
         </div>
@@ -113,34 +88,24 @@
             Chi nhánh
             </h2>
             <ul class="list-unstyled text-light light-300">
-              <li class="pb-2"><i class='bx-fw bx bxs-chevron-right bx-xs'></i><a
-                class="text-decoration-none text-light" href="index.html">Chi nhánh Miền Bắc</a></li>
-              <li class="pb-2"><i class='bx-fw bx bxs-chevron-right bx-xs'></i><a
-                class="text-decoration-none text-light py-1" href="about.html">Chi nhánh Miền
-                  Nam</a></li>
-              <li class="pb-2"><i class='bx-fw bx bxs-chevron-right bx-xs'></i><a
-                class="text-decoration-none text-light py-1" href="work.html">Chi nhánh miền
-                  trung</a></li>
+              <li class="pb-2"><i class='bx-fw bx bxs-chevron-right bx-xs'></i><a class="text-decoration-none text-light" href="index.html">Chi nhánh Miền Bắc</a></li>
+              <li class="pb-2"><i class='bx-fw bx bxs-chevron-right bx-xs'></i><a class="text-decoration-none text-light py-1" href="about.html">Chi nhánh Miền Nam</a></li>
+              <li class="pb-2"><i class='bx-fw bx bxs-chevron-right bx-xs'></i><a class="text-decoration-none text-light py-1" href="work.html">Chi nhánh miền trung</a></li>
             </ul>
         </div>
         <div class="col-lg-3 col-md-4 my-sm-0 mt-4">
           <h2 class="h4 pb-lg-3 text-light light-300">Công ty</h2>
           <ul class="list-unstyled text-light light-300">
-            <li class="pb-2"><i class='bx-fw bx bxs-chevron-right bx-xs'></i><a
-              class="text-decoration-none text-light py-1" href="#">Tuyển dụng</a></li>
-            <li class="pb-2"><i class='bx-fw bx bxs-chevron-right bx-xs'></i><a
-              class="text-decoration-none text-light py-1" href="#">Quy chế hoạt động</a></li>
-            <li class="pb-2"><i class='bx-fw bx bxs-chevron-right bx-xs'></i><a
-              class="text-decoration-none text-light py-1" href="#">Điều khoản thỏa thuận</a></li>
+            <li class="pb-2"><i class='bx-fw bx bxs-chevron-right bx-xs'></i><a class="text-decoration-none text-light py-1" href="#">Tuyển dụng</a></li>
+            <li class="pb-2"><i class='bx-fw bx bxs-chevron-right bx-xs'></i><a class="text-decoration-none text-light py-1" href="#">Quy chế hoạt động</a></li>
+            <li class="pb-2"><i class='bx-fw bx bxs-chevron-right bx-xs'></i><a class="text-decoration-none text-light py-1" href="#">Điều khoản thỏa thuận</a></li>
           </ul>
         </div>
         <div class="col-lg-3 col-md-4 my-sm-0 mt-4">
           <h2 class="h4 pb-lg-3 text-light light-300">Liên hện</h2>
           <ul class="list-unstyled text-light light-300">
-            <li class="pb-2"><i class='bx-fw bx bx-phone bx-xs'></i><a
-              class="text-decoration-none text-light py-1" href="tel:0123456789">0123-456-789</a></li>
-            <li class="pb-2"><i class='bx-fw bx bx-mail-send bx-xs'></i><a
-              class="text-decoration-none text-light py-1" href="mailto:info@company.com">admin@gemrealty.com</a></li>
+            <li class="pb-2"><i class='bx-fw bx bx-phone bx-xs'></i><a class="text-decoration-none text-light py-1" href="tel:0123456789">0123-456-789</a></li>
+            <li class="pb-2"><i class='bx-fw bx bx-mail-send bx-xs'></i><a class="text-decoration-none text-light py-1" href="mailto:info@company.com">admin@gemrealty.com</a></li>
           </ul>
         </div>
       </div>
@@ -149,8 +114,7 @@
       <div class="container">
         <div class="row pt-2">
           <div class="col-lg-6 col-sm-12">
-            <p class="text-lg-start text-center text-light light-300">© Copyright 2021 Gem
-              Realty Company. All Rights Reserved.</p>
+            <p class="text-lg-start text-center text-light light-300">© Copyright 2021 Gem Realty Company. All Rights Reserved.</p>
           </div>
           <div class="col-lg-6 col-sm-12"></div>
         </div>

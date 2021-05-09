@@ -14,9 +14,8 @@
 <body>
   <th:block id="products-main-content">
     <!-- Open modal -->
-    <a id="add_new" data-toggle="modal" data-target="#exampleModal" style="margin-bottom: 10px;"
-      href="#" class="btn btn-success btn-icon-split"> <span class="icon text-white-50">
-        <i class="fas fa-plus"></i>
+    <a id="add_new" data-toggle="modal" data-target="#exampleModal" style="margin-bottom: 10px;" href="#" class="btn btn-success btn-icon-split"> <span class="icon text-white-50"> <i
+        class="fas fa-plus"></i>
     </span> <span class="text">Thêm mới</span>
     </a>
     <!-- DataTales Example -->
@@ -48,81 +47,53 @@
           </div>
         </div>
       </div>
-      
-      
-      
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-      aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="title_modal">Thêm mới</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form class="col s12">
-              <input id="indexUpdate" type="hidden" />
-              
-              <div class="form-group">
-                <label for="userName">Tên người dùng</label>
-                <input class="form-control" id="userName" type="text" />
-                <small class="validate" style="color: red;" id="validate_userName"></small>
-              </div>
-              
-              <div class="form-group">
-                <label for="birthday">Ngày sinh</label>
-                <input id="birthday" type="text" class="datepicker form-control">
-                <small class="validate" style="color: red;" id="validate_birthday"></small>
-              </div>
-              
-              <div class="form-group">
-                <label for="phone">Số điện thoại</label>
-                <input id="phone" type="text" class="datepicker form-control">
-                <small class="validate" style="color: red;" id="validate_userName"></small>
-              </div>
-              
-              <div class="form-group">
-                <label for="email">Địa chỉ thư</label>
-                <input id="email" type="text" class="datepicker form-control">
-                <small class="validate" style="color: red;" id="validate_email"></small>
-              </div>
-              
-              <div class="form-group">
-                <label for="pass">Mât khẩu (sử dụng cho đăng nhập)</label>
-                <input id="pass" type="text" class="datepicker form-control">
-                <small class="validate" style="color: red;" id="validate_pass"></small>
-              </div>
-              
-              <div class="form-group">
-                <label for="pass">Quyền truy cập</label>
-                <div class="form-check">
-                  <input id = "role_admin" class="form-check-input" type="checkbox" value="">
-                  <label class="form-check-label" for="role_admin">
-                    Quản trị viên
-                  </label>
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="title_modal">Thêm mới</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form class="col s12">
+                <input id="indexUpdate" type="hidden" />
+                <div class="form-group">
+                  <label for="userName">Tên người dùng</label> <input class="form-control" id="userName" type="text" /> <small class="validate" style="color: red;" id="validate_userName"></small>
                 </div>
-                <div class="form-check">
-                  <input id ="role_user" class="form-check-input" type="checkbox" value="" checked>
-                  <label class="form-check-label" for="role_user">
-                    Nhà bất động sản
-                  </label>
+                <div class="form-group">
+                  <label for="birthday">Ngày sinh</label> <input id="birthday" type="text" class="datepicker form-control"> <small class="validate" style="color: red;" id="validate_birthday"></small>
                 </div>
-              </div>
-              
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button onclick="onCloseModal()" type="button" class="btn btn-secondary"
-              data-dismiss="modal">Đóng</button>
-            <button id="confirm_save" type="button" class="btn btn-primary">Lưu người dùng</button>
+                <div class="form-group">
+                  <label for="phone">Số điện thoại</label> <input id="phone" type="text" class="datepicker form-control"> <small class="validate" style="color: red;" id="validate_userName"></small>
+                </div>
+                <div class="form-group">
+                  <label for="email">Địa chỉ thư</label> <input id="email" type="text" class="datepicker form-control"> <small class="validate" style="color: red;" id="validate_email"></small>
+                </div>
+                <div class="form-group">
+                  <label for="pass">Mât khẩu (sử dụng cho đăng nhập)</label> <input id="pass" type="text" class="datepicker form-control"> <small class="validate" style="color: red;"
+                    id="validate_pass"></small>
+                </div>
+                <div class="form-group">
+                  <label for="pass">Quyền truy cập</label>
+                  <div class="form-check">
+                    <input id="role_admin" class="form-check-input" type="checkbox" value=""> <label class="form-check-label" for="role_admin"> Quản trị viên </label>
+                  </div>
+                  <div class="form-check">
+                    <input id="role_user" class="form-check-input" type="checkbox" value="" checked> <label class="form-check-label" for="role_user"> Nhà bất động sản </label>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button onclick="onCloseModal()" type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+              <button id="confirm_save" type="button" class="btn btn-primary">Lưu người dùng</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-      
       <!-- keep page number for load more item -->
       <input id="page" type="hidden" value="1" />
     </div>

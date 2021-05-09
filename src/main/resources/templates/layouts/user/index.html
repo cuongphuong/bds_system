@@ -17,8 +17,7 @@
 <body>
   <th:block id="products-main-content">
     <div class="banner-wrapper bg-light" style="position: relative;">
-      <div style="position: relative;" id="carouselExampleIndicators" class="carousel slide"
-        data-bs-ride="carousel">
+      <div style="position: relative;" id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
         <ol class="carousel-indicators">
           <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
           <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
@@ -32,17 +31,13 @@
             <img class="d-block w-100" src="/assets/img/slide3.png" alt="Third slide">
           </div>
         </div>
-        <a class="carousel-control-prev text-decoration-none" href="#carouselExampleIndicators"
-          role="button" data-bs-slide="prev"> <i class='bx bx-chevron-left'></i> <span
-          class="visually-hidden">Previous</span>
-        </a> <a class="carousel-control-next text-decoration-none" href="#carouselExampleIndicators"
-          role="button" data-bs-slide="next"> <i class='bx bx-chevron-right'></i> <span
+        <a class="carousel-control-prev text-decoration-none" href="#carouselExampleIndicators" role="button" data-bs-slide="prev"> <i class='bx bx-chevron-left'></i> <span class="visually-hidden">Previous</span>
+        </a> <a class="carousel-control-next text-decoration-none" href="#carouselExampleIndicators" role="button" data-bs-slide="next"> <i class='bx bx-chevron-right'></i> <span
           class="visually-hidden">Next</span>
         </a>
         <div id="search_content_view" style="text-align: center;">
           <div style="margin: 0 auto; width: 60%;">
-            <div
-              style="margin-top: 15%; background: #fff; padding: 20px; border-radius: 25px; opacity: 0.9;">
+            <div style="margin-top: 15%; background: #fff; padding: 20px; border-radius: 25px; opacity: 0.9;">
               <div class="row" style="text-align: center;">
                 <div class="mb-3">
                   <h3 style="color: #555;">BẠN MUỐN TÌM GÌ?</h3>
@@ -50,42 +45,35 @@
               </div>
               <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
                 <div class="input-group">
-                  <input type="search" placeholder="Nhập thông tin cần tìm kiếm"
-                    aria-describedby="button-addon1" style="border-radius: 25px; height: 50px;"
-                    class="form-control border-0">
+                  <input type="search" placeholder="Nhập thông tin cần tìm kiếm" aria-describedby="button-addon1" style="border-radius: 25px; height: 50px;" class="form-control border-0">
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-3">
                   <div class="mb-3">
-                    <input placeholder="Tỉnh thành" onchange="provinceChange()" type="text"
-                      class="form-select" id="province_id" list="province_id_list">
+                    <input placeholder="Tỉnh thành" onchange="provinceChange()" type="text" class="form-select" id="province_id" list="province_id_list">
                     <datalist id="province_id_list">
-                      <option th:each="row : ${province_id_list}" th:value="${row.getName()}"
-                        th:attr="key-data=${row.getId()}">
+                      <option th:each="row : ${province_id_list}" th:value="${row.getName()}" th:attr="key-data=${row.getId()}">
                     </datalist>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="mb-3">
-                    <input onchange="districtChange()" type="text" placeholder="Quận huyện"
-                      class="form-select" id="district_id" list="district_id_list">
+                    <input onchange="districtChange()" type="text" placeholder="Quận huyện" class="form-select" id="district_id" list="district_id_list">
                     <datalist id="district_id_list">
                     </datalist>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="mb-3">
-                    <input type="text" placeholder="Dự án" class="form-select" id="project_id"
-                      list="project_id_list">
+                    <input type="text" placeholder="Dự án" class="form-select" id="project_id" list="project_id_list">
                     <datalist id="project_id_list">
                     </datalist>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="mb-3">
-                    <input type="text" class="form-select" id="street_id" placeholder="Diện tích"
-                      list="street_id_list">
+                    <input type="text" class="form-select" id="street_id" placeholder="Diện tích" list="street_id_list">
                     <datalist id="street_id_list">
                     </datalist>
                   </div>
@@ -94,30 +82,26 @@
               <div class="row">
                 <div class="col-md-3">
                   <div class="mb-3">
-                    <input type="text" class="form-select" id="category_id" placeholder="Danh mục"
-                      list="category_id_list">
+                    <input type="text" class="form-select" id="category_id" placeholder="Danh mục" list="category_id_list">
                     <datalist id="category_id_list">
                     </datalist>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="mb-3">
-                    <input type="text" placeholder="Số phòng ngủ" class="form-select"
-                      id="room_number" list="room_number_list">
+                    <input type="text" placeholder="Số phòng ngủ" class="form-select" id="room_number" list="room_number_list">
                     <datalist id="room_number_list">
                     </datalist>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="mb-3">
-                    <button onclick="$('input').val('')" type="button"
-                      class="btn btn-outline-warning" style="width: 100%;">Xóa điều kiện</button>
+                    <button onclick="$('input').val('')" type="button" class="btn btn-outline-warning" style="width: 100%;">Xóa điều kiện</button>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="mb-3">
-                    <button type="button" class="btn btn-primary" style="width: 100%;">Tìm
-                      kiếm</button>
+                    <button type="button" class="btn btn-primary" style="width: 100%;">Tìm kiếm</button>
                   </div>
                 </div>
               </div>
@@ -142,33 +126,22 @@
               <div class="row">
                 <div th:each="item: ${posts}" class="col-xs-12 col-sm-3">
                   <div style="height: 350px; border-radius: 10px; position: relative;" class="card">
-                    <a class="img-card" th:href="${item.getUrlPost()}"> <img
-                      th:src="${item.getThumnail()}" />
+                    <a class="img-card" th:href="${item.getUrlPost()}"> <img th:src="${item.getThumnail()}" />
                     </a>
                     <div class="card-content">
-                      <h5 th:if="${item.getLevel() == 3 }" class="card-title"
-                        style="font-size: 0.8rem;">
-                        <a data-bs-toggle="tooltip" data-bs-placement="top"
-                          th:title="${item.getTitle()}" class="trunc_string"
-                          style="font-weight: bold; color: rgb(206, 0, 0); line-height: 1.5; text-transform: uppercase;"
-                          th:href="${item.getUrlPost()}" th:text="${item.getTitle()}"></a>
+                      <h5 th:if="${item.getLevel() == 3 }" class="card-title" style="font-size: 0.8rem;">
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" th:title="${item.getTitle()}" class="trunc_string"
+                          style="font-weight: bold; color: rgb(206, 0, 0); line-height: 1.5; text-transform: uppercase;" th:href="${item.getUrlPost()}" th:text="${item.getTitle()}"></a>
                       </h5>
-                      <h5 th:if="${item.getLevel() != 3 }" class="card-title"
-                        style="font-size: 0.8rem;">
-                        <a data-bs-toggle="tooltip" data-bs-placement="top"
-                          th:title="${item.getTitle()}" class="trunc_string"
-                          style="font-weight: bold; color: #333; line-height: 1.5; text-transform: uppercase;"
-                          th:href="${item.getUrlPost()}" th:text="${item.getTitle()}"></a>
+                      <h5 th:if="${item.getLevel() != 3 }" class="card-title" style="font-size: 0.8rem;">
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" th:title="${item.getTitle()}" class="trunc_string"
+                          style="font-weight: bold; color: #333; line-height: 1.5; text-transform: uppercase;" th:href="${item.getUrlPost()}" th:text="${item.getTitle()}"></a>
                       </h5>
                       <div style="padding: 3px 0; margin-top: 3px; font-size: 1.5rem">
-                        <small data-bs-toggle="tooltip" data-bs-placement="top"
-                          th:title="${item.getAddress()}" class="category-info-location"
-                          th:text="'&#128500; ' + ${item.getCategoryId()}"></small>
+                        <small data-bs-toggle="tooltip" data-bs-placement="top" th:title="${item.getAddress()}" class="category-info-location" th:text="'&#128500; ' + ${item.getCategoryId()}"></small>
                       </div>
                       <div style="padding: 6px 0; margin: 0px;">
-                        <small data-bs-toggle="tooltip" data-bs-placement="top"
-                          th:title="${item.getAddress()}" class="article-info-location"
-                          th:text="'&#128500; ' + ${item.getAddress()}"></small>
+                        <small data-bs-toggle="tooltip" data-bs-placement="top" th:title="${item.getAddress()}" class="article-info-location" th:text="'&#128500; ' + ${item.getAddress()}"></small>
                       </div>
                       <small class="article-price" th:text="'&#128500; ' + ${item.getDescription()}"></small>
                       <div class="category_card_show2">
@@ -177,8 +150,7 @@
                       <div style="position: absolute; top: 7px; right: 10px; cursor: pointer;">
                         <i th:if="${item.isLiked()}"
                           th:attr="onclick=|onSavePost($(this), '${item.getTitle()}', '${item.getUrlPost()}', '${item.getThumnail()}', '${item.getDescription()}', '${item.getAddress()}', '${item.getFormality()}', '${item.getCategoryId()}', '${item.getNewsId()}')|"
-                          th:class="'checked_like bx bx-bell bx-sm text-danger bxs-heart liked_' + ${item.getNewsId()}"></i>
-                        <i th:if="${!item.isLiked()}" th:th-data="${item.getUrlPost()}"
+                          th:class="'checked_like bx bx-bell bx-sm text-danger bxs-heart liked_' + ${item.getNewsId()}"></i> <i th:if="${!item.isLiked()}" th:th-data="${item.getUrlPost()}"
                           th:attr="onclick=|onSavePost($(this), '${item.getTitle()}', '${item.getUrlPost()}', '${item.getThumnail()}', '${item.getDescription()}', '${item.getAddress()}', '${item.getFormality()}', '${item.getCategoryId()}', '${item.getNewsId()}')|"
                           th:class="'checked_like bx bx-bell bx-sm bx-heart text-danger liked_' + ${item.getNewsId()}"></i>
                       </div>
@@ -188,12 +160,10 @@
               </div>
             </div>
           </div>
-          <a class="carousel-control-prev text-decoration-none" href="#tin_noi_bat_id" role="button"
-            data-bs-slide="prev"> <i class='bx bxs-chevron-left bx-sm text-dark'></i> <span
+          <a class="carousel-control-prev text-decoration-none" href="#tin_noi_bat_id" role="button" data-bs-slide="prev"> <i class='bx bxs-chevron-left bx-sm text-dark'></i> <span
             class="visually-hidden">Previous</span>
-          </a> <a class="carousel-control-next text-decoration-none" href="#tin_noi_bat_id"
-            role="button" data-bs-slide="next"> <i class='bx bxs-chevron-right bx-sm text-dark'></i>
-            <span class="visually-hidden">Next</span>
+          </a> <a class="carousel-control-next text-decoration-none" href="#tin_noi_bat_id" role="button" data-bs-slide="next"> <i class='bx bxs-chevron-right bx-sm text-dark'></i> <span
+            class="visually-hidden">Next</span>
           </a>
         </div>
       </div>
@@ -218,8 +188,7 @@
                       <div style="position: relative;" class="card_view_index">
                         <span class="image_background"></span>
                         <div style="position: absolute; top: 10px; left: 55px;">
-                          <span th:text="${buy_countall}" class="span1"></span> <span class="span2">Tin
-                            đăng</span>
+                          <span th:text="${buy_countall}" class="span1"></span> <span class="span2">Tin đăng</span>
                         </div>
                       </div>
                     </div>
@@ -227,8 +196,7 @@
                       <div style="position: relative;" class="card_view_index">
                         <span class="image_background"></span>
                         <div style="position: absolute; top: 10px; left: 55px;">
-                          <span th:text="${buy_countallinday}" class="span1"></span> <span
-                            class="span2">Tin mới trong tháng</span>
+                          <span th:text="${buy_countallinday}" class="span1"></span> <span class="span2">Tin mới trong tháng</span>
                         </div>
                       </div>
                     </div>
@@ -236,17 +204,14 @@
                   <div class="row" style="margin-top: 10px;">
                     <div th:each="item: ${buy_category}" class="col-6" style="margin-bottom: 5px;">
                       <div class="card_index_view_link">
-                        <a style="text-decoration: none;" th:href="${item.getValue1()}"
-                          data-toggle="tooltip" data-placement="top" th:title="${item.getValue1()}"
-                          th:text="${item.getValue()}"></a>
+                        <a style="text-decoration: none;" th:href="${item.getValue1()}" data-toggle="tooltip" data-placement="top" th:title="${item.getValue1()}" th:text="${item.getValue()}"></a>
                       </div>
                       <div th:text="${item.getValue2()}" class="link-count"></div>
                     </div>
                   </div>
                 </div>
                 <div class="category-card-footer">
-                  <a href="/search?formality=SELL_BUY" class="link-newest"> Tin mới nhất </a> <a
-                    href="/search?formality=SELL_BUY"> Xem nhiều nhất </a>
+                  <a href="/search?formality=SELL_BUY" class="link-newest"> Tin mới nhất </a> <a href="/search?formality=SELL_BUY"> Xem nhiều nhất </a>
                 </div>
               </div>
             </div>
@@ -265,8 +230,7 @@
                       <div style="position: relative;" class="card_view_index">
                         <span class="image_background"></span>
                         <div style="position: absolute; top: 10px; left: 55px;">
-                          <span th:text="${rent_countall}" class="span1"></span> <span class="span2">Tin
-                            đăng</span>
+                          <span th:text="${rent_countall}" class="span1"></span> <span class="span2">Tin đăng</span>
                         </div>
                       </div>
                     </div>
@@ -274,8 +238,7 @@
                       <div style="position: relative;" class="card_view_index">
                         <span class="image_background"></span>
                         <div style="position: absolute; top: 10px; left: 55px;">
-                          <span th:text="${rent_countallinday}" class="span1"></span> <span
-                            class="span2">Tin mới trong tháng</span>
+                          <span th:text="${rent_countallinday}" class="span1"></span> <span class="span2">Tin mới trong tháng</span>
                         </div>
                       </div>
                     </div>
@@ -283,17 +246,14 @@
                   <div class="row" style="margin-top: 10px;">
                     <div th:each="item: ${rent_category}" class="col-6" style="margin-bottom: 5px;">
                       <div class="card_index_view_link">
-                        <a style="text-decoration: none;" th:href="${item.getValue1()}"
-                          data-toggle="tooltip" data-placement="top" th:title="${item.getValue1()}"
-                          th:text="${item.getValue()}"></a>
+                        <a style="text-decoration: none;" th:href="${item.getValue1()}" data-toggle="tooltip" data-placement="top" th:title="${item.getValue1()}" th:text="${item.getValue()}"></a>
                       </div>
                       <div th:text="${item.getValue2()}" class="link-count"></div>
                     </div>
                   </div>
                 </div>
                 <div class="category-card-footer">
-                  <a href="/search?formality=SELL_BUY" class="link-newest"> Tin mới nhất </a> <a
-                    href="/search?formality=SELL_BUY"> Xem nhiều nhất </a>
+                  <a href="/search?formality=SELL_BUY" class="link-newest"> Tin mới nhất </a> <a href="/search?formality=SELL_BUY"> Xem nhiều nhất </a>
                 </div>
               </div>
             </div>
@@ -312,33 +272,22 @@
             <div class="row">
               <div th:each="item: ${posts}" class="col-xs-12 col-sm-3">
                 <div style="height: 350px; border-radius: 15px;" class="card">
-                  <a class="img-card" th:href="${item.getUrlPost()}"> <img
-                    th:src="${item.getThumnail()}" />
+                  <a class="img-card" th:href="${item.getUrlPost()}"> <img th:src="${item.getThumnail()}" />
                   </a>
                   <div class="card-content" style="position: relative;">
-                    <h5 th:if="${item.getLevel() == 3 }" class="card-title"
-                      style="font-size: 0.8rem;">
-                      <a data-bs-toggle="tooltip" data-bs-placement="top"
-                        th:title="${item.getTitle()}" class="trunc_string"
-                        style="font-weight: bold; color: rgb(206, 0, 0); line-height: 1.5; text-transform: uppercase;"
-                        th:href="${item.getUrlPost()}" th:text="${item.getTitle()}"></a>
+                    <h5 th:if="${item.getLevel() == 3 }" class="card-title" style="font-size: 0.8rem;">
+                      <a data-bs-toggle="tooltip" data-bs-placement="top" th:title="${item.getTitle()}" class="trunc_string"
+                        style="font-weight: bold; color: rgb(206, 0, 0); line-height: 1.5; text-transform: uppercase;" th:href="${item.getUrlPost()}" th:text="${item.getTitle()}"></a>
                     </h5>
-                    <h5 th:if="${item.getLevel() != 3 }" class="card-title"
-                      style="font-size: 0.8rem;">
-                      <a data-bs-toggle="tooltip" data-bs-placement="top"
-                        th:title="${item.getTitle()}" class="trunc_string"
-                        style="font-weight: bold; color: #333; line-height: 1.5; text-transform: uppercase;"
-                        th:href="${item.getUrlPost()}" th:text="${item.getTitle()}"></a>
+                    <h5 th:if="${item.getLevel() != 3 }" class="card-title" style="font-size: 0.8rem;">
+                      <a data-bs-toggle="tooltip" data-bs-placement="top" th:title="${item.getTitle()}" class="trunc_string"
+                        style="font-weight: bold; color: #333; line-height: 1.5; text-transform: uppercase;" th:href="${item.getUrlPost()}" th:text="${item.getTitle()}"></a>
                     </h5>
                     <div style="padding: 3px 0; margin-top: 3px; font-size: 1.5rem">
-                      <small data-bs-toggle="tooltip" data-bs-placement="top"
-                        th:title="${item.getAddress()}" class="category-info-location"
-                        th:text="'&#128500; ' + ${item.getCategoryId()}"></small>
+                      <small data-bs-toggle="tooltip" data-bs-placement="top" th:title="${item.getAddress()}" class="category-info-location" th:text="'&#128500; ' + ${item.getCategoryId()}"></small>
                     </div>
                     <div style="padding: 6px 0; margin: 0px;">
-                      <small data-bs-toggle="tooltip" data-bs-placement="top"
-                        th:title="${item.getAddress()}" class="article-info-location"
-                        th:text="'&#128500; ' + ${item.getAddress()}"></small>
+                      <small data-bs-toggle="tooltip" data-bs-placement="top" th:title="${item.getAddress()}" class="article-info-location" th:text="'&#128500; ' + ${item.getAddress()}"></small>
                     </div>
                     <small class="article-price" th:text="'&#128500; ' + ${item.getDescription()}"></small>
                   </div>
@@ -348,17 +297,14 @@
                   <div style="position: absolute; top: 7px; right: 10px; cursor: pointer;">
                     <i th:if="${item.isLiked()}"
                       th:attr="onclick=|onSavePost($(this), '${item.getTitle()}', '${item.getUrlPost()}', '${item.getThumnail()}', '${item.getDescription()}', '${item.getAddress()}', '${item.getFormality()}', '${item.getCategoryId()}', '${item.getNewsId()}')|"
-                      th:class="'checked_like bx bx-bell bx-sm text-danger bxs-heart liked_' + ${item.getNewsId()}"></i>
-                    <i th:if="${!item.isLiked()}" th:th-data="${item.getUrlPost()}"
+                      th:class="'checked_like bx bx-bell bx-sm text-danger bxs-heart liked_' + ${item.getNewsId()}"></i> <i th:if="${!item.isLiked()}" th:th-data="${item.getUrlPost()}"
                       th:attr="onclick=|onSavePost($(this), '${item.getTitle()}', '${item.getUrlPost()}', '${item.getThumnail()}', '${item.getDescription()}', '${item.getAddress()}', '${item.getFormality()}', '${item.getCategoryId()}', '${item.getNewsId()}')|"
                       th:class="'checked_like bx bx-bell bx-sm bx-heart text-danger liked_' + ${item.getNewsId()}"></i>
                   </div>
                 </div>
               </div>
               <div>
-                <button type="button"
-                  onclick="window.location.href = '/search?formality=SELL_LEASE_BUY_RENT';"
-                  class="btn btn-outline-primary">Xem tất cả</button>
+                <button type="button" onclick="window.location.href = '/search?formality=SELL_LEASE_BUY_RENT';" class="btn btn-outline-primary">Xem tất cả</button>
               </div>
             </div>
           </div>
@@ -371,28 +317,21 @@
         <div class="content" id="content">
           <div class="container">
             <div class="recent-work-header row pb-5" style="margin-bottom: 5px; text-align: left;">
-              <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Khám phá bất
-                động sản ở các thành phố lớn</h2>
+              <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Khám phá bất động sản ở các thành phố lớn</h2>
             </div>
             <!-- Gallery -->
             <div class="row">
               <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-                <img style="cursor: pointer;" onclick="location.replace('/search?location=2')"
-                  src="/image/city/hanoi.png" class="w-100 shadow-1-strong rounded mb-4" /> <img
-                  style="cursor: pointer;" onclick="location.replace('/search?location=1')"
-                  src="/image/city/danang.png" class="w-100 shadow-1-strong rounded mb-4" />
+                <img style="cursor: pointer;" onclick="location.replace('/search?location=2')" src="/image/city/hanoi.png" class="w-100 shadow-1-strong rounded mb-4" /> <img style="cursor: pointer;"
+                  onclick="location.replace('/search?location=1')" src="/image/city/danang.png" class="w-100 shadow-1-strong rounded mb-4" />
               </div>
               <div class="col-lg-4 mb-4 mb-lg-0">
-                <img style="cursor: pointer;" onclick="location.replace('/search?location=3')"
-                  src="/image/city/hochiminh.png" class="w-100 shadow-1-strong rounded mb-4" />
-                <img style="cursor: pointer;" onclick="location.replace('/search?location=12')"
-                  src="/image/city/cantho.png" class="w-100 shadow-1-strong rounded mb-4" alt="" />
+                <img style="cursor: pointer;" onclick="location.replace('/search?location=3')" src="/image/city/hochiminh.png" class="w-100 shadow-1-strong rounded mb-4" /> <img
+                  style="cursor: pointer;" onclick="location.replace('/search?location=12')" src="/image/city/cantho.png" class="w-100 shadow-1-strong rounded mb-4" alt="" />
               </div>
               <div class="col-lg-4 mb-4 mb-lg-0">
-                <img style="cursor: pointer;" onclick="location.replace('/search?location=4')"
-                  src="/image/city/binhduong.png" class="w-100 shadow-1-strong rounded mb-4" alt="" />
-                <img style="cursor: pointer;" onclick="location.replace('/search?location=7')"
-                  src="/image/city/haiphong.png" class="w-100 shadow-1-strong rounded mb-4" alt="" />
+                <img style="cursor: pointer;" onclick="location.replace('/search?location=4')" src="/image/city/binhduong.png" class="w-100 shadow-1-strong rounded mb-4" alt="" /> <img
+                  style="cursor: pointer;" onclick="location.replace('/search?location=7')" src="/image/city/haiphong.png" class="w-100 shadow-1-strong rounded mb-4" alt="" />
               </div>
             </div>
             <!-- Gallery -->
@@ -409,15 +348,12 @@
         <div class="row gy-5 g-lg-5 mb-4">
           <!-- Start Recent Work -->
           <div class="col-md-4 mb-3">
-            <a href="#" class="recent-work card border-0 shadow-lg overflow-hidden"> <img
-              class="recent-work-img card-img"
-              src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/feliz_en_vista.1605666831769.jpg?d=972x582"
-              alt="Card image">
+            <a href="#" class="recent-work card border-0 shadow-lg overflow-hidden"> <img class="recent-work-img card-img"
+              src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/feliz_en_vista.1605666831769.jpg?d=972x582" alt="Card image">
               <div class="recent-work-vertical card-img-overlay d-flex align-items-end">
                 <div class="recent-work-content text-start mb-3 ml-3 text-dark">
                   <h3 class="card-title light-300">Feliz En Vista</h3>
-                  <p class="card-text">Đường Đồng Văn Cống, Phường Thạnh Mỹ Lợi, Quận 2, Thành
-                    phố Hồ Chí Minh</p>
+                  <p class="card-text">Đường Đồng Văn Cống, Phường Thạnh Mỹ Lợi, Quận 2, Thành phố Hồ Chí Minh</p>
                 </div>
               </div>
             </a>
@@ -425,15 +361,12 @@
           <!-- End Recent Work -->
           <!-- Start Recent Work -->
           <div class="col-md-4 mb-3">
-            <a href="#" class="recent-work card border-0 shadow-lg overflow-hidden"> <img
-              class="recent-work-img card-img"
-              src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/bi_nh_minh_garden.1605666622324.jpg"
-              alt="Card image">
+            <a href="#" class="recent-work card border-0 shadow-lg overflow-hidden"> <img class="recent-work-img card-img"
+              src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/bi_nh_minh_garden.1605666622324.jpg" alt="Card image">
               <div class="recent-work-vertical card-img-overlay d-flex align-items-end">
                 <div class="recent-work-content text-start mb-3 ml-3 text-dark">
                   <h3 class="card-title light-300">Bình Minh Garden</h3>
-                  <p class="card-text">93 Đường Đức Giang, Phường Thượng Thanh, Quận Long Biên,
-                    Thành phố Hà Nội</p>
+                  <p class="card-text">93 Đường Đức Giang, Phường Thượng Thanh, Quận Long Biên, Thành phố Hà Nội</p>
                 </div>
               </div>
             </a>
@@ -441,15 +374,12 @@
           <!-- End Recent Work -->
           <!-- Start Recent Work -->
           <div class="col-md-4 mb-3">
-            <a href="#" class="recent-work card border-0 shadow-lg overflow-hidden"> <img
-              class="recent-work-img card-img"
-              src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/vinhomes_ocean_park.1605665709777.jpg"
-              alt="Card image">
+            <a href="#" class="recent-work card border-0 shadow-lg overflow-hidden"> <img class="recent-work-img card-img"
+              src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/vinhomes_ocean_park.1605665709777.jpg" alt="Card image">
               <div class="recent-work-vertical card-img-overlay d-flex align-items-end">
                 <div class="recent-work-content text-start mb-3 ml-3 text-dark">
                   <h3 class="card-title light-300">Vinhomes Ocean Park</h3>
-                  <p class="card-text">Xã Đa Tốn,Kiêu Kỵ, Dương Xá, Thị trấn Trâu Quỳ, Gia Lâm,
-                    Hà Nội, Xã Dương Xá, Huyện Gia Lâm, Thành phố Hà Nội</p>
+                  <p class="card-text">Xã Đa Tốn,Kiêu Kỵ, Dương Xá, Thị trấn Trâu Quỳ, Gia Lâm, Hà Nội, Xã Dương Xá, Huyện Gia Lâm, Thành phố Hà Nội</p>
                 </div>
               </div>
             </a>
@@ -457,10 +387,8 @@
           <!-- End Recent Work -->
           <!-- Start Recent Work -->
           <div class="col-md-4 mb-3">
-            <a href="#" class="recent-work card border-0 shadow-lg overflow-hidden"> <img
-              class="recent-work-img card-img"
-              src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/vinhomes_smart_city.1605665740302.jpg"
-              alt="Card image">
+            <a href="#" class="recent-work card border-0 shadow-lg overflow-hidden"> <img class="recent-work-img card-img"
+              src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/vinhomes_smart_city.1605665740302.jpg" alt="Card image">
               <div class="recent-work-vertical card-img-overlay d-flex align-items-end">
                 <div class="recent-work-content text-start mb-3 ml-3 text-dark">
                   <h3 class="card-title light-300">Vinhomes Smart City</h3>
@@ -472,15 +400,12 @@
           <!-- End Recent Work -->
           <!-- Start Recent Work -->
           <div class="col-md-4 mb-3">
-            <a href="#" class="recent-work card border-0 shadow-lg overflow-hidden"> <img
-              class="recent-work-img card-img"
-              src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/the_lotus_center.1605665781926.jpg"
-              alt="Card image">
+            <a href="#" class="recent-work card border-0 shadow-lg overflow-hidden"> <img class="recent-work-img card-img"
+              src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/the_lotus_center.1605665781926.jpg" alt="Card image">
               <div class="recent-work-vertical card-img-overlay d-flex align-items-end">
                 <div class="recent-work-content text-start mb-3 ml-3 text-dark">
                   <h3 class="card-title light-300">The Lotus Center</h3>
-                  <p class="card-text">Võ Chí Công, Phường Phú Thượng, Quận Tây Hồ, Thành phố Hà
-                    Nội</p>
+                  <p class="card-text">Võ Chí Công, Phường Phú Thượng, Quận Tây Hồ, Thành phố Hà Nội</p>
                 </div>
               </div>
             </a>
@@ -488,15 +413,12 @@
           <!-- End Recent Work -->
           <!-- Start Recent Work -->
           <div class="col-md-4 mb-3">
-            <a href="#" class="recent-work card border-0 shadow-lg overflow-hidden"> <img
-              class="recent-work-img card-img"
-              src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/the_stars_village.1605665854176.jpg"
-              alt="Card image">
+            <a href="#" class="recent-work card border-0 shadow-lg overflow-hidden"> <img class="recent-work-img card-img"
+              src="https://s3.ap-southeast-1.amazonaws.com/users.meeyland/articles/the_stars_village.1605665854176.jpg" alt="Card image">
               <div class="recent-work-vertical card-img-overlay d-flex align-items-end">
                 <div class="recent-work-content text-start mb-3 ml-3 text-dark">
                   <h3 class="card-title light-300">The Stars Village</h3>
-                  <p class="card-text">Xã Nhơn Đức, Nhà Bè, Hồ Chí Minh, Xã Nhơn Đức, Huyện Nhà
-                    Bè, Thành phố Hồ Chí Minh</p>
+                  <p class="card-text">Xã Nhơn Đức, Nhà Bè, Hồ Chí Minh, Xã Nhơn Đức, Huyện Nhà Bè, Thành phố Hồ Chí Minh</p>
                 </div>
               </div>
             </a>

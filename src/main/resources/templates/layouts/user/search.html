@@ -41,58 +41,41 @@
         <div class="container-condition">
           <div class="row">
             <div class="col-1-5" style="border-right: solid 1px #ddd">
-              <div style="padding: 2px 0 0 9px; margin: 0;"
-                class="title_fixed_condition trucncate_inline">Hình thức</div>
+              <div style="padding: 2px 0 0 9px; margin: 0;" class="title_fixed_condition trucncate_inline">Hình thức</div>
               <div id="selectbox_hinhthuc_id" class="box_selected"></div>
             </div>
             <div class="col-1-5" style="border-right: solid 1px #ddd">
-              <div style="padding: 2px 0 0 9px; margin: 0;"
-                class="title_fixed_condition trucncate_inline">Loại hình BDS</div>
+              <div style="padding: 2px 0 0 9px; margin: 0;" class="title_fixed_condition trucncate_inline">Loại hình BDS</div>
               <div id="selectbox_category_id" class="box_selected"></div>
             </div>
             <div class="col-1-5" style="border-right: solid 1px #ddd">
-              <div style="padding: 2px 0 0 9px; margin: 0;"
-                class="title_fixed_condition trucncate_inline">Địa điểm</div>
+              <div style="padding: 2px 0 0 9px; margin: 0;" class="title_fixed_condition trucncate_inline">Địa điểm</div>
               <div style="position: relative;">
-                <input onclick="showAdressPopup($(this))" id="input_popup_tab" placeholder="Tất cả"
-                  class="form-select custom_input_id_condition close_popup_check" type="text"></input>
+                <input onclick="showAdressPopup($(this))" id="input_popup_tab" placeholder="Tất cả" class="form-select custom_input_id_condition close_popup_check" type="text"></input>
                 <div class="popup_tab_block" style="width: 400px; display: none;">
                   <ul class="nav nav-tabs pop_up_tab">
-                    <li class="nav-item" role="presentation"><span
-                      class="tab_popup_title nav-link active" id="home-tab" data-bs-toggle="tab"
-                      data-bs-target="#province" type="button" role="tab" aria-controls="province"
-                      aria-selected="true">Tỉnh/Thành phố</span></li>
-                    <li class="nav-item" role="presentation"><span
-                      class="tab_popup_title nav-link" id="district-tab-head" data-bs-toggle="tab"
-                      data-bs-target="#district" type="button" role="tab" aria-controls="district"
-                      aria-selected="false">Quận/Huyện</span></li>
-                    <li class="nav-item" role="presentation"><span
-                      class="tab_popup_title nav-link" id="contact-tab" data-bs-toggle="tab"
-                      data-bs-target="#ward" type="button" role="tab" aria-controls="ward"
-                      aria-selected="false">Phường/Xã</span></li>
-                    <li class="nav-item" role="presentation"><span
-                      class="tab_popup_title nav-link" id="contact-tab" data-bs-toggle="tab"
-                      data-bs-target="#street" type="button" role="tab" aria-controls="street"
-                      aria-selected="false">Đường/Phố</span></li>
+                    <li class="nav-item" role="presentation"><span class="tab_popup_title nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#province" type="button" role="tab"
+                      aria-controls="province" aria-selected="true">Tỉnh/Thành phố</span></li>
+                    <li class="nav-item" role="presentation"><span class="tab_popup_title nav-link" id="district-tab-head" data-bs-toggle="tab" data-bs-target="#district" type="button" role="tab"
+                      aria-controls="district" aria-selected="false">Quận/Huyện</span></li>
+                    <li class="nav-item" role="presentation"><span class="tab_popup_title nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#ward" type="button" role="tab"
+                      aria-controls="ward" aria-selected="false">Phường/Xã</span></li>
+                    <li class="nav-item" role="presentation"><span class="tab_popup_title nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#street" type="button" role="tab"
+                      aria-controls="street" aria-selected="false">Đường/Phố</span></li>
                   </ul>
-                  <div class="tab-content" id="tab_content"
-                    style="padding: 0; margin: 0; margin-left: 10px;">
-                    <div id="province" class="tab-pane fade show active" role="tabpanel"
-                      aria-labelledby="province-tab" style="padding-top: 10px;">
+                  <div class="tab-content" id="tab_content" style="padding: 0; margin: 0; margin-left: 10px;">
+                    <div id="province" class="tab-pane fade show active" role="tabpanel" aria-labelledby="province-tab" style="padding-top: 10px;">
                       <div class="vscomp-search-wrapper">
                         <div class="vscomp-search-container">
-                          <input oninput="searchProvince()" id="province_search_input_id"
-                            type="text" class="vscomp-search-input" placeholder="Tìm kiếm...">
+                          <input oninput="searchProvince()" id="province_search_input_id" type="text" class="vscomp-search-input" placeholder="Tìm kiếm...">
                         </div>
                       </div>
                       <div class="tab_id" style="margin-top: 10px;" id="province_tab_id"></div>
                     </div>
-                    <div class="tab-pane fade" id=district role="tabpanel"
-                      aria-labelledby="district-tab">
+                    <div class="tab-pane fade" id=district role="tabpanel" aria-labelledby="district-tab">
                       <div class="vscomp-search-wrapper">
                         <div class="vscomp-search-container">
-                          <input oninput="searchDistrict()" id="district_search_input_id"
-                            type="text" class="vscomp-search-input" placeholder="Tìm kiếm...">
+                          <input oninput="searchDistrict()" id="district_search_input_id" type="text" class="vscomp-search-input" placeholder="Tìm kiếm...">
                         </div>
                       </div>
                       <div class="tab_id" style="margin-top: 10px;" id="district_tab_id"></div>
@@ -100,18 +83,15 @@
                     <div class="tab-pane fade" id="ward" role="tabpanel" aria-labelledby="ward-tab">
                       <div class="vscomp-search-wrapper">
                         <div class="vscomp-search-container">
-                          <input oninput="searchWard()" id="ward_search_input_id" type="text"
-                            class="vscomp-search-input" placeholder="Tìm kiếm...">
+                          <input oninput="searchWard()" id="ward_search_input_id" type="text" class="vscomp-search-input" placeholder="Tìm kiếm...">
                         </div>
                       </div>
                       <div class="tab_id" style="margin-top: 10px;" id="ward_tab_id"></div>
                     </div>
-                    <div class="tab-pane fade" id="street" role="tabpanel"
-                      aria-labelledby="street-tab">
+                    <div class="tab-pane fade" id="street" role="tabpanel" aria-labelledby="street-tab">
                       <div class="vscomp-search-wrapper">
                         <div class="vscomp-search-container">
-                          <input oninput="searchStreet()" id="street_search_input_id" type="text"
-                            class="vscomp-search-input" placeholder="Tìm kiếm...">
+                          <input oninput="searchStreet()" id="street_search_input_id" type="text" class="vscomp-search-input" placeholder="Tìm kiếm...">
                         </div>
                       </div>
                       <div class="tab_id" style="margin-top: 10px;" id="street_tab_id"></div>
@@ -121,59 +101,45 @@
               </div>
             </div>
             <div class="col-1-5" style="border-right: solid 1px #ddd">
-              <div style="padding: 2px 0 0 9px; margin: 0;"
-                class="title_fixed_condition trucncate_inline">Dự án</div>
-              <div id="selectbox_project_id"
-                class="box_selected trucncate_inline fix_display_center">Chọn địa điểm trước</div>
+              <div style="padding: 2px 0 0 9px; margin: 0;" class="title_fixed_condition trucncate_inline">Dự án</div>
+              <div id="selectbox_project_id" class="box_selected trucncate_inline fix_display_center">Chọn địa điểm trước</div>
             </div>
             <div class="col-1-5" style="border-right: solid 1px #ddd">
-              <div style="padding: 2px 0 0 9px; margin: 0;"
-                class="title_fixed_condition trucncate_inline">Mức giá</div>
+              <div style="padding: 2px 0 0 9px; margin: 0;" class="title_fixed_condition trucncate_inline">Mức giá</div>
               <div id="selectbox_price_id" class="box_selected"></div>
             </div>
             <div class="col-1-5" style="border-right: solid 1px #ddd">
-              <div style="padding: 2px 0 0 9px; margin: 0;"
-                class="title_fixed_condition trucncate_inline">Diện tích</div>
+              <div style="padding: 2px 0 0 9px; margin: 0;" class="title_fixed_condition trucncate_inline">Diện tích</div>
               <div id="selectbox_dientich_id" class="box_selected"></div>
             </div>
             <div class="col-md-1" style="border-right: solid 1px #ddd">
               <div style="padding: 2px 0 0 9px; margin: 0;" class="title_fixed_condition"></div>
               <div style="position: relative;">
-                <span class="title_fixed_condition trucncate_inline close_popup_check"
-                  onclick="showAdressPopup($(this))"
-                  style="height: 48px; display: block; line-height: 60px; margin-top: 15px; font-size: 13px;"><i
-                  class="bx bx-filter"></i> Lọc thêm</span>
+                <span class="title_fixed_condition trucncate_inline close_popup_check" onclick="showAdressPopup($(this))"
+                  style="height: 48px; display: block; line-height: 60px; margin-top: 15px; font-size: 13px;"><i class="bx bx-filter"></i> Lọc thêm</span>
                 <div class="popup_tab_block" style="width: 250px; height: 400px; display: none;">
                   <div style="padding: 5px;">
                     <label style="color: #333; margin-bottom: 5px;">Mặt tiền</label>
-                    <div style="border: solid 1px #ddd; width: 100%; border-radius: 10px"
-                      id="selectbox_font-width_id" class="box_selected"></div>
+                    <div style="border: solid 1px #ddd; width: 100%; border-radius: 10px" id="selectbox_font-width_id" class="box_selected"></div>
                   </div>
                   <div style="padding: 5px;">
                     <label style="color: #333; margin-bottom: 5px;">Số tầng</label>
-                    <div style="border: solid 1px #ddd; width: 100%; border-radius: 10px"
-                      id="selectbox_floor_id" class="box_selected"></div>
+                    <div style="border: solid 1px #ddd; width: 100%; border-radius: 10px" id="selectbox_floor_id" class="box_selected"></div>
                   </div>
                   <div style="padding: 5px;">
                     <label style="color: #333; margin-bottom: 5px;">Số phòng ngủ</label>
-                    <div style="border: solid 1px #ddd; width: 100%; border-radius: 10px"
-                      id="selectbox_room_id" class="box_selected"></div>
+                    <div style="border: solid 1px #ddd; width: 100%; border-radius: 10px" id="selectbox_room_id" class="box_selected"></div>
                   </div>
                   <div style="padding: 5px;">
                     <label style="color: #333; margin-bottom: 5px;">Đường rộng</label>
-                    <div style="border: solid 1px #ddd; width: 100%; border-radius: 10px"
-                      id="selectbox_way_id" class="box_selected"></div>
+                    <div style="border: solid 1px #ddd; width: 100%; border-radius: 10px" id="selectbox_way_id" class="box_selected"></div>
                   </div>
                 </div>
-
-                <span
-                  style="position: absolute; top: 5px; font-size: 10px; color: red; padding-left: 15px;"
-                  id="count_fillter_id"></span>
+                <span style="position: absolute; top: 5px; font-size: 10px; color: red; padding-left: 15px;" id="count_fillter_id"></span>
               </div>
             </div>
             <div class="col-md-2">
-              <div style="padding: 2px 0 0 9px; margin: 0;"
-                class="title_fixed_condition trucncate_inline">Sắp xếp</div>
+              <div style="padding: 2px 0 0 9px; margin: 0;" class="title_fixed_condition trucncate_inline">Sắp xếp</div>
               <div id="selectbox_sort" class="box_selected"></div>
             </div>
           </div>
@@ -185,32 +151,24 @@
       <div id="search_content_id">
         <div class="row">
           <div class="col-md-3">
-            <h2 style="margin-bottom: 10px;"
-              class="worksingle-heading h3 pb-3 light-300 typo-space-line">Loại nhà đất</h2>
+            <h2 style="margin-bottom: 10px;" class="worksingle-heading h3 pb-3 light-300 typo-space-line">Loại nhà đất</h2>
             <div class="mini_show">
               <div th:each="item: ${categorys}" class="form-check">
-                <input name="category_checkbox_name" class="form-check-input" type="checkbox"
-                  th:value="${item.getKey()}" id="categorys"> <label
-                  th:text="${item.getValue()}" class="form-check-label title_category_list"
-                  for="flexCheckDefault"></label>
+                <input name="category_checkbox_name" class="form-check-input" type="checkbox" th:value="${item.getKey()}" id="categorys"> <label th:text="${item.getValue()}"
+                  class="form-check-label title_category_list" for="flexCheckDefault"></label>
               </div>
               <div style="position: absolute; bottom: -5px;" class="seemore-left-block">
-                <div onclick="categoryOnShowMore($(this))" class="btn-custom btn-seemor"
-                  id="category_pickup_id" data-key="typeOfHouse-type">Hiển thị tất cả</div>
+                <div onclick="categoryOnShowMore($(this))" class="btn-custom btn-seemor" id="category_pickup_id" data-key="typeOfHouse-type">Hiển thị tất cả</div>
               </div>
             </div>
-            <h2 style="margin-bottom: 10px; margin-top: 20px;"
-              class="worksingle-heading h3 pb-3 light-300 typo-space-line">Tỉnh thành</h2>
+            <h2 style="margin-bottom: 10px; margin-top: 20px;" class="worksingle-heading h3 pb-3 light-300 typo-space-line">Tỉnh thành</h2>
             <div class="mini_show">
               <div th:each="item: ${provinces}" class="form-check">
-                <input name="province_checkbox_name" class="form-check-input" type="checkbox"
-                  th:value="${item.getKey()}" id="categorys"> <label
-                  th:text="${item.getValue()}" class="form-check-label title_category_list"
-                  for="flexCheckDefault"></label>
+                <input name="province_checkbox_name" class="form-check-input" type="checkbox" th:value="${item.getKey()}" id="categorys"> <label th:text="${item.getValue()}"
+                  class="form-check-label title_category_list" for="flexCheckDefault"></label>
               </div>
               <div style="position: absolute; bottom: -5px;" class="seemore-left-block">
-                <div id="tesst_new" onclick="categoryOnShowMore($(this))"
-                  class="btn-custom btn-seemor" data-key="typeOfHouse-type">Hiển thị tất cả</div>
+                <div id="tesst_new" onclick="categoryOnShowMore($(this))" class="btn-custom btn-seemor" data-key="typeOfHouse-type">Hiển thị tất cả</div>
               </div>
             </div>
           </div>
@@ -218,20 +176,17 @@
             <div class="sort_search" style="border-bottom: solid 1px #ddd">
               <div class="row">
                 <div class="col-md-6">
-                  <div id="count_result_id" style="margin-top: 15px;">Nhấn "Tìm kiếm" để lấy
-                    kết quả.</div>
+                  <div id="count_result_id" style="margin-top: 15px;">Nhấn "Tìm kiếm" để lấy kết quả.</div>
                 </div>
                 <div class="col-md-4">
                   <div class="vscomp-search-wrapper">
                     <div class="vscomp-search-container">
-                      <input oninput="searchProvince()" id="keyword_id" type="text"
-                        class="vscomp-search-input" placeholder="Bạn muốn tìm gì...">
+                      <input oninput="searchProvince()" id="keyword_id" type="text" class="vscomp-search-input" placeholder="Bạn muốn tìm gì...">
                     </div>
                   </div>
                 </div>
                 <div class="col-md-2">
-                  <button style="margin-bottom: 15px;" onclick="makeUrlFromForm()" type="button"
-                    class="btn btn-outline-primary">Tìm kiếm</button>
+                  <button style="margin-bottom: 15px;" onclick="makeUrlFromForm()" type="button" class="btn btn-outline-primary">Tìm kiếm</button>
                 </div>
               </div>
             </div>
@@ -246,7 +201,7 @@
   </th:block>
   <th:block id="resources-footer">
     <script src="/list-pickup/virtual-select.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+    <script src="/assets/js/mustache.min.js"></script>
     <script id="province-template" type="x-tmpl-mustache">
         <div class="form-check province_fillter">
           <input class="form-check-input" type="radio" name="province_checkbox" value="{{value}}" id="province_checkbox_{{value}}" onchange="onChangeProvince()">

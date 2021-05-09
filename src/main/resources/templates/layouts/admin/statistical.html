@@ -12,55 +12,110 @@
 <th:block id="products-static-resources">
   <link rel="stylesheet" href="/list-pickup/virtual-select.min.css">
   <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="stylesheet" href="/assets/css/loading.css">
   <script src="/assets/js/statistical.html.js" type="text/javascript"></script>
 </th:block>
 </head>
 <body>
   <th:block id="products-main-content">
     <div id="fixed_condition">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-3" style="border-right: solid 1px #ddd">
-            <div style="padding: 2px 0 0 9px; margin: 0;"
-              class="title_fixed_condition trucncate_inline">Hình thức</div>
-            <div id="selectbox_hinhthuc_id" class="box_selected"></div>
-          </div>
-          <div class="col-md-3" style="border-right: solid 1px #ddd">
-            <div style="padding: 2px 0 0 9px; margin: 0;"
-              class="title_fixed_condition trucncate_inline">Danh mục</div>
-            <div id="selectbox_category_id" class="box_selected"></div>
-          </div>
-          <div class="col-md-6">
-            <div class="container px-1 px-sm-5 mx-auto">
-              <form autocomplete="off">
-                <div class="flex-row d-flex justify-content-center">
-                  <div class="col-xl-5 col-lg-6 col-11 px-1">
-                    <div class="input-group input-daterange">
-                      <label class="">Select Date Range :</label> <input type="text"
-                        name="daterange" value="01/01/2018 - 01/15/2018" readonly />
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
+      <div class="row">
+        <div class="col-md-3" style="border-right: solid 1px #ddd">
+          <div style="padding: 2px 0 0 9px; margin: 0;"
+            class="title_fixed_condition trucncate_inline">Hình thức</div>
+          <div id="selectbox_hinhthuc_id" class="box_selected"></div>
+        </div>
+        <div class="col-md-3" style="border-right: solid 1px #ddd">
+          <div style="padding: 2px 0 0 9px; margin: 0;"
+            class="title_fixed_condition trucncate_inline">Danh mục</div>
+          <div id="selectbox_category_id" class="box_selected"></div>
+        </div>
+        <div class="col-md-3" style="border-right: solid 1px #ddd">
+          <div style="padding: 2px 0 0 2px; margin: 0;"
+            class="title_fixed_condition trucncate_inline">Khoảng thống kê</div>
+          <input id="daterange_id" class="box_selected custom_input_id_condition" type="text"
+            name="daterange" value="01/01/2018 - 01/15/2018" readonly />
+        </div>
+        <div class="col-md-3">
+          <div style="padding-top: 20px;" class="container px-1 px-sm-5 mx-auto">
+            <button onclick="getData()"
+              class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm trucncate_inline">
+              Áp dụng thay đổi</button>
           </div>
         </div>
       </div>
     </div>
+    <!-- Content result -->
+    <div class="content" style="margin-top: 20px; background: #fff;">
+      <ul class="nav nav-tabs pop_up_tab" id="myTab" role="tablist">
+        <li class="nav-item"><a style="padding-left: 15px;" class="nav-link active"
+          id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+          aria-selected="true">Dữ liệu bảng</a></li>
+        <li onclick="getData()" class="nav-item"><a class="nav-link" id="profile-tab"
+          data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Biểu
+            đồ</a></li>
+      </ul>
+      <div class="tab-content" id="myTabContent" style="padding-top: 5px;">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+          <table style="margin-top: 5px;" class="table table-bordered" id="dataTable" width="100%"
+            cellspacing="0">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Số lượng tin đã đăng</th>
+                <th>Tổng thu nhập chịu thuế</th>
+                <th>Thuế (VAT 10%)</th>
+                <th>Thu nhập sau thuế</th>
+              </tr>
+            </thead>
+            <tbody id="content_data">
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          <div id="chart-area" style="padding: 10px;">
+            <canvas id="myPieChart"></canvas>
+          </div>
+          <div class="mt-4 text-center small" id="description_id">
+            <span class="mr-2"> <i class="fas fa-circle text-primary"></i> Direct
+            </span> <span class="mr-2"> <i class="fas fa-circle text-success"></i> Social
+            </span> <span class="mr-2"> <i class="fas fa-circle text-info"></i> Referral
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="content_search_result" style="margin-top: 5px;">
+      <div class="row"></div>
+      <div id="ladding_layer_id" style="display: none;" class="loading">Loading&#8230;</div>
+    </div>
+    <!--  -->
   </th:block>
   <th:block id="resources-footer">
     <script src="/list-pickup/virtual-select.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <link rel="stylesheet" type="text/css"
-      href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script type="text/javascript" src="/datepicker/moment.min.js"></script>
+    <script type="text/javascript" src="/datepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/datepicker/daterangepicker.css" />
+    <!-- Page level custom scripts -->
+    <script id="my-template" type="x-tmpl-mustache">
+			<tr>
+				<td>{{label}}</td>
+				<td>{{newsNumber}}</td>
+				<td>{{price}}</td>
+				<td>{{vat}}</td>
+				<td>{{finalPrice}}</td>
+			</tr>
+	</script>
     <script>
           $(document).ready(function() {
+
+            var fromDate = new Date();
+            fromDate.setMonth(fromDate.getMonth() - 1);
+
             $(function() {
               $('input[name="daterange"]').daterangepicker({
-                "startDate" : "01/01/2020",
-                "endDate" : "17/01/2020",
+                "startDate" : fromDate,
+                "endDate" : new Date(),
                 opens : 'center',
                 locale : {
                   format : 'DD/MM/YYYY'
@@ -69,23 +124,6 @@
             });
             initSelectBox();
           });
-
-          function ajaxRequest(url, method, data, calBackFuntion) {
-            var config = {
-              method : method,
-              url : url,
-              context : document.body,
-            };
-
-            if (data) {
-              config.data = data;
-              config.contentType = "application/json; charset=utf-8";
-            }
-
-            $.ajax(config).done(function(data) {
-              calBackFuntion(data);
-            });
-          }
         </script>
   </th:block>
 </body>

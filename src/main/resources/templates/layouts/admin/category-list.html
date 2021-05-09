@@ -14,9 +14,8 @@
 <body>
   <th:block id="products-main-content">
     <!-- Open modal -->
-    <a id="add_new" data-toggle="modal" data-target="#exampleModal" style="margin-bottom: 10px;"
-      href="#" class="btn btn-success btn-icon-split"> <span class="icon text-white-50">
-        <i class="fas fa-plus"></i>
+    <a id="add_new" data-toggle="modal" data-target="#exampleModal" style="margin-bottom: 10px;" href="#" class="btn btn-success btn-icon-split"> <span class="icon text-white-50"> <i
+        class="fas fa-plus"></i>
     </span> <span class="text">Thêm mới</span>
     </a>
     <!-- DataTales Example -->
@@ -38,17 +37,16 @@
             </tbody>
           </table>
           <div style="text-align: center; margin-top: 5px;">
-            <button onclick="loadData(null)" class="btn btn-light btn-icon-split"> <span
-              class="icon text-gray-600"> <i class="fas fa-arrow-right"></i>
-            </span> <span class="text">Tải thêm</span>
+            <button onclick="loadData(null)" class="btn btn-light btn-icon-split">
+              <span class="icon text-gray-600"> <i class="fas fa-arrow-right"></i>
+              </span> <span class="text">Tải thêm</span>
             </button>
           </div>
         </div>
       </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-      aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -61,15 +59,13 @@
             <form class="col s12">
               <input id="indexUpdate" type="hidden" />
               <div class="form-group">
-                <label for="exampleInputEmail1">Tên danh mục</label> <input type="text"
-                  class="form-control" id="name" placeholder="Nhập tên danh mục"> <small
-                  style="color: red;" id="validate_name" class="form-text text-muted validate"></small>
+                <label for="exampleInputEmail1">Tên danh mục</label> <input type="text" class="form-control" id="name" placeholder="Nhập tên danh mục"> <small style="color: red;"
+                  id="validate_name" class="form-text text-muted validate"></small>
               </div>
             </form>
           </div>
           <div class="modal-footer">
-            <button onclick="onCloseModal()" type="button" class="btn btn-secondary"
-              data-dismiss="modal">Đóng</button>
+            <button onclick="onCloseModal()" type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
             <button id="confirm_save" type="button" class="btn btn-primary">Lưu danh mục</button>
           </div>
         </div>
