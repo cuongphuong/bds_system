@@ -42,10 +42,9 @@ html, body {
           </ul>
         </div>
         <div class="navbar align-self-center d-flex" style="position: relative;">
-          <a data-bs-toggle="tooltip" data-bs-placement="left" title="Đăng bài" class="nav-link" href="/post"><i class='bx bx-upload bx-sm text-primary'></i></a> <a style="position: relative;"
+          <a sec:authorize="isFullyAuthenticated()" data-bs-toggle="tooltip" data-bs-placement="left" title="Đăng bài" class="nav-link" href="/post"><i class='bx bx-upload bx-sm text-primary'></i></a> <a style="position: relative;"
             onclick="$('#favorite_show_id').toggle(200)" class="nav-link" href="#"><i class='bx bx-bell bx-sm bx-heart text-primary'></i><span id="number_of_like_id"
-            class="badge rounded-pill bg-primary" style="position: absolute; top: 0; left: 5px; display: none;">0</span></a> <a sec:authorize="isFullyAuthenticated()" class="nav-link" href="#"><i
-            class='bx bx-cog bx-sm text-primary'></i></a> <a onclick="$('#user_show_id').toggle(200)" class="nav-link" href="#"><i class='bx bx-user-circle bx-sm text-primary'></i></a>
+            class="badge rounded-pill bg-primary" style="position: absolute; top: 0; left: 5px; display: none;">0</span></a> <a onclick="$('#user_show_id').toggle(200)" class="nav-link" href="#"><i class='bx bx-user-circle bx-sm text-primary'></i></a>
           <div id="favorite_show_id"
             style="overflow: scroll; display: block; position: absolute; background: #fff; z-index: 2; border: solid 1px #ddd; width: 400px; height: 320px; right: 90px; top: 50px; display: none;">
             <div class="list-group" id="like_mini_box_id"></div>
@@ -57,7 +56,8 @@ html, body {
             <div class="list-group">
               <button sec:authorize="!isFullyAuthenticated()" type="button" onclick=" window.location.href='/login';" class="list-group-item list-group-item-action">Đăng nhập</button>
               <button sec:authorize="!isFullyAuthenticated()" type="button" onclick=" window.location.href='/regist';" class="list-group-item list-group-item-action">Đăng ký</button>
-              <button sec:authorize="isFullyAuthenticated()" type="button" onclick=" window.location.href='/logout';" class="list-group-item list-group-item-action">Danh sách bài đăng của bạn</button>
+              <button sec:authorize="hasAnyRole('ROLE_ADMIN')" type="button" onclick=" window.location.href='/admin';" class="list-group-item list-group-item-action">Trang quản trị</button>
+              <button sec:authorize="isFullyAuthenticated()" type="button" onclick=" window.location.href='/history/0';" class="list-group-item list-group-item-action">Danh sách bài đăng của bạn</button>
               <button sec:authorize="isFullyAuthenticated()" onclick=" window.location.href='/logout';" type="button" class="list-group-item list-group-item-action">Đăng xuất</button>
             </div>
           </div>
@@ -102,10 +102,10 @@ html, body {
           </ul>
         </div>
         <div class="col-lg-3 col-md-4 my-sm-0 mt-4">
-          <h2 class="h4 pb-lg-3 text-light light-300">Liên hện</h2>
+          <h2 class="h4 pb-lg-3 text-light light-300">Liên hệ</h2>
           <ul class="list-unstyled text-light light-300">
             <li class="pb-2"><i class='bx-fw bx bx-phone bx-xs'></i><a class="text-decoration-none text-light py-1" href="tel:0123456789">0123-456-789</a></li>
-            <li class="pb-2"><i class='bx-fw bx bx-mail-send bx-xs'></i><a class="text-decoration-none text-light py-1" href="mailto:info@company.com">admin@gemrealty.com</a></li>
+            <li class="pb-2"><i class='bx-fw bx bx-mail-send bx-xs'></i><a class="text-decoration-none text-light py-1" href="mailto:info@company.com">admin-gemrealty@gmail.com</a></li>
           </ul>
         </div>
       </div>

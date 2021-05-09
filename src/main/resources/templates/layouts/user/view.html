@@ -444,6 +444,13 @@
         </div>
       </div>
     </div>
+    <!-- Xóa bài viết -->
+    <div th:if="${infomation.isCanceled()}">
+      <div class="container" style="padding: 50px;">
+        <h3>Bài viết đã bị xóa</h3>
+        <a href="/">Quay lại trang chủ</a>
+      </div>
+    </div>
   </th:block>
   <th:block id="resources-footer">
     <script>

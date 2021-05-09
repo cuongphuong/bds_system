@@ -11,4 +11,8 @@ public class NumberUtils {
 		}
 		return pattern.matcher(strNum).matches();
 	}
+
+	public int _change(int x){
+	    return -x;
+	}
 }

@@ -24,4 +24,7 @@ public interface BDSNewRepository extends JpaRepository<BdsNew, Integer> {
 	
 	@Query(value = "select * from `bds_ news` where status_flg = 0 and delete_flg = 0 order by level desc", nativeQuery = true)
 	Page<BdsNew> findNotApproved(Pageable pageable);
+
+	@Query(value = "select * from `bds_ news` where create_by = :userId order by create_at desc, status_flg desc", nativeQuery = true)
+	Page<BdsNew> findByUserId(Pageable pageable, String userId);
 }

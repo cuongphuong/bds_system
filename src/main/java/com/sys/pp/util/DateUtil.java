@@ -24,7 +24,7 @@ public class DateUtil {
 		}
 		return date;
 	}
-	
+
 	public static Date convertFromString(String strDate, String format) {
 		Date date;
 		try {
@@ -34,7 +34,7 @@ public class DateUtil {
 		}
 		return date;
 	}
-	
+
 	public static String convertDDMMYYYYString(Date date) {
 		SimpleDateFormat formatter = new SimpleDateFormat(DDMMYYYY_FORMAT);
 		String strDate = formatter.format(date);
@@ -52,4 +52,17 @@ public class DateUtil {
 		String strDate = formatter.format(date);
 		return strDate;
 	}
+
+	public static java.util.Date getMoveDay(int move) {
+		java.util.Date date = new Date();
+		return getMoveDay(move, date);
+	}
+
+	public static java.util.Date getMoveDay(int move, java.util.Date date) {
+		long time = date.getTime();
+		time += (long) ((long) move * 1000 * 60 * 60 * 24);
+		java.util.Date rc = new java.util.Date(time);
+		return rc;
+	}
+
 }

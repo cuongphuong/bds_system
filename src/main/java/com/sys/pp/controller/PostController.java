@@ -105,11 +105,6 @@ public class PostController {
 		return "layouts/user/post-news";
 	}
 	
-
-	
-	
-	
-	
 	@ResponseBody
 	@RequestMapping(path = "/preview", method = RequestMethod.POST)
 	public Map<String, Object> preview(Principal principal, @RequestBody Map<String, String> paramater) {

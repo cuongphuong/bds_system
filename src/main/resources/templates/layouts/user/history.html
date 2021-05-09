@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{layouts/user/main-layout::main-fragment(  
+                ~{::title},
+                ~{:: #products-static-resources},
+                ~{:: #products-main-content},  
+                ~{:: #resources-footer},
+               )}">
+<head>
+<title>Website rao bán bất động sản</title>
+<th:block id="products-static-resources">
+  <script src="assets/js/pickup.js" type="text/javascript"></script>
+  <style>
+</style>
+</th:block>
+</head>
+<body>
+  <th:block id="products-main-content">
+    <!-- Bất động sản mới nhất -->
+    <section class="wrapper">
+      <div class="container-fostrap">
+        <div class="content" id="content">
+          <div class="container">
+            <div class="recent-work-header row pb-5" style="margin-bottom: 5px; text-align: left;">
+              <h2 class="worksingle-heading h3 pb-3 light-300 typo-space-line">Lịch sử đăng bài</h2>
+            </div>
+            <div class="row">
+              <div th:each="item: ${posts}" class="col-xs-12 col-sm-3">
+                <div style="height: 350px; border-radius: 15px;" class="card">
+                  <a class="img-card" th:href="${item.getUrlPost()}"> <img th:src="${item.getThumnail()}" />
+                  </a>
+                  <div class="card-content" style="position: relative;">
+                    <h5 th:if="${item.getLevel() == 3 }" class="card-title" style="font-size: 0.8rem;">
+                      <a data-bs-toggle="tooltip" data-bs-placement="top" th:title="${item.getTitle()}" class="trunc_string"
+                        style="font-weight: bold; color: rgb(206, 0, 0); line-height: 1.5; text-transform: uppercase;" th:href="${item.getUrlPost()}" th:text="${item.getTitle()}"></a>
+                    </h5>
+                    <h5 th:if="${item.getLevel() != 3 }" class="card-title" style="font-size: 0.8rem;">
+                      <a data-bs-toggle="tooltip" data-bs-placement="top" th:title="${item.getTitle()}" class="trunc_string"
+                        style="font-weight: bold; color: #333; line-height: 1.5; text-transform: uppercase;" th:href="${item.getUrlPost()}" th:text="${item.getTitle()}"></a>
+                    </h5>
+                    <div style="padding: 3px 0; margin-top: 3px; font-size: 1.5rem">
+                      <small data-bs-toggle="tooltip" data-bs-placement="top" th:title="${item.getAddress()}" class="category-info-location" th:text="'&#128500; ' + ${item.getCategoryId()}"></small>
+                    </div>
+                    <div style="padding: 6px 0; margin: 0px;">
+                      <small data-bs-toggle="tooltip" data-bs-placement="top" th:title="${item.getAddress()}" class="article-info-location" th:text="'&#128500; ' + ${item.getAddress()}"></small>
+                    </div>
+                    <small class="article-price" th:text="'&#128500; ' + ${item.getDescription()}"></small>
+                  </div>
+                  <div class="category_card_show2">
+                    <label th:text="${item.getFormality()}"></label>
+                  </div>
+                  <!-- div style="position: absolute; top: 7px; right: 10px; cursor: pointer;">
+                    <i th:if="${item.isLiked()}"
+                      th:attr="onclick=|onSavePost($(this), '${item.getTitle()}', '${item.getUrlPost()}', '${item.getThumnail()}', '${item.getDescription()}', '${item.getAddress()}', '${item.getFormality()}', '${item.getCategoryId()}', '${item.getNewsId()}')|"
+                      th:class="'checked_like bx bx-bell bx-sm text-danger bxs-heart liked_' + ${item.getNewsId()}"></i> <i th:if="${!item.isLiked()}" th:th-data="${item.getUrlPost()}"
+                      th:attr="onclick=|onSavePost($(this), '${item.getTitle()}', '${item.getUrlPost()}', '${item.getThumnail()}', '${item.getDescription()}', '${item.getAddress()}', '${item.getFormality()}', '${item.getCategoryId()}', '${item.getNewsId()}')|"
+                      th:class="'checked_like bx bx-bell bx-sm bx-heart text-danger liked_' + ${item.getNewsId()}"></i> -->
+                </div>
+              </div>
+            </div>
+            <div>
+              <!-- >button type="button" onclick="window.location.href = '/history/1';" class="btn btn-outline-primary">Tiếp theo</button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </th:block>
+  <th:block id="resources-footer">
+    <script>
+          $(document).ready(function() {
+            $("#ser-input").focus(function() {
+              $('.search-full-view').addClass("search-normal-screen");
+              $("#ser-input").hide(200);
+              $("#search-input").focus();
+              $("#xemtin_id").hide();
+            });
+
+            $("#search-close").click(function() {
+              $('.search-full-view').removeClass("search-normal-screen");
+              $("#ser-input").show(200);
+              $("#xemtin_id").show(200);
+            });
+
+            $('#tin_noi_bat_id').carousel({
+              interval : 10000
+            });
+
+            // Init
+            $('[data-bs-toggle="tooltip"]').tooltip()
+            //trucTitle();
+
+            // End Slide
+            var x = $('#tin_noi_bat_id > .carousel-inner > .carousel-item')[0];
+            x.classList.add("active");
+            setLike();
+          });
+
+          function scrollToContent() {
+            var elmnt = document.getElementById("content");
+            elmnt.scrollIntoView();
+          }
+        </script>
+  </th:block>
+</body>
+</html>

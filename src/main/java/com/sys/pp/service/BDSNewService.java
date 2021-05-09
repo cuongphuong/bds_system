@@ -30,4 +30,12 @@ public class BDSNewService {
 		Page<BdsNew> page = bDSNewRepository.findNotApproved(pageable);
 		return page.toList();
 	}
+
+	public List<BdsNew> findByUserId(String userId, int pageNumber) {
+		Sort sortable = Sort.by("category_id").descending();
+		PageRequest pageable = PageRequest.of(pageNumber, Names.DEFAULT_PAGE_NUMBER_OF_HOME_NEWS, sortable);
+		
+		Page<BdsNew> page = bDSNewRepository.findByUserId(pageable, userId);
+		return page.toList();
+	}
 }

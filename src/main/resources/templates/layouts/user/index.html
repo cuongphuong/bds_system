@@ -9,8 +9,21 @@
 <head>
 <title>Website rao bán bất động sản</title>
 <th:block id="products-static-resources">
+  <link rel="stylesheet" href="/list-pickup/virtual-select.min.css">
   <script src="assets/js/pickup.js" type="text/javascript"></script>
+  <script src="/assets/js/index.html.js" type="text/javascript"></script>
   <style>
+.fix_display_center {
+  padding-left: 10px !important;
+  font-size: 13px;
+  margin-top: 20px;
+  color: #888;
+  opacity: 0.7;
+}
+
+#search_content_view col-md-3 {
+  border: solid 1px #ddd !important;
+}
 </style>
 </th:block>
 </head>
@@ -45,63 +58,57 @@
               </div>
               <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
                 <div class="input-group">
-                  <input type="search" placeholder="Nhập thông tin cần tìm kiếm" aria-describedby="button-addon1" style="border-radius: 25px; height: 50px;" class="form-control border-0">
+                  <input id="keyword_id" type="search" placeholder="Nhập thông tin cần tìm kiếm" aria-describedby="button-addon1" style="border-radius: 25px; height: 50px;" class="form-control border-0">
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-3">
-                  <div class="mb-3">
-                    <input placeholder="Tỉnh thành" onchange="provinceChange()" type="text" class="form-select" id="province_id" list="province_id_list">
-                    <datalist id="province_id_list">
-                      <option th:each="row : ${province_id_list}" th:value="${row.getName()}" th:attr="key-data=${row.getId()}">
-                    </datalist>
+                  <div class="mb-3" style="text-align: left">
+                    <div style="padding: 2px 0 0 9px; margin: 0;" class="title_fixed_condition trucncate_inline">Tỉnh thành</div>
+                    <div id="selectbox_province_id" class="box_selected"></div>
                   </div>
                 </div>
                 <div class="col-md-3">
-                  <div class="mb-3">
-                    <input onchange="districtChange()" type="text" placeholder="Quận huyện" class="form-select" id="district_id" list="district_id_list">
-                    <datalist id="district_id_list">
-                    </datalist>
+                  <div class="mb-3" style="text-align: left">
+                    <div style="padding: 2px 0 0 9px; margin: 0;" class="title_fixed_condition trucncate_inline">Quận huyện</div>
+                    <div id="selectbox_district_id" class="box_selected trucncate_inline fix_display_center">Chọn tỉnh thành trước</div>
                   </div>
                 </div>
                 <div class="col-md-3">
-                  <div class="mb-3">
-                    <input type="text" placeholder="Dự án" class="form-select" id="project_id" list="project_id_list">
-                    <datalist id="project_id_list">
-                    </datalist>
+                  <div class="mb-3" style="text-align: left">
+                    <div style="padding: 2px 0 0 9px; margin: 0;" class="title_fixed_condition trucncate_inline">Dự án</div>
+                    <div id="selectbox_project_id" class="box_selected trucncate_inline fix_display_center">Chọn quận huyện trước</div>
                   </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3" style="text-align: left">
                   <div class="mb-3">
-                    <input type="text" class="form-select" id="street_id" placeholder="Diện tích" list="street_id_list">
-                    <datalist id="street_id_list">
-                    </datalist>
+                    <div style="padding: 2px 0 0 9px; margin: 0;" class="title_fixed_condition trucncate_inline">Danh mục</div>
+                    <div id="selectbox_category_id" class="box_selected"></div>
                   </div>
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-3" style="text-align: left">
                   <div class="mb-3">
-                    <input type="text" class="form-select" id="category_id" placeholder="Danh mục" list="category_id_list">
-                    <datalist id="category_id_list">
-                    </datalist>
+                    <div style="padding: 2px 0 0 9px; margin: 0;" class="title_fixed_condition trucncate_inline">Diện tích</div>
+                    <div id="selectbox_dientich_id" class="box_selected"></div>
                   </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3" style="text-align: left">
                   <div class="mb-3">
-                    <input type="text" placeholder="Số phòng ngủ" class="form-select" id="room_number" list="room_number_list">
-                    <datalist id="room_number_list">
-                    </datalist>
+                    <div style="padding: 2px 0 0 9px; margin: 0;" class="title_fixed_condition trucncate_inline">Mức giá</div>
+                    <div id="selectbox_price_id" class="box_selected"></div>
                   </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3" style="text-align: left">
                   <div class="mb-3">
-                    <button onclick="$('input').val('')" type="button" class="btn btn-outline-warning" style="width: 100%;">Xóa điều kiện</button>
+                    <div style="padding: 2px 0 0 9px; margin: 0;" class="title_fixed_condition trucncate_inline">Hình thức</div>
+                    <div id="selectbox_hinhthuc_id" class="box_selected"></div>
                   </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3" style="text-align: left">
                   <div class="mb-3">
-                    <button type="button" class="btn btn-primary" style="width: 100%;">Tìm kiếm</button>
+                    <button onclick="makeUrlFromForm()" type="button" class="btn btn-primary" style="width: 100%; margin-top: 16px;">Tìm kiếm</button>
                   </div>
                 </div>
               </div>
@@ -430,6 +437,7 @@
     <!-- End Recent Work -->
   </th:block>
   <th:block id="resources-footer">
+    <script src="/list-pickup/virtual-select.min.js"></script>
     <script>
           $(document).ready(function() {
             $("#ser-input").focus(function() {
@@ -457,6 +465,7 @@
             var x = $('#tin_noi_bat_id > .carousel-inner > .carousel-item')[0];
             x.classList.add("active");
             setLike();
+            initSelectBox();
           });
 
           function scrollToContent() {

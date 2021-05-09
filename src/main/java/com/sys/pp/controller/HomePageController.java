@@ -78,6 +78,7 @@ public class HomePageController {
 		}
 
 		model.addAttribute("province_id_list", provinceService.findAll());
+		model.addAttribute("category_list", categoryRepository.findAll());
 		model.addAttribute("posts", this.getNewPost(user, favouriteRepository));
 		model.addAttribute("highlight_posts", this.getHighlightPost(user, favouriteRepository));
 		model.addAttribute("buy_category", GemRealtyService.getCategoryList(categoryRepository, Formality.BUY));
