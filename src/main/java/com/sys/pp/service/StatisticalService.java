@@ -89,66 +89,81 @@ public class StatisticalService {
 	public BigDecimal countPrice(boolean isMonth) {
 		EntityManager session = entityManagerFactory.createEntityManager();
 
-		StringBuilder sql = new StringBuilder();
-		sql.append(" select sum(price)  ");
-		sql.append(" from `bds_ news`  ");
-		if (isMonth) {
-			sql.append(" where create_at >= :dateFrom  ");
-			sql.append(" 	and create_at <= :dateTo ");
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append(" select sum(price)  ");
+			sql.append(" from `bds_ news`  ");
+			if (isMonth) {
+				sql.append(" where create_at >= :dateFrom  ");
+				sql.append(" 	and create_at <= :dateTo ");
+			}
+
+			Query query = session.createNativeQuery(sql.toString());
+
+			if (isMonth) {
+				Calendar dateFrom = Calendar.getInstance();
+				dateFrom.set(Calendar.DAY_OF_MONTH, 1);
+				query.setParameter("dateFrom", dateFrom.getTime());
+
+				Calendar dateTo = Calendar.getInstance();
+				dateTo.set(Calendar.DAY_OF_MONTH, dateTo.getActualMaximum(Calendar.DATE));
+				query.setParameter("dateTo", dateTo.getTime());
+			}
+			return (BigDecimal) query.getSingleResult();
+		} finally {
+			if (session.isOpen())
+				session.close();
 		}
-
-		Query query = session.createNativeQuery(sql.toString());
-
-		if (isMonth) {
-			Calendar dateFrom = Calendar.getInstance();
-			dateFrom.set(Calendar.DAY_OF_MONTH, 1);
-			query.setParameter("dateFrom", dateFrom.getTime());
-
-			Calendar dateTo = Calendar.getInstance();
-			dateTo.set(Calendar.DAY_OF_MONTH, dateTo.getActualMaximum(Calendar.DATE));
-			query.setParameter("dateTo", dateTo.getTime());
-		}
-
-		return (BigDecimal) query.getSingleResult();
 	}
 
 	public BigInteger countUser(boolean isMonth) {
 		EntityManager session = entityManagerFactory.createEntityManager();
 
-		StringBuilder sql = new StringBuilder();
-		sql.append(" SELECT count(*)   ");
-		sql.append(" FROM users  ");
-		if (isMonth) {
-			sql.append(" where create_at >= :dateFrom  ");
-			sql.append(" 	and create_at <= :dateTo ");
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append(" SELECT count(*)   ");
+			sql.append(" FROM users  ");
+			if (isMonth) {
+				sql.append(" where create_at >= :dateFrom  ");
+				sql.append(" 	and create_at <= :dateTo ");
+			}
+
+			Query query = session.createNativeQuery(sql.toString());
+
+			if (isMonth) {
+				Calendar dateFrom = Calendar.getInstance();
+				dateFrom.set(Calendar.DAY_OF_MONTH, 1);
+				query.setParameter("dateFrom", dateFrom.getTime());
+
+				Calendar dateTo = Calendar.getInstance();
+				dateTo.set(Calendar.DAY_OF_MONTH, dateTo.getActualMaximum(Calendar.DATE));
+				query.setParameter("dateTo", dateTo.getTime());
+			}
+
+			return (BigInteger) query.getSingleResult();
+		} finally {
+			if (session.isOpen())
+				session.close();
 		}
-
-		Query query = session.createNativeQuery(sql.toString());
-
-		if (isMonth) {
-			Calendar dateFrom = Calendar.getInstance();
-			dateFrom.set(Calendar.DAY_OF_MONTH, 1);
-			query.setParameter("dateFrom", dateFrom.getTime());
-
-			Calendar dateTo = Calendar.getInstance();
-			dateTo.set(Calendar.DAY_OF_MONTH, dateTo.getActualMaximum(Calendar.DATE));
-			query.setParameter("dateTo", dateTo.getTime());
-		}
-		return (BigInteger) query.getSingleResult();
 	}
-	
+
 	public BigDecimal getPriceOfDay(Date date) {
 		EntityManager session = entityManagerFactory.createEntityManager();
-		
-		StringBuilder sql = new StringBuilder();
-		sql.append(" SELECT sum(price) ");
-		sql.append(" FROM `bds_ news` ");
-		sql.append(" where DATE_FORMAT(create_at,'%Y-%m-%d') = :dayStr ");
-		Query query = session.createNativeQuery(sql.toString());
-		
-		query.setParameter("dayStr", DateUtil.convertToString(date));
-		session.clear();
-		return (BigDecimal) query.getSingleResult();
+
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append(" SELECT sum(price) ");
+			sql.append(" FROM `bds_ news` ");
+			sql.append(" where DATE_FORMAT(create_at,'%Y-%m-%d') = :dayStr ");
+			Query query = session.createNativeQuery(sql.toString());
+
+			query.setParameter("dayStr", DateUtil.convertToString(date));
+
+			return (BigDecimal) query.getSingleResult();
+		} finally {
+			if (session.isOpen())
+				session.close();
+		}
 	}
 
 	private String makeSqlForStatisticalByProvince(List<String> list) {
