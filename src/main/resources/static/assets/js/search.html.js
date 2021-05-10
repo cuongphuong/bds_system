@@ -25,7 +25,7 @@ function init() {
 			$("#search_condition_id").show();
 		}
 	}, true);
-
+	
 	$(document).bind(
 		'click',
 		function(e) {
@@ -403,6 +403,40 @@ function makeUrlFromForm() {
 	window.history.replaceState(null, null, "?" + urlParamater.join("&"));
 	onSearch("/search?" + urlParamater.join("&"));
 }
+
+function onChangeDiaChi() {
+	var urlParamater = [];
+
+	// MAKE TỈNH
+	var provinceIds = [];
+	$.each($("input[name='province_checkbox_name']:checked"), function(K, V) {
+		provinceIds.push(V.value);
+	});
+	if (provinceIds && provinceIds.length != 0) {
+		urlParamater.push("province=" + provinceIds.join("t"));
+	}
+
+	window.history.replaceState(null, null, "?" + urlParamater.join("&"));
+	onSearch("/search?" + urlParamater.join("&"));
+}
+
+function onChangeCategory() {
+	var urlParamater = [];
+
+	// MAKE TỈNH
+	var categorys = [];
+	$.each($("input[name='category_checkbox_name']:checked"), function(K, V) {
+		categorys.push(V.value);
+	});
+	if (categorys && categorys.length != 0) {
+		urlParamater.push("ctg=" + categorys.join("t"));
+	}
+
+	window.history.replaceState(null, null, "?" + urlParamater.join("&"));
+	onSearch("/search?" + urlParamater.join("&"));
+}
+
+
 
 function onSearch(url) {
 	let tmplPost = $('#post-result-template').html();

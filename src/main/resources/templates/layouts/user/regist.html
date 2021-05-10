@@ -1,99 +1,146 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title>Đăng nhập - Gem Realty</title>
 <link rel="stylesheet" type="text/css" href="../static/login.css" th:href="@{/login.css}" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<title>Đăng ký tài khoản - Gem Realty</title>
 <link rel="stylesheet" href="/assets/css/loading.css">
 <style>
 .container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 10px 0;
-  height: 400px;
-  text-align: center;
+  position: relative;
+  top: 5px;
+  width: 100%;
+  display: block;
 }
 
-label{
-  color: #555 !important;
+em {
+  padding-left: 10px;
+  color: #9C0606;
+}
+
+.login_block {
+  width: 100%;
+  width: 500px;
+  border: solid 1px #ddd;
+  margin: 0 auto;
+  border: solid 1px #ddd;
+  padding: 30px 20px;
+  border-radius: 20px;
+  background: rgba(248, 245, 248, 0.1);
+}
+
+.login_block>.input-block>input {
+  padding: 2px;
+  height: 50px;
+  font-size: 19px;
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: solid 1px #ddd;
+  padding-left: 10px;
+  color: #fff;
+  z-index: 9999;
+  background: none;
+}
+
+.login_block>.input-block>input:focus {
+  border: none;
+  border-bottom: solid 1px #4232c2;
+  outline: none;
+}
+
+.input-block {
+  margin-top: 20px;
+}
+
+.login_block>.input-block>label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 15px;
+  color: #fff;
+  padding-left: 10px;
+}
+
+.login_block>.input-block>input::placeholder {
+  color: #ddd;
+  opacity: 1;
+}
+
+.login_block>.input-block>button {
+  padding: 10px;
+  border: solid 1px #ddd;
+  border-radius: 5px;
+  min-width: 160px;
+  cursor: pointer;
+  z-index: 9999;
+  background: #4232c2;
+  color: #fff
+}
+
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+  -webkit-transition-delay: 9999s;
+  transition-delay: 9999s;
 }
 </style>
 </head>
 <body>
   <div class="wrapper">
     <div class="container">
-      <div class="container">
-        <div class="col-sm-8 ml-auto mr-auto">
-          <div class="col-sm-12 shadow rounded pt-2">
-            <h1 style="color: #fff;">Gem Realty</h1>
-            <form style="padding: 0px;" method="post" id="singnupFrom" onsubmit="return onSave(event)">
-              <div class="form-group">
-                <input type="email" name="mail" id="signupemail" class="form-control"
-                  placeholder="Địa chỉ email" required>
-                <div class="text-danger">
-                  <em class="validate" id="validate_signupemail"></em>
-                </div>
-              </div>
-              <div class="form-group">
-                <input type="text" name="name" id="signupusername" class="form-control"
-                  placeholder="Tên người dùng" required>
-                <div class="text-danger">
-                  <em class="validate" id="validate_signupusername"></em>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="text-danger">
-                  <em class="validate" id="validate_signupphone"></em>
-                </div>
-              </div>
-              <div class="form-group">
-                <input type="password" name="pass" id="signuppassword" class="form-control"
-                  placeholder="***********" pattern="^\S{6,}$" required>
-                <div class="text-danger">
-                  <em class="validate" id="validate_signuppassword"></em>
-                </div>
-              </div>
-              <div class="form-group">
-                <input type="password" name="repass" id="signupcpassword" class="form-control"
-                  pattern="^\S{6,}$" placeholder="***********" required>
-                <div class="text-danger">
-                  <em class="validate" id="validate_signupcpassword"></em>
-                </div>
-              </div>
-              <div class="form-group">
-                <label><input type="checkbox" name="signupcondition" id="signupcondition"
-                  required> Tôi đồng ý với <a href="javascript:;">Điều khoản &amp; Điều
-                    kiện</a> đăng ký.</label>
-              </div>
-              <div class="form-group">
-                <input style="color: green; background: #fff; border: none;" type="submit" name="signupsubmit" value="Xác nhận đăng ký"
-                  class="btn btn-block btn-primary">
-              </div>
-              <div class="text-center">
-                <p>
-                  <a style="color: #fff;" href="/">Quay lại trang chủ</a>
-                </p>
-              </div>
-            </form>
+      <form method="post" id="singnupFrom" onsubmit="return onSave(event)">
+        <h2 style="text-align: center; color: #ddd; font-size: 50px; padding: 0; margin: 0; padding-bottom: 10px; text-transform: uppercase;">Gem Realty</h2>
+        <div class="login_block">
+          <div class="input-block">
+            <label>Địa chỉ email (<font style="color: red">*</font>)
+            </label>
+            <!--  -->
+            <input type="email" name="mail" id="signupemail" class="form-control" placeholder="Nhập địa chỉ email sử dụng cho đăng nhập" required><em class="validate" id="validate_signupemail"></em>
+          </div>
+          <!-- Tên người dùng -->
+          <div class="input-block">
+            <label>Tên người dùng (<font style="color: red">*</font>)
+            </label>
+            <!--  -->
+            <input type="text" name="name" id="signupusername" class="form-control" placeholder="Nhập họ và tên đầy đủ" required> <em class="validate" id="validate_signupusername"></em>
+          </div>
+          <!--Số điện thoại  -->
+          <div class="input-block">
+            <label>Số điện thoại (<font style="color: red">*</font>)
+            </label>
+            <!--  -->
+            <input type="text" placeholder="Nhập số điện thoại của bạn" name="phone" id="signupphone" class="form-control"> <em class="validate" id="validate_signupphone"></em>
+          </div>
+          <!--Maajat khẩu  -->
+          <div class="input-block">
+            <label>Mật khẩu (<font style="color: red">*</font>)
+            </label>
+            <!--  -->
+            <input type="password" name="pass" id="signuppassword" class="form-control" placeholder="***********" pattern="^\S{6,}$" required> <em class="validate" id="validate_signuppassword"></em>
+          </div>
+          <!--Xác nhận mật khẩu  -->
+          <div class="input-block">
+            <label>Xác nhận mật khẩu (<font style="color: red">*</font>)
+            </label>
+            <!--  -->
+            <input type="password" name="repass" id="signupcpassword" class="form-control" pattern="^\S{6,}$" placeholder="***********" required> <em class="validate"
+              id="validate_signupcpassword"></em>
+          </div>
+          <div style="margin-top: 20px;">
+            <input type="checkbox" class="form-check-input" id="anime" name="hobby" /> <label class="form-check-label" for="anime">Chấp nhận điều khoản & điều kiện của chúng tôi</label>
+          </div>
+          <div class="input-block" style="text-align: center;">
+            <button>Đăng ký</button>
           </div>
         </div>
-        <ul class="bg-bubbles">
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-        <div id="ladding_layer_id" style="display: none;" class="loading">Loading&#8230;</div>
-      </div>
+        <div style="text-align: center; padding-top: 10px;">
+          <a href="/" style="color: #fff">Quay lại trang chủ</a></span>
+        </div>
+      </form>
     </div>
     <ul class="bg-bubbles">
+      <li></li>
+      <li></li>
+      <li></li>
       <li></li>
       <li></li>
       <li></li>
@@ -124,7 +171,7 @@ label{
 
         $(".validate").empty();
         var updateId = $("#indexUpdate").val();
-
+        console.log(data);
         save(data);
       }
 
@@ -137,7 +184,7 @@ label{
           }, 1000);
 
           if (response.status == true) {
-            alert("Đăng kí thành công!")
+            alert("Đăng ký thành công!")
             window.location.href = "/login";
             return;
           }

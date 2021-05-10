@@ -11,6 +11,7 @@ public class SearchCondition {
 	private List<String> formalityList;
 	private List<Integer> categoryList;
 	private Integer location;
+	private List<Integer> provinceList;
 	private List<Integer> districtList;
 	private List<Integer> wardList;
 	private List<Integer> streetList;
@@ -24,6 +25,14 @@ public class SearchCondition {
 
 	public String getKeyword() {
 		return keyword;
+	}
+
+	public List<Integer> getProvinceList() {
+		return provinceList;
+	}
+
+	public void setProvinceList(List<Integer> provinceList) {
+		this.provinceList = provinceList;
 	}
 
 	public List<FontWidth> getFrontWidthList() {

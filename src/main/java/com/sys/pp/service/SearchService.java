@@ -52,6 +52,9 @@ public class SearchService {
 			if (!ListUtils.isEmpty(searchCondition.getProjectList())) {
 				query.setParameter("project_id", searchCondition.getProjectList());
 			}
+			if (!ListUtils.isEmpty(searchCondition.getProvinceList())) {
+				query.setParameter("n_province_ids", searchCondition.getProvinceList());
+			}
 			if (searchCondition.getPrice() != null) {
 				PriceScope price = searchCondition.getPrice();
 
@@ -110,12 +113,17 @@ public class SearchService {
 		sql.append(" WHERE bds.title like :keyword ");
 		sql.append("   AND bds.status_flg = 1 ");
 		sql.append("   AND bds.delete_flg <> 1 ");
+		sql.append("   AND SYSDATE() <= bds.end_date ");
+		sql.append("   AND SYSDATE() >= bds.start_date ");
 
 		if (!ListUtils.isEmpty(searchCondition.getFormalityList())) {
 			sql.append("   AND dt.formality in (:formality) ");
 		}
 		if (!ListUtils.isEmpty(searchCondition.getCategoryList())) {
 			sql.append("   AND bds.category_id in (:category_id) ");
+		}
+		if (!ListUtils.isEmpty(searchCondition.getProvinceList())) {
+			sql.append("   AND dt.province_id in (:n_province_ids) ");
 		}
 		if (searchCondition.getLocation() != null) {
 			sql.append("   AND dt.province_id = :province_id ");

@@ -26,6 +26,14 @@ html, body {
   width: 0;
 }
 
+.checked_like{
+  z-index: 99999 !important;
+}
+
+.carousel-control-next{
+  z-index: 10 !important;
+}
+
 .radio-toolbar label {
   display: inline-block;
   background-color: #ddd;
@@ -387,11 +395,13 @@ a.trunc_string {
 }
 
 #tin_noi_bat_id .carousel-control-prev {
-  left: -10% !important;
+  left: -5% !important;
+  width: 50px !important;
 }
 
 #tin_noi_bat_id .carousel-control-next {
-  right: -10% !important;
+  right: -5% !important;
+  width: 50px !important;
 }
 
 .card {

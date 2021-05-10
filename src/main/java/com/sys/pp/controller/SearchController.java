@@ -99,7 +99,27 @@ public class SearchController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("status", true);
 		try {
-			SearchCondition searchCondition = this.makeSearchCondition(allRequestParams);
+			SearchCondition searchCondition = null;
+			if (!StringUtils.isNullOrEmpty(allRequestParams.get("ctg"))) {
+				searchCondition = new SearchCondition();
+				if (allRequestParams.get("ctg") != null) {
+					String[] categorys = allRequestParams.get("ctg").split("t");
+					List<Integer> categoryList = Arrays.asList(categorys).stream().map(Integer::valueOf)
+							.collect(Collectors.toList());
+					searchCondition.setCategoryList(categoryList);
+				}
+			} else if (!StringUtils.isNullOrEmpty(allRequestParams.get("province"))) {
+				searchCondition = new SearchCondition();
+				if (allRequestParams.get("province") != null) {
+					String[] provinces = allRequestParams.get("province").split("t");
+					List<Integer> districtsList = Arrays.asList(provinces).stream().map(Integer::valueOf)
+							.collect(Collectors.toList());
+					searchCondition.setProvinceList(districtsList);
+				}
+			} else {
+				searchCondition = this.makeSearchCondition(allRequestParams);
+			}
+
 			List<BdsNew> data = service.searchData(searchCondition);
 			result.put("data", GemRealtyService.makePostCardList(userId, favouriteRepository, data, districtRepository,
 					provinceRepository, categoryRepository));
@@ -198,8 +218,8 @@ public class SearchController {
 
 		if (allRequestParams.get("way") != null) {
 			String[] ways = allRequestParams.get("way").split("t");
-			searchCondition.setWayList(
-					Arrays.asList(ways).stream().map(p -> Integer.valueOf(p)).collect(Collectors.toList()));
+			searchCondition
+					.setWayList(Arrays.asList(ways).stream().map(p -> Integer.valueOf(p)).collect(Collectors.toList()));
 		}
 		return searchCondition;
 	}

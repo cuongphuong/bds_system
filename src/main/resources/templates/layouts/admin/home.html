@@ -14,11 +14,6 @@
 <body>
   <nav id="home-nav"></nav>
   <th:block id="products-main-content">
-    <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-      <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-    </div>
     <!-- Content Row -->
     <div class="row">
       <!-- Earnings (Monthly) Card Example -->
@@ -117,11 +112,17 @@
         <div class="card shadow mb-4">
           <!-- Card Header - Dropdown -->
           <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Bài viết mới đăng</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Tin chưa duyệt</h6>
           </div>
           <!-- Card Body -->
-          <div class="card-body">
-            <div style="padding: 10px">Chưa có bài viết nào</div>
+          <div class="card-body" style="padding: 12px; border: none;">
+            <div class="list-group">
+              <div th:each="item: ${new_regist}" class="list-group-item list-group-item-action" style="padding: 5px; border: none;">
+                <h5 style="font-size: 1.1rem; line-height: 25px; color: #4e73df; font-weight: bold;" th:text="${item.getTitle()}"></h5>
+                <p th:text="${item.getCreateBy()}" style="font-size: 1rem;"></p>
+                <hr style="padding: 0; margin: 5px">
+              </div>
+            </div>
           </div>
         </div>
       </div>

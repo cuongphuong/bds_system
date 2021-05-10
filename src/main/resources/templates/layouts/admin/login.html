@@ -4,21 +4,97 @@
 <title>Đăng nhập - Gem Realty</title>
 <link rel="stylesheet" type="text/css" href="../static/login.css" th:href="@{/login.css}" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-  $(document).ready(function() {
-    $("#login-button").click(function(event) {
-    });
-  });
-</script>
+<style>
+.container {
+  position: relative;
+  top: 140px;
+  width: 100%;
+  display: block;
+}
+
+.login_block {
+  width: 100%;
+  width: 500px;
+  border: solid 1px #ddd;
+  margin: 0 auto;
+  border: solid 1px #ddd;
+  padding: 30px 20px;
+  border-radius: 20px;
+  background: rgba(248, 245, 248, 0.1);
+}
+
+.login_block>.input-block>input {
+  padding: 2px;
+  height: 50px;
+  font-size: 19px;
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: solid 1px #ddd;
+  padding-left: 10px;
+  color: #fff;
+  z-index: 9999;
+  background: none;
+}
+
+.login_block>.input-block>input:focus {
+  border: none;
+  border-bottom: solid 1px #4232c2;
+  outline: none;
+}
+
+.input-block {
+  margin-top: 20px;
+}
+
+.login_block>.input-block>label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 15px;
+  color: #ddd;
+  padding-left: 10px;
+}
+
+.login_block>.input-block>input::placeholder {
+  color: #ddd;
+  opacity: 1;
+}
+
+.login_block>.input-block>button {
+  padding: 10px;
+  border: solid 1px #ddd;
+  border-radius: 5px;
+  min-width: 160px;
+  cursor: pointer;
+  z-index: 9999;
+  background: #4232c2;
+  color: #fff
+}
+
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+  -webkit-transition-delay: 9999s;
+  transition-delay: 9999s;
+}
+</style>
 </head>
 <body>
   <div class="wrapper">
     <div class="container">
-      <h1>Gem Realty</h1>
       <form class="form" th:action="@{/j_spring_security_check}" method="POST">
-        <input type="email" placeholder="Email" th:name="email"> <input type="password"
-          placeholder="Password" th:name="pass">
-        <button type="submit" id="login-button">Đăng nhập</button>
+        <h2 style="text-align: center; color: #ddd; font-size: 50px; padding: 0; margin: 0; padding-bottom: 10px; text-transform: uppercase;">Gem Realty</h2>
+        <div class="login_block">
+          <div class="input-block">
+            <label>Tài khoản</label> <input type="email" th:name="email" placeholder="Nhập tài khoản của bạn.">
+          </div>
+          <div class="input-block">
+            <label>Mật khẩu</label> <input th:name="pass" type="password" placeholder="Nhập mật khẩu của bạn.">
+          </div>
+          <div class="input-block" style="text-align: center;">
+            <button>Đăng nhập</button>
+          </div>
+        </div>
+        <div style="text-align: center; padding-top: 10px;"><a href="/" style="color: #fff">Quay lại trang chủ</a></span></div>
       </form>
     </div>
     <ul class="bg-bubbles">

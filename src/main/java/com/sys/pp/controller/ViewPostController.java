@@ -1,22 +1,16 @@
 
 package com.sys.pp.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.nio.file.Path;
 import java.security.Principal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.swing.text.MaskFormatter;
 
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.sys.pp.constant.GemRealtyConst;
@@ -52,7 +43,6 @@ import com.sys.pp.repo.ProvinceRepository;
 import com.sys.pp.repo.StreetRepository;
 import com.sys.pp.repo.UserRepository;
 import com.sys.pp.repo.WardRepository;
-import com.sys.pp.util.FileUtil;
 import com.sys.pp.util.StringUtils;
 
 @Controller
@@ -96,7 +86,7 @@ public class ViewPostController {
 				info.setImages(images);
 				info.setHasImage(true);
 			}
-			info.setTitle(news.getTitle());
+			info.setTitle(news.getTitle() + " - Gem Realty");
 			info.setBreadcrumbItems(this.makeBreadcrumbs(news));
 			info.setAddress(this.makeAddress(news));
 			BigDecimal price = detailNews.getPrice();
@@ -202,7 +192,7 @@ public class ViewPostController {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Lỗi tải tin");
 		}
 	}
-	
+
 	private List<KeyValue> getRealEstateNearby(int provinceId) {
 		List<District> districtList = districtRepository.findByProvinceId(provinceId);
 		districtList = districtList.stream().limit(5).collect(Collectors.toList());
@@ -230,6 +220,7 @@ public class ViewPostController {
 		List<String> result = new ArrayList<String>();
 		result.add(GemRealtyConst.getFormalityFromId(news.getDetailNew().getFormality()));
 		result.add(provinceRepository.findById(news.getDetailNew().getProvinceId()).get().getName());
+		result.add(categoryRepository.findById(news.getCategoryId()).get().getCategoryName());
 
 		if (news.getDetailNew().getProjectId() != null) {
 			String project = projectRepository.findById(news.getDetailNew().getProjectId()).get().getName();

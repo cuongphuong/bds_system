@@ -154,7 +154,7 @@
             <h2 style="margin-bottom: 10px;" class="worksingle-heading h3 pb-3 light-300 typo-space-line">Loại nhà đất</h2>
             <div class="mini_show">
               <div th:each="item: ${categorys}" class="form-check">
-                <input name="category_checkbox_name" class="form-check-input" type="checkbox" th:value="${item.getKey()}" id="categorys"> <label th:text="${item.getValue()}"
+                <input onchange="onChangeCategory()"  name="category_checkbox_name" class="form-check-input" type="checkbox" th:value="${item.getKey()}"> <label th:text="${item.getValue()}"
                   class="form-check-label title_category_list" for="flexCheckDefault"></label>
               </div>
               <div style="position: absolute; bottom: -5px;" class="seemore-left-block">
@@ -164,7 +164,7 @@
             <h2 style="margin-bottom: 10px; margin-top: 20px;" class="worksingle-heading h3 pb-3 light-300 typo-space-line">Tỉnh thành</h2>
             <div class="mini_show">
               <div th:each="item: ${provinces}" class="form-check">
-                <input name="province_checkbox_name" class="form-check-input" type="checkbox" th:value="${item.getKey()}" id="categorys"> <label th:text="${item.getValue()}"
+                <input onchange="onChangeDiaChi()" name="province_checkbox_name" class="form-check-input" type="checkbox" th:value="${item.getKey()}"> <label th:text="${item.getValue()}"
                   class="form-check-label title_category_list" for="flexCheckDefault"></label>
               </div>
               <div style="position: absolute; bottom: -5px;" class="seemore-left-block">
